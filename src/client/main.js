@@ -1,11 +1,14 @@
 Meteor.startup(function() {
+
   document.addEventListener('contextmenu',function(e){
     if(e.target.tagName=='INPUT' || e.target.tagName=='TEXTAREA') return;
     $(':focus').eq(0).blur();
     e.preventDefault();
   },true);
+ 
   document.addEventListener('mousedown',function(e){
     if(e.button==0) return;
+    if (e.button==1) $(e.target).fire('middledown',{},true,true);
     e.stopPropagation();
     e.preventDefault();
   },true);

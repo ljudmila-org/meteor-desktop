@@ -17,7 +17,7 @@ Messenger = (function createMessenger() {
     if (cb) pending_add(domain,data,cb);
     data.wid = self.name;
     w.postMessage(data,domain);
-    console.log(self.name,'sent',data);
+    //console.log(self.name,'sent',data);
   }
 
   var response = function(e) {
@@ -33,7 +33,7 @@ Messenger = (function createMessenger() {
     try {
       e.respond = response(e);
       if (e.data.wid === undefined) return;
-      console.log(self.name,'received',e.domain,e.data);
+      if(e.data.err) console.log(self.name,'received',e.domain,e.data);
       
       var w = e.data.wid ? self[e.data.wid] : top;
       //assert (w == self[e.data.wid],'bad window id '+e.data.wid);
@@ -185,6 +185,7 @@ Messenger = (function createMessenger() {
   }
   Server.prototype = {
     send: function(wid,cmd,args,cb) {
+      if (!this.clients[wid]) return cb(500,'no such client',{wid:wid});
       this.clients[wid].send({
         token: 'req',
         cmd: cmd,

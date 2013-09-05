@@ -58,6 +58,7 @@
         <ul>
           {{#if closed}}
             <li data-action="window_open">open</li>
+            <li data-action="window_remove">remove and forget settings</li>
           {{else}}
             {{#if hidden}}
               <li data-action="window_unhide">show</li>
@@ -68,7 +69,6 @@
           {{/if}}
           <hr>
           <li data-action="window_duplicate">new window</li>
-          <li data-action="window_remove">remove from workspace</li>
         </ul>
       </div>
     </div>

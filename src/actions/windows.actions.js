@@ -27,10 +27,12 @@ Actions({
         owner: user._id,
         maximized: false,
         hidden: false,
+        closed: false,
         x: 100,
         y: 100,
         w: 640,
         h: 480,
+        z: 0,
       })
       Actions.window_touch({wid:wid});
     }
@@ -86,6 +88,9 @@ Actions({
       y: 'integer',
       w: 'integer',
       h: 'integer',
+      console: {log:[]},
+      doclist: {types:{}},
+      doc: false
     },
     action: function(args,user) {
       var set = {};
@@ -130,11 +135,28 @@ Actions({
   window_touch: {
     args: { wid: windowID },
     action: function(args,user) {
-      var w = UserWindows.findOne(args.wid);
-      if (w.z === user.state.z) return;
-      var z = (user.state.z|0)+1;
+      var h = UserWindows.findOne({closed:false,hidden:false},{sort:{z:-1}});
+      console.log('highest',h);
+      if (!h) return;
+      var z = h.z;
+      var z = ( h.z | 0 ) + 1;
       UserWindows.update(args.wid,{$set:{z:z}});
       Users.update(user._id,{$set:{'state.z':z}});
+      if (Meteor.isClient) {
+        window[args.wid].focus()
+      }
+    },
+  },
+  window_to_back: {
+    local: true,
+    args: { wid: windowID },
+    action: function(args,user) {
+      var l = UserWindows.findOne({},{sort:{z:1}});
+      if (l._id == args.wid) return;
+      var z = ( l.z | 0 ) - 1;
+      UserWindows.update(args.wid,{$set:{z:z}});
+      var h = UserWindows.findOne({closed:false,hidden:false},{sort:{z:-1}});
+      Actions.window_touch({wid:h._id});
     },
   },
   window_reload: {
@@ -181,6 +203,73 @@ Actions({
         var type = args.types.create[0];
         if (type) Actions.window_doc_new({wid:args.wid,type:type});
       }
+    },
+  },
+  window_console_show: {
+    local:true,
+    args: { wid: windowID },
+    action: function(args,user) {
+      UserWindows.set(args.wid,'console.show',true);
+    },
+  },
+  window_console_hide: {
+    local:true,
+    args: { wid: windowID },
+    action: function(args,user) {
+      UserWindows.set(args.wid,'console.show',false);
+    },
+  },
+  window_console_log: {
+    local:true,
+    args: { 
+      wid: windowID,
+      message: 'any',
+    },
+    action: function(args,user) {
+      var msg = args.message;
+      var out = {};
+      switch (typeof msg) {
+      case 'string': out = {message:msg}; break;
+      case 'number': out = {status:msg}; break;
+      case 'object':         
+        if (_.isArray(msg)) {
+          var map = { number: 'status',string: 'message', object: 'details'};
+          msg.slice(0,3).forEach(function(n){ 
+            var a = map[typeof[n]];
+            if (a) out[a] = n;
+          })
+        } else {
+          var out = { status: 0 | msg.status, message: String(msg.message), details: _.isObject(msg.details) && msg.details };
+        }
+        break;
+      default: out.message = String(msg.message);
+      }
+      var mid = Meteor.uuid();
+      out = { status: out.status || 100, message: out.message || '...', details: out.details || {}, _id: mid, date: Date.now()};
+      UserWindows.set(args.wid,'console.log.'+mid,out);   
+    },
+  },
+  window_console_alert: {
+    local:true,
+    args: { 
+      wid: windowID,
+      message: 'any',
+    },
+    action: function(args,user) {
+      Actions.window_console_log(args);
+      Actions.window_console_show({wid:args.wid});
+    },
+  },
+  window_console_dismiss: {
+    local:true,
+    args: { 
+      wid: windowID,
+      mid: String,
+    },
+    action: function(args,user) {
+      UserWindows.unset(args.wid,'console.log.'+args.mid);   
+      var l = UserWindows.get(args.wid,'console').log;
+      if (!l || !Object.keys(l).length) UserWindows.set(args.wid,'console.show',false);
     },
   },
   window_docs_disable: {
@@ -266,7 +355,7 @@ Actions({
       var doc = UserWindows.get(args.wid,'doc');
       if (!doc) return;
       Messenger.servers.desktop.send(args.wid,'doc_save',{type:args.type},function(err,res) {
-        if (err) return console.log(err);
+        if (err) return Actions.window_console_alert({wid:args.wid,message:err});
         var pub = {
           docid: doc._id,
           content: res,
@@ -274,7 +363,7 @@ Actions({
           title: doc.title
         };
         Actions.doc_publish(pub,function(err,res) {
-          if (err) return console.log(err);
+          if (err) return Actions.window_console_alert({wid:args.wid,message:err});
           console.log('PUBLISHED');
         })
       })
@@ -305,7 +394,7 @@ Actions({
       var doc = UserWindows.findOne(args.wid).doc;
       if (doc) {
         Messenger.servers.desktop.send(args.wid,'doc_save',{type:doc.type},function(err,res) {
-          if (err) cb(err);
+          if (err) return Actions.window_console_alert(err);
           UserWindows.set(args.wid,'doc.content',res);
           cb && cb(null,res);
         });

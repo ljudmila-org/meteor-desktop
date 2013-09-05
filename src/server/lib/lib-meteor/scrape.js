@@ -4,7 +4,6 @@ scrapeApp = function (url,cb) {
     if (err || !res.content) return cb(err||'no content',null);
     var data = res.content.replace(/\s+/g,'');
     var data = res.content.replace(/^.*?<head.*?>|<styl.*?>.*?<\/style.*?>|<script.*?>.*?<\/script.*?>|<\/head.*?>.*?$/gim,'');
-    console.log('data',data);
     if (!data) return null;
     var ret = {};
     var m;

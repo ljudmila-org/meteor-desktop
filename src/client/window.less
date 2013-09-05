@@ -93,68 +93,58 @@
     }
   }
 
+  &.console {
+    .window-iframe {
+      top:100px;
+    }
+    .window-console {
+      height:100px;
+    }
+  }
+
+  .window-main {    
+    .fillright(300px);
+    background:#666;
+    transition: left 0.5s ease, top 0.5s ease;
+    box-shadow:0px 0 6px -1px;
+    z-index:1;
+  }    
+
+  .window-console {
+    background:#666;
+    color:white;
+    padding:0.5em;
+    line-height:1.5em;
+    .top(100px);
+    transition: height 0.5s ease;
+    overflow:hidden;
+  }
+
+
+  .window-iframe {
+    .fillbottom(0px);
+     transition: left 0.5s ease, top 0.5s ease;
+
+    .iframe-cover {
+      .full;
+      z-index:2;
+      background:rgba(0,0,0,0.5);
+    }
+
+    iframe {
+      border:none;
+      background:white;
+      position:absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+    }
+  }
+
   .window-body {
     .fillbottom(@title-size);
     z-index:1;
     background:white;
     overflow:hidden;
-    
-    .window-iframe {
-      .fillright(300px);
-
-      iframe {
-        border:none;
-        position:absolute;
-        top:0; left:0;
-        width:100%; height:100%;
-      }
-      -webkit-transition: left 0.5s ease;
-      box-shadow:0px 0 6px -1px;
-      z-index:1;
-    }
-    
-    .window-panes {
-      color: #ccc;
-      .left(300px);
-      background:#333;
-      overflow:hidden;
-      transition: width 0.5s ease;
-      -webkit-transition: width 0.5s ease;
-
-      .window-pane {
-        .right(300px);
-        background:#333;
-        display:none;
-        
-        &.window-pane-docinfo {
-          padding:8px;
-          .details {
-            font-size:80%;  
-          }
-          .pub {
-            font-size:80%;
-          }
-          input.docinfo-title {
-            background:#666;
-            color:white;      
-            border:none;
-            padding:8px;
-            border-radius:3px;
-            box-shadow:0 0 3px white inset;
-            font-weight:bold;
-            font-size:100%;
-          }          
-        }
-
-        .heading {
-          text-transform:uppercase;
-          font-size:80%;
-          font-weight:bold;
-          margin:1em 0;
-          color:#999;
-        }
-      }
-    }
 
     &.pane-docinfo .window-pane-docinfo { display: block; }
     &.pane-documents .window-pane-documents { display: block; }
@@ -163,9 +153,52 @@
       .window-panes {
         width:0px;
       }
-      .window-iframe {
+      .window-main {
         left:0px;
       }
+    }
+  }
+
+  .window-panes {
+    color: #ccc;
+    .left(300px);
+    background:#333;
+    overflow:hidden;
+    transition: width 0.5s ease;
+    -webkit-transition: width 0.5s ease;
+  }
+
+  .window-pane {
+    .right(300px);
+    background:#333;
+    display:none;
+    
+    &.window-pane-docinfo {
+      padding:8px;
+      .details {
+        font-size:80%;  
+      }
+      .pub {
+        font-size:80%;
+      }
+      input.docinfo-title {
+        background:#666;
+        color:white;      
+        border:none;
+        padding:8px;
+        border-radius:3px;
+        box-shadow:0 0 3px white inset;
+        font-weight:bold;
+        font-size:100%;
+      }          
+    }
+
+    .heading {
+      text-transform:uppercase;
+      font-size:80%;
+      font-weight:bold;
+      margin:1em 0;
+      color:#999;
     }
   }
 }

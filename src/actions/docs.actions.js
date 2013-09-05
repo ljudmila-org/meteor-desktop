@@ -1,4 +1,3 @@
-
 function docID (docid,user) {
   var d = UserDocs.findOne(docid);
   return d && d.owner === user._id;
@@ -30,12 +29,23 @@ var fromJSON = function(obj) {
   }
 }
 
+
 if (Meteor.isServer) {
 
+  var URL = Npm.require('url');
+
+  var punycode = Npm.require('punycode');
+
+  var hostToUser = function(host) {
+    var parts = host.split('.');
+    var name = punycode.decode(parts.shift());
+    var parenthost = parts.join('.'); 
+    if (parenthost !== URL.parse(Meteor.absoluteUrl()).host) return false;
+    return Users.get({username:name},'_id');
+  }
+
   Meteor.Router.add('/docs/:title', function(title) {
-    var host = this.request.headers.host;
-    var name = host.split('.')[0];
-    var uid = Users.get({username:name},'_id');
+    var uid = hostToUser(this.request.headers.host);
     if (!uid) return [404,'nothing found'];
     var doc = PublishedDocs.findOne({title:title,owner:uid});
     if (!doc) return [404,'nothing found'];
@@ -50,16 +60,13 @@ if (Meteor.isServer) {
   });
 
   Meteor.Router.add('/docs', function(title) {
-    var host = this.request.headers.host;
-    var name = host.split('.')[0];
-    var uid = Users.get({username:name},'_id');
+    var uid = hostToUser(this.request.headers.host);
     if (!uid) return [404,'nothing found'];
     var ret = PublishedDocs.find({owner:uid},{sort:{title:1}}).map(function(n) {
       return '<a href="/docs/'+n.title+'">'+n.title+'</a> '+n.type+' ('+n.size + ' b)';
     });
     return [200,{'Content-Type':'text/html'},ret.join('<br>')]
   });
-
 
   var fs = Npm.require('fs');
   var wrench = Npm.require('wrench');

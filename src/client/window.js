@@ -35,6 +35,12 @@ Template.window.events({
   'mousedown .window': function(e,t) {
     Actions.window_touch({wid:this._id})
   },
+  'mousedown .window-resizer': function(e,t) {
+    Actions.window_touch({wid:this._id})
+  },
+  'middledown .window-titlebar': function(e,t) {
+    Actions.window_to_back({wid:this._id});
+  },
   'mousedown .window-title .doc': function(e,t) {
     return;
     if (this.pane == 'docinfo') Actions.window_pane_hide({wid:this._id});
@@ -44,6 +50,7 @@ Template.window.events({
     Actions.window_doc_rename({wid:t.data._id,docid:t.data.doc._id,title:e.target.value});
   },
   'dblclick .window.normal .window-titlebar': function(e,t) {
+    console.log('hey');
     Actions.window_maximize({wid:t.data._id});
   },
   'dblclick .window.maximized .window-titlebar': function(e,t) {
@@ -85,6 +92,12 @@ var renderedWindows = {};
 Template.window.destroyed = function() {
   delete renderedWindows[this.data._id];
 }
+
+Template.window_console.events({
+  'mousedown [name=dismiss]': function(e,t) {
+    Actions.window_console_dismiss({wid:t.data._id,mid:this.value._id});
+  }
+})
 
 Template.window.rendered = function() {
   var me = this;

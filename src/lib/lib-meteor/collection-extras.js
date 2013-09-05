@@ -7,6 +7,15 @@ Meteor.Collection.prototype.set = function(find,a1,a2) {
   this.update(find,{$set:$set});
 }
 
+Meteor.Collection.prototype.unset = function(find,a1) {
+  if (typeof a1 == 'string') {
+    var $unset = {}; $unset[a1]='';
+  } else {
+    var $unset = a1;
+  }
+  this.update(find,{$unset:$unset});
+}
+
 Meteor.Collection.prototype.get = function(find,a1) {
   if (typeof a1 == 'string') {
     var $get = {}; $get[a1] = 1;

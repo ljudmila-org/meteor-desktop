@@ -8,12 +8,13 @@
 
 <template name="window">
   <div 
-    class="window{{#if active}} active{{/if}}{{#if hidden}} hidden{{/if}}{{#if maximized}} maximized{{else}} normal{{/if}} preserve" 
+    class="window{{#if active}} active{{/if}}{{#if hidden}} hidden{{/if}}{{#if maximized}} maximized{{else}} normal{{/if}}{{#if console.show}} console{{/if}} preserve" 
     id="window-{{_id}}" data-wid="{{_id}}" data-aid="{{app._id}}" 
     style="width:{{w}}px;height:{{h}}px;left:{{x}}px;top:{{y}}px;z-index:{{z}}"
   >
   
     <div class="window-resizer preserve"></div>
+    {{#isolate}}
     <div class="window-titlebar">
       <div class="window-buttons">
         {{include 'window_button' icon='remove-sign' action='window_close'}}
@@ -39,13 +40,19 @@
       <span class="window-title">
         <span class="app">
           {{first app.title 'unnamed'}}
+          <a class="window-button app-button" href="{{app.url}}" target="_blank"><i class="icon-external-link"></i></a>
           {{include 'app_button' icon='refresh' action='window_reload'}}
-          <a href="{{url}}" target="_blank"><i class="icon-external-link"></i></a>
+          {{#if console.show}}
+            {{include 'app_button' icon='bell active' action='window_console_hide'}}
+          {{else}}
+            {{include 'app_button' icon='bell' action='window_console_show'}}
+          {{/if}}        
         </span>
         {{#if doc}}
           <span class="doc">&nbsp;{{doc.title}}</span>
         {{/if}}</span>
     </div>
+    {{/isolate}}
     <div class="window-body pane-{{first pane 'none'}}">
       <div class="window-panes">
         <div class="window-pane window-pane-documents preserve">
@@ -59,15 +66,43 @@
           {{/if}}
         </div>
       </div>
-      <div class="window-iframe">
-        {{include 'iframe'}}
+      <div class="window-main">
+        {{>window_console}} 
+        <div class="window-iframe">
+          {{include 'iframe'}}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
+
+<template name="window_console">
+  <div class="window-console">
+    {{#each unzip console.log}}
+      <div class="window-console-message">
+        {{value.status}}: {{value.message}}
+        <ul>
+          {{#each unzip value.details}}
+            <li>{{key}}: {{value}}</li>
+          {{/each}}
+        </ul>
+        <a class="window-dismiss" name="dismiss">
+          <i class="icon-remove"></i> dismiss
+        </a>
+      </div>
+    {{else}}
+      <div class="window-console-empty">
+        Nothing to show.
+      </div>
+    {{/each}}
+  </div>
+</template>
+
+
 <template name="iframe">
-  <iframe name="{{_id}}" src="{{app.url}}" onload="iframeLoaded(this);" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>
+  <iframe name="{{_id}}" src="{{app.url}}" onload="iframeLoaded(this);"></iframe>
+  {{#unless eq z currentUser.state.z}}<div class="iframe-cover"></div>{{/unless}}
 </template>
 
 <template name="pane_button">
@@ -82,15 +117,18 @@
   {{#with doc}}
     {{>document_details}}
   {{/with}}
-  {{#each pub}}
-  <div class="pub">
-    <i class="icon-external-link-sign"></i> <a href="http://{{userName owner}}.desktop.varnish.ljudmila.net/docs/{{urlencode title}}" target="_blank">{{type}}</a> {{timec pdate}}
-  </div>
-  {{/each}}
 
   {{include 'button' name='save' icon='save' text='Save' action='window_docs_save'}}
   {{call 'button_dropdown' name="save-as" text='Save As' icon='copy' choices=doclist.types.save}}
   {{call 'button_dropdown' name="publish-as" text='Publish As' icon='external-link-sign' choices=doclist.types.save}}
+  {{#each pub}}
+    <div class="pub">
+      <a href="http://{{userName owner}}.desktop.varnish.ljudmila.net/docs/{{urlencode title}}" target="_blank">
+        <i class="icon-external-link-sign"></i> {{type}} {{timec pdate}}
+      </a>
+    </div>
+  {{/each}}
+
   <div class="heading">
     More
   </div>
