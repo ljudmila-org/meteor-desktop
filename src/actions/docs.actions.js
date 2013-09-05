@@ -38,7 +38,9 @@ if (Meteor.isServer) {
 
   var hostToUser = function(host) {
     var parts = host.split('.');
-    var name = punycode.decode(parts.shift());
+    var pname = parts.shift();
+    var name = punycode.toUnicode(pname);
+    console.log(name,pname);
     var parenthost = parts.join('.'); 
     if (parenthost !== URL.parse(Meteor.absoluteUrl()).host) return false;
     return Users.get({username:name},'_id');
