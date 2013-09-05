@@ -1,0 +1,86 @@
+.full (@position: absolute) {
+  position: @position;
+  top:0; bottom:0;
+  left:0; right:0;
+}
+
+.left(@size: auto, @position:absolute) {
+  position: @position;
+  top:0; bottom:0;
+  left:0; width:@size;
+}
+
+.right(@size: auto, @position:absolute) {
+  position: @position;
+  top:0; bottom:0;
+  right:0; width:@size;
+}
+
+.top(@size: auto, @position:absolute) {
+  position: @position;
+  top:0; height:@size;
+  left:0; right:0;
+}
+
+.bottom(@size: auto, @position:absolute) {
+  position: @position;
+  bottom:0; height:@size;
+  left:0; right:0;
+}
+
+.fillright(@size: auto, @position:absolute) {
+  position: @position;
+  top:0; bottom:0;
+  left:@size; right:0; 
+}
+
+.fillleft(@size: auto, @position:absolute) {
+  position: @position;
+  top:0; bottom:0;
+  right:@size; left:0; 
+}
+
+.fillbottom(@size: auto, @position:absolute) {
+  position: @position;
+  top:@size; bottom:0;
+  left:0; right:0; 
+}
+
+.fillmiddle(@size1: auto, @size2:auto, @position:absolute) {
+  position: @position;
+  left:0; right:0;
+  top:@size1; bottom:size2; 
+}
+
+
+.border-bottom-radius(@size: 3px) {
+  border-bottom-left-radius:@size;
+  border-bottom-right-radius:@size;
+}
+
+.border-top-radius(@size: 3px) {
+  border-top-left-radius:@size;
+  border-top-right-radius:@size;
+}
+
+.border-left-radius(@size: 3px) {
+  border-bottom-left-radius:@size;
+  border-top-left-radius:@size;
+}
+
+.border-right-radius(@size: 3px) {
+  border-bottom-right-radius:@size;
+  border-top-right-radius:@size;
+}
+
+
+.gradient (@startColor: black, @endColor: white) {
+	background-color: @startColor;
+	background: linear-gradient(top, @startColor, @endColor);
+	background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+	background: -webkit-linear-gradient(top, @startColor, @endColor);
+	background: -moz-linear-gradient(top, @startColor, @endColor);
+	background: -ms-linear-gradient(top, @startColor, @endColor);
+	background: -o-linear-gradient(top, @startColor, @endColor);
+}
+

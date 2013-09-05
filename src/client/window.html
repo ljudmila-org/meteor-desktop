@@ -1,0 +1,99 @@
+<template name="window_button">
+  <i class="window-button icon-{{icon}} button-{{action}}"></i>
+</template>
+
+<template name="app_button">
+  <i class="window-button app-button icon-{{icon}} button-{{action}}"></i>
+</template>
+
+<template name="window">
+  <div 
+    class="window{{#if active}} active{{/if}}{{#if hidden}} hidden{{/if}}{{#if maximized}} maximized{{else}} normal{{/if}} preserve" 
+    id="window-{{_id}}" data-wid="{{_id}}" data-aid="{{app._id}}" 
+    style="width:{{w}}px;height:{{h}}px;left:{{x}}px;top:{{y}}px;z-index:{{z}}"
+  >
+  
+    <div class="window-resizer preserve"></div>
+    <div class="window-titlebar">
+      <div class="window-buttons">
+        {{include 'window_button' icon='remove-sign' action='window_close'}}
+        {{include 'window_button' icon='minus-sign' action='window_hide'}}
+        {{include 'window_button' icon='plus-sign' action='window_maximize'}}
+        {{include 'window_button' icon='plus-sign' action='window_normalize'}}
+      </div>
+      <div class="window-buttons">
+        {{#if docs_enabled}}
+          {{#if eq pane 'documents'}}
+            {{include 'app_button' icon='folder-open active' action='window_pane_hide'}}
+          {{else}}
+            {{include 'app_button' icon='folder-open' action='window_docs_show'}}
+          {{/if}}        
+          {{include 'app_button' icon='save' action='window_doc_save'}}
+          {{#if eq pane 'docinfo'}}
+            {{include 'app_button' icon='reorder active' action='window_pane_hide'}}
+          {{else}}
+            {{include 'app_button' icon='reorder' action='window_docinfo_show'}}
+          {{/if}}        
+        {{/if}}
+      </div>
+      <span class="window-title">
+        <span class="app">
+          {{first app.title 'unnamed'}}
+          {{include 'app_button' icon='refresh' action='window_reload'}}
+          <a href="{{url}}" target="_blank"><i class="icon-external-link"></i></a>
+        </span>
+        {{#if doc}}
+          <span class="doc">&nbsp;{{doc.title}}</span>
+        {{/if}}</span>
+    </div>
+    <div class="window-body pane-{{first pane 'none'}}">
+      <div class="window-panes">
+        <div class="window-pane window-pane-documents preserve">
+          {{#if eq pane 'documents'}}
+            {{apply 'documents' doclist_get set=doclist_set get=doclist_get dialog='open' name='doclist'}}
+          {{/if}}
+        </div>
+        <div class="window-pane window-pane-docinfo preserve">
+          {{#if eq pane 'docinfo'}}
+            {{>docinfo}}
+          {{/if}}
+        </div>
+      </div>
+      <div class="window-iframe">
+        {{include 'iframe'}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="iframe">
+  <iframe name="{{_id}}" src="{{app.url}}" onload="iframeLoaded(this);" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>
+</template>
+
+<template name="pane_button">
+  {{call 'button' text=text prefix=prefix icon=icon}}
+</template>
+
+<template name="docinfo">
+  <div class="heading">
+    This document
+  </div>
+  <input class="block docinfo-title" type="text" value="{{doc.title}}">
+  {{#with doc}}
+    {{>document_details}}
+  {{/with}}
+  {{#each pub}}
+  <div class="pub">
+    <i class="icon-external-link-sign"></i> <a href="http://{{userName owner}}.desktop.varnish.ljudmila.net/docs/{{urlencode title}}" target="_blank">{{type}}</a> {{timec pdate}}
+  </div>
+  {{/each}}
+
+  {{include 'button' name='save' icon='save' text='Save' action='window_docs_save'}}
+  {{call 'button_dropdown' name="save-as" text='Save As' icon='copy' choices=doclist.types.save}}
+  {{call 'button_dropdown' name="publish-as" text='Publish As' icon='external-link-sign' choices=doclist.types.save}}
+  <div class="heading">
+    More
+  </div>
+  {{include 'button' name='open' icon='folder-open' right='caret-right' text='Open' action='window_docs_show'}}
+  {{call 'button_dropdown' name="new" text='New' icon='file' choices=doclist.types.create}}
+</template>

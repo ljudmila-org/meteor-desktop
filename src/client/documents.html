@@ -1,0 +1,68 @@
+<template name="documents">
+  <div class="documents" name="{{name}}">
+    <div class="toolbar">
+      <div class="heading">open document</div>
+      {{call 'dropdown' name='type' value=type choices=typelist}}
+    </div>
+    <div class="list">
+      {{#each docs}}
+        <div class="document {{#if eq _id ../selected}}selected{{/if}}" data-docid="{{_id}}" >
+          <div class="info">
+            <div class="buttons">
+              {{include 'document_button' icon='remove-sign red' action='doc_remove'}}
+            </div>
+            <span class="title">{{title}}</span>
+            <span class="type">{{type}}</span>
+          </div>
+          {{>document_details}}
+        </div>
+      {{/each}}
+    </div>
+    <div class="commands">
+      {{#if eq dialog 'open'}}
+        {{call 'button' icon='folder-open' name='open' text="Open"}}
+        {{call 'button' icon='caret-left' name='cancel' text="Cancel"}}
+      {{/if}}
+      {{#if eq dialog 'save'}}
+        <button>save</button>
+      {{/if}}
+    </div>
+  </div>
+</template>
+<template name="document_button">
+  <i class="doc-button icon-{{icon}}"></i>
+</template>
+
+<template name="type_button">
+  {{#if eq value active}}
+    <button class="type-button active" data-type="{{value}}">{{label}}</button>
+  {{else}}
+    <button class="type-button" data-type="{{value}}">{{label}}</button>
+  {{/if}}
+</template>
+
+
+<template name="document_details">
+  <div class="details">
+    {{#if neq owner currentUser.userId}}
+      owned by 
+      <span class="owner user">{{userName owner}}</span>
+    {{/if}}
+    {{#if eq cdate mdate}}
+      created
+      {{#if neq owner cuser}}
+        by
+        <span class="cuser user">{{userName cuser}}</span>
+      {{/if}}
+      <span class="cdate date">{{timec cdate}}</span>
+    {{else}}
+      last changed
+      {{#if neq owner muser}}
+        <span class="muser user">{{userName muser}}</span>
+      {{/if}}
+      on
+      <span class="mdate date">{{timec mdate}}</span>
+    {{/if}}
+    <span class="size">({{size}} b)</span>
+  </div>
+</template>

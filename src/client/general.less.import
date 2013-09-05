@@ -1,0 +1,37 @@
+@import 'lib/lib-meteor/mixins.less.import';
+
+@MID:   ~"only screen and (min-width: 800px) and (max-width: 1199px)";
+@SMALL: ~"only screen and (max-width: 799px)";
+
+@dock-icon-size: 48px;
+@dock-margin: 6px;
+@dock-size: (@dock-icon-size + 2 * @dock-margin);
+
+@MID-dock-icon-size: 42px;
+@MID-dock-margin: 4px;
+@MID-dock-size: (@MID-dock-icon-size + 2 * @MID-dock-margin);
+
+@SMALL-dock-icon-size: 36px;
+@SMALL-dock-margin: 4px;
+@SMALL-dock-size: (@SMALL-dock-icon-size + 2 * @SMALL-dock-margin);
+
+
+
+
+@title-size: 28px;
+@title-color-top: #333;
+@title-color-bottom: #111;
+
+@window-border-radius: 3px;
+@window-resizer-size: 8px;
+
+
+.titlebar {
+  height: @title-size;
+  line-height: @title-size;
+  .gradient(@title-color-top,@title-color-bottom);
+  box-shadow:0 0 3px rgba(255,255,255,0.3) inset;
+  color:white;
+  
+}
+

@@ -1,0 +1,48 @@
+<template name="dropdown">
+  <div class="widget widget-dropdown" name="{{name}}">
+    <div class="head">
+      <div class="current">{{#if prefix}}{{prefix}} {{/if}}{{current.label}}{{#if suffix}} {{suffix}}{{/if}}</div>
+      <div class="caret"><i class="icon-caret-down"></i></div>
+    </div>
+    <div class="body choices">
+      <input class="widget-value zero" value="{{current.value}}">
+      {{#each items}}
+        <div class="choice" data-value="{{value}}">
+          {{label}}
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<template name="button_dropdown">
+  <div class="widget widget-button-dropdown" name="{{name}}">
+    <div class="head">
+      <div class="current">
+        {{#if icon}}<i class="icon-{{icon}} left-icon"></i> {{/if}}
+        <span class="text">{{#if prefix}}{{prefix}} {{/if}}<span class="text-main">{{text}}</span>{{#if suffix}} {{suffix}}{{/if}} ...</span>
+      </div>
+      <div class="caret"><i class="icon-caret-down"></i></div>
+    </div>
+    <div class="body choices">
+      <input class="widget-value zero" value="">
+      {{#each items}}
+        <div class="choice" data-value="{{value}}">
+          {{label}}
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<template name="input">
+  <input type="text" placeholder="{{placeholder}}" class="widget widget-input" name="{{name}}" value="{{value}}">
+</template>
+
+<template name="button">
+  <button class="widget widget-button" name="{{name}}">
+    {{#if right}}<i class="icon-{{right}} right-icon"></i>{{/if}}
+    {{#if icon}}<i class="icon-{{icon}} left-icon"></i> {{/if}}
+    <span class="text">{{#if prefix}}{{prefix}} {{/if}}<span class="text-main">{{text}}</span>{{#if suffix}} {{suffix}}{{/if}}</span>
+  </button>
+</template>

@@ -1,0 +1,48 @@
+<template name="menu">
+  {{#if show}}
+    <div id="menu">
+      <div id="menu-title">
+        Applications
+      </div>
+      <div id="menu-apps">
+        {{#isolate}}
+          <div id="menu-apps-search">
+            <div id="menu-apps-filters">
+            </div>
+            <div id="menu-apps-views">
+            </div>
+            {{call 'input' name='filter' placeholder="Search for apps or enter url"}}
+          </div>
+        {{/isolate}}
+        <div id="menu-apps-list" class="view-{{getSession 'menu-apps-view'}}">
+          {{#each apps}}
+            {{>menu_app}}
+          {{/each}}
+        </div>
+    </div>
+  {{/if}}
+</template>
+
+<template name="menu_button">
+  {{#if show}}
+    <div id="minus"><i class="icon-th-large"></i></div>
+  {{else}}
+    <div id="plus"><i class="icon-th-large"></i></div>
+  {{/if}}
+</template>
+
+
+<template name="menu_app">
+  <div id="app-{{_id}}" class="menu-app" title="{{desc}}">
+    <div class="menu-app-remove">
+      <i class="icon-remove"></i>
+    </div>
+    <div class="menu-app-icon">
+      <img src="{{icon}}">
+    </div>
+    <div class="menu-app-details">
+      {{title}}
+    </div>
+  </div>
+</template>
+

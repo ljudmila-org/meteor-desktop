@@ -1,0 +1,64 @@
+@import 'general.less.import';
+
+.documents {
+  position:absolute;
+  color:#ccc;
+  .full;
+  .toolbar {
+    padding:0 8px;
+    .top(6em);
+  }
+  .commands {
+    padding:0 8px;
+    .bottom(7.5em);
+  }
+  .list {
+    position:absolute;
+    top:5.25em;
+    bottom:7.5em;
+    left:8px;
+    right:8px;
+    padding:4px;
+    overflow-x:hidden;
+    background:#555;
+    border-radius:4px;
+  }
+  
+  .document {
+    padding: 4px 8px;
+    font-size:80%;
+    border-radius:4px;
+    
+    
+    &:hover {
+      xbackground: #666;
+    }
+    &.selected,&.selected:hover {
+      background:#ccc;
+      color:#333;
+      .title {
+        color:black;
+      }
+    }
+    &:hover {
+      .buttons {
+        font-size:150%;
+        opacity: 1;
+        transition:opacity 0.5s ease 0.2s;
+      }
+    }
+
+    .title {
+      font-size:120%;
+      font-weight:bold;
+      color: white;
+    }
+    
+    .buttons {
+      float:right;
+      opacity:0;
+      transition:opacity 0s;
+    }
+    
+  }
+}

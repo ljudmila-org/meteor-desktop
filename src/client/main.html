@@ -1,0 +1,78 @@
+  <head>
+  <title>Desktop</title>
+  <link rel="icon" href="/img/red/desktop.png" type="image/png">
+</head>
+
+<body>
+  {{>desktop}}
+  {{>dock}}
+  {{>panel}}
+  {{>menu}}
+  <div id="overlay" style="display:none"></div>
+</body>
+
+<template name="desktop">
+  <div id="desktop">
+    {{#each windows}}
+      {{#unless closed}}
+        {{>window}}
+      {{/unless}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="dock">
+  <div id="dock">
+    {{>menu_button}}
+    <div id="dock-apps">
+      {{#each windows}}
+        {{>dock_window}}
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<template name="panel">
+  <div id="panel">
+    {{>applet_clock}}
+    {{>applet_login}}
+  </div>
+</template>
+
+<template name="dock_window">
+  <div class="dock-icon{{#if active}} active{{/if}}{{#if closed}} closed{{/if}}" data-app="{{app._id}}">
+    <div class="dock-icon-image">
+      <img src="{{app.icon}}">
+    </div>
+    <div class="dock-icon-menu">
+      <div class="inner">
+        <div class="dock-icon-menu-title">
+          {{#if doc}}
+            <div class="big">{{app.title}}</div>
+            <div class="small"><small><i class="icon-file"></i></small>&nbsp;&nbsp;{{doc.title}}</div>
+          {{else}}
+            <div class="big">{{app.title}}</div>
+          {{/if}}
+        </div>
+        <hr>
+        <ul>
+          {{#if closed}}
+            <li data-action="window_open">open</li>
+          {{else}}
+            {{#if hidden}}
+              <li data-action="window_unhide">show</li>
+            {{else}}
+              <li data-action="window_hide">hide</li>
+            {{/if}}
+            <li data-action="window_close">close</li>
+          {{/if}}
+          <hr>
+          <li data-action="window_duplicate">new window</li>
+          <li data-action="window_remove">remove from workspace</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+
