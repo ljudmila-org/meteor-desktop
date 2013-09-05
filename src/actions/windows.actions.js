@@ -136,14 +136,13 @@ Actions({
     args: { wid: windowID },
     action: function(args,user) {
       var h = UserWindows.findOne({closed:false,hidden:false},{sort:{z:-1}});
-      console.log('highest',h);
       if (!h) return;
       var z = h.z;
       var z = ( h.z | 0 ) + 1;
       UserWindows.update(args.wid,{$set:{z:z}});
       Users.update(user._id,{$set:{'state.z':z}});
       if (Meteor.isClient) {
-        window[args.wid].focus()
+        $('iframe[name='+args.wid+']').focus()
       }
     },
   },

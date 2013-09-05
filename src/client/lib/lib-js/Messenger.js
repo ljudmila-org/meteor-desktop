@@ -64,9 +64,16 @@ Messenger = (function createMessenger() {
   P E N D I N G   C A L L B A C K S
 */
   var pending = {};
+  
   var pending_add = function(domain,data,cb) {
     var rsvp = data.rsvp = uuid();
-
+    var timeout = data.timeout || 10;
+    
+    (Meteor||window).setTimeout(function() {
+      delete pending[rsvp];
+      cb('timeout');
+    },timeout*1000);
+    
     pending[rsvp] = function(e) {
       try {
         assert(domain == e.origin,'bad response');
@@ -80,6 +87,7 @@ Messenger = (function createMessenger() {
   
   var pending_exec = function(e) {
     var data = e.data;
+    if (!pending[data.rid]) return e.respond('timeout');
     pending[data.rid](e);
     delete pending[data.rid];
   }
@@ -200,9 +208,10 @@ Messenger = (function createMessenger() {
         token: 'con',
         kw: me.kw
       }, function(err,res,cb2) {
+        console.log(con);
         if (!err) me.clients[wid] = con;
-        else con.destroy(), console.log(err);
-        cb2(err,res);
+        else con.disconnect(), console.log(err);
+        cb2 && cb2(err,res);
       })
       return con;
     }

@@ -8,9 +8,10 @@ AppServer = Messenger.createServer('desktop', {
 });
 
 iframeLoaded = function(el) {
-  var dom = el.src.replace(/^([^/]+\/\/[^/]+)(.*)$/,'$1');
-  console.log('loaded',el.name,el.src,dom);
-  AppServer.connect(el.name,dom);
+  var domain = el.src.replace(/^([^/]+\/\/[^/]+)(.*)$/,'$1');
+  AppServer.connect(el.name,domain,function(err,res) {
+    if (err) return Actions.window_console_alert({wid:el.name,message:err});
+  });
 }
 
 Template.window.helpers({
