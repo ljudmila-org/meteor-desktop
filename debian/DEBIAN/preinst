@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+# stop server
+if [ -f /etc/init.d/meteor-desktop ]
+then
+  invoke-rc.d meteor-desktop stop
+fi

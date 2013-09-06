@@ -1,0 +1,4 @@
+Template: meteor-desktop/username
+Type: string
+Description: Username:
+ This package requires administrator username

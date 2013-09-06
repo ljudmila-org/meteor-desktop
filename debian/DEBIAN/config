@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+# server type?
+db_input critical meteor-desktop/username || true
+db_input critical meteor-desktop/password || true
+db_go
