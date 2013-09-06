@@ -25,6 +25,8 @@ Actions({
       var wid = UserWindows.insert({
         app: app,
         owner: user._id,
+        mdate: Date.now(),
+        cdate: Date.now(),
         maximized: false,
         hidden: false,
         closed: false,
@@ -34,7 +36,7 @@ Actions({
         h: 480,
         z: 0,
       })
-      Actions.window_touch({wid:wid});
+      Actions.window_open({wid:wid});
     }
   },
   window_duplicate: {
@@ -52,6 +54,14 @@ Actions({
       UserWindows.remove(args.wid);
     },
   },
+  window_open: {
+    local:true,
+    args: { wid: windowID },
+    action: function(args,user) {
+      UserWindows.set(args.wid,{closed:false,hidden:false,mdate:Date.now()});
+      Actions.window_touch({wid:args.wid});
+    },
+  },
   window_close: {
     local:true,
     args: { wid: windowID },
@@ -60,7 +70,7 @@ Actions({
       if (w.closed) return;
       function close() {
         Actions.window_hide({wid:args.wid});
-        UserWindows.set(args.wid,'closed',true);
+        UserWindows.set(args.wid,{'closed':true,mdate:Date.now()});
       }
       
       if (w.doc) {
@@ -70,14 +80,6 @@ Actions({
           close();
         });
       } else close();
-    },
-  },
-  window_open: {
-    local:true,
-    args: { wid: windowID },
-    action: function(args,user) {
-      UserWindows.set(args.wid,{closed:false,hidden:false});
-      Actions.window_touch({wid:args.wid});
     },
   },
   window_move: {
@@ -119,9 +121,8 @@ Actions({
     local:true,
     args: { wid: windowID },
     action: function(args,user) {
-      UserWindows.set(args.wid,{hidden:true,z:0});
-      var w = UserWindows.findOne({},{sort:{z:-1}});
-      if (w && w.z) Actions.window_touch({wid:w._id});
+      Actions.window_to_back({wid:args.wid});
+      UserWindows.set(args.wid,{hidden:true});
     },
   },
   window_unhide: {

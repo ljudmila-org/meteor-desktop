@@ -19,12 +19,12 @@ Template.desktop.windows = function() {
 } 
 
 Template.dock.windows = function() {
-  return UserWindows.find({},{sort:{closed:1}});
+  return UserWindows.find({},{sort:{closed:1,mdate:1}});
 }
 
 Template.dock_window.helpers({
   'active': function(e,t) {
-    return this.z == Meteor.user().state.z;
+    return !this.closed && !this.hidden && this.z == Meteor.user().state.z;
   }
 })
 
@@ -32,11 +32,11 @@ Template.dock_window.helpers({
 Template.dock_window.events({
   'mousedown .dock-icon-image': function(e,t) {
     Actions.menu_hide();
-    var $w = $(e.target).closest('.dock-icon');
-    if ($w.hasClass('active')) {
+    if (!this.closed && !this.hidden && this.z == Meteor.user().state.z) {
       Actions.window_hide({wid:this._id});
     } else {
-      Actions.window_open({wid:this._id});
+      if (this.closed) Actions.window_open({wid:this._id});
+      else Actions.window_unhide({wid:this._id});
     }
   },
   'contextmenu .dock-icon-image': function(e,t) {
