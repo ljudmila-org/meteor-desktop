@@ -13,11 +13,12 @@ Messenger = (function createMessenger() {
 */
   
   var window_send = function(w,domain,data,cb) {
+    if (data.token=='con') console.log('con cb',cb);
     var data = clone(data);
     if (cb) pending_add(domain,data,cb);
     data.wid = self.name;
     w.postMessage(data,domain);
-    //console.log(self.name,'sent',data);
+    console.log(self.name,'sent',data);
   }
 
   var response = function(e) {
@@ -33,7 +34,7 @@ Messenger = (function createMessenger() {
     try {
       e.respond = response(e);
       if (e.data.wid === undefined) return;
-      if(e.data.err) console.log(self.name,'received',e.domain,e.data);
+      console.log(self.name,'received',e.domain,e.data);
       
       var w = e.data.wid ? self[e.data.wid] : top;
       //assert (w == self[e.data.wid],'bad window id '+e.data.wid);
@@ -69,12 +70,13 @@ Messenger = (function createMessenger() {
     var rsvp = data.rsvp = uuid();
     var timeout = data.timeout || 10;
     
-    (Meteor||window).setTimeout(function() {
+    var t = (Meteor||window).setTimeout(function() {
       delete pending[rsvp];
-      cb('timeout');
+      cb(['timeout']);
     },timeout*1000);
     
     pending[rsvp] = function(e) {
+      (Meteor||window).clearTimeout(t);
       try {
         assert(domain == e.origin,'bad response');
         cb(e.data.err,e.data.res,e.respond);
@@ -87,7 +89,7 @@ Messenger = (function createMessenger() {
   
   var pending_exec = function(e) {
     var data = e.data;
-    if (!pending[data.rid]) return e.respond('timeout');
+    if (!pending[data.rid]) return e.respond(['timeout']);
     pending[data.rid](e);
     delete pending[data.rid];
   }
@@ -137,42 +139,7 @@ Messenger = (function createMessenger() {
       delete Connection.connections[this.cid];
     }
   }
-/* 
-  C L I E N T S
-*/
-  
-  function Client(kw,opt) {
-    opt = opt || {};
-    if (typeof opt == 'function') opt = {onConnect:opt};
-    console.log('client',kw,opt);
-    this.server = null;
-    this.kw = kw;
-    this.commands = opt.commands || {};
-    this.onConnect = opt.onConnect;
-  }
-  
-  Client.clients = {};
-  Client.create = function(kw,opt) {
-    assert (!Client.clients[kw],'client already exists for '+kw);
-    Client.clients[kw] = new Client(kw,opt);
-    return Client.clients[kw];
-  }
-  Client.prototype = {
-    send: function(cmd,args,cb) {
-      this.server.send({
-        token: 'req',
-        cmd: cmd,
-        args: args || {}
-      },cb);
-    },
-    connected: function(e) {
-      if (this.server) this.server.disconnect();
-      var me = this;
-      this.server = new Connection(this,'up',e.data.wid,e.origin,e.data.cid);
-      e.respond(null,'OK');
-      if (this.onConnect) this.onConnect(e);
-    }
-  }
+
 
 /* 
   S E R V E R S
@@ -207,15 +174,55 @@ Messenger = (function createMessenger() {
       con.send({
         token: 'con',
         kw: me.kw
-      }, function(err,res,cb2) {
+      }, function(err,res) {
         console.log(con);
         if (!err) me.clients[wid] = con;
         else con.disconnect(), console.log(err);
-        cb2 && cb2(err,res);
+        cb && cb(err,res);
       })
       return con;
     }
+  }  
+  
+/* 
+  C L I E N T S
+*/
+  
+  function Client(kw,opt) {
+    opt = opt || {};
+    if (typeof opt == 'function') opt = {onConnect:opt};
+    console.log('client',kw,opt);
+    this.server = null;
+    this.kw = kw;
+    this.commands = opt.commands || {};
+    this.onConnect = opt.onConnect;
   }
+  
+  Client.clients = {};
+  Client.create = function(kw,opt) {
+    assert (!Client.clients[kw],'client already exists for '+kw);
+    Client.clients[kw] = new Client(kw,opt);
+    return Client.clients[kw];
+  }
+  Client.prototype = {
+    send: function(cmd,args,cb) {
+      this.server.send({
+        token: 'req',
+        cmd: cmd,
+        args: args || {}
+      },cb);
+    },
+    connected: function(e) {
+      console.log('connected',e.respond);
+      if (this.server) this.server.disconnect();
+      var me = this;
+      this.server = new Connection(this,'up',e.data.wid,e.origin,e.data.cid);
+      console.log('connected',this.server.cid);
+      e.respond(null,'OK');
+      if (this.onConnect) this.onConnect(e);
+    }
+  }
+
 
   return {
     createServer: Server.create.bind(Server),

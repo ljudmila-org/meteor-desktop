@@ -82,11 +82,6 @@
     {{#each unzip console.log}}
       <div class="window-console-message">
         {{value.status}}: {{value.message}}
-        <ul>
-          {{#each unzip value.details}}
-            <li>{{key}}: {{value}}</li>
-          {{/each}}
-        </ul>
         <a class="window-dismiss" name="dismiss">
           <i class="icon-remove"></i> dismiss
         </a>

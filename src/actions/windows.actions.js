@@ -64,7 +64,7 @@ Actions({
       }
       
       if (w.doc) {
-        Messenger.servers.desktop.send(args.wid,'doc_save',{type:w.doc.type},function(err,res) {
+        AppServer.send(args.wid,'doc_save',{type:w.doc.type},function(err,res) {
           if (err) console.log('err',err);
           UserWindows.set(args.wid,'doc.content',res);
           close();
@@ -299,7 +299,7 @@ Actions({
       type: String
     },
     action: function(args,user) {
-      Messenger.servers.desktop.send(args.wid,'doc_new',{type:args.type},function(err,res) {
+      AppServer.send(args.wid,'doc_new',{type:args.type},function(err,res) {
         var title = res.title += ' ' + moment().format('YYYY-MM-DD hh:mm:ss');
         if (err) return console.log(err);
         Actions.doc_new({
@@ -326,7 +326,7 @@ Actions({
     action: function(args,user) {
       var doc = UserWindows.get(args.wid,'doc');
       if (!doc) return;
-      Messenger.servers.desktop.send(args.wid,'doc_save',{type:args.type},function(err,res) {
+      AppServer.send(args.wid,'doc_save',{type:args.type},function(err,res) {
         var ins = {
           content: res,
           type: args.type,
@@ -353,7 +353,7 @@ Actions({
     action: function(args,user) {
       var doc = UserWindows.get(args.wid,'doc');
       if (!doc) return;
-      Messenger.servers.desktop.send(args.wid,'doc_save',{type:args.type},function(err,res) {
+      AppServer.send(args.wid,'doc_save',{type:args.type},function(err,res) {
         if (err) return Actions.window_console_alert({wid:args.wid,message:err});
         var pub = {
           docid: doc._id,
@@ -376,7 +376,7 @@ Actions({
     action: function(args,user) {
       var doc = UserWindows.findOne(args.wid).doc;
       if (!doc) return;
-      Messenger.servers.desktop.send(args.wid,'doc_save',{type:doc.type},function(err,res) {
+      AppServer.send(args.wid,'doc_save',{type:doc.type},function(err,res) {
         Actions.doc_save({docid: doc._id,content:res},function(err,res){
           if (err) return console.log(err);
           UserWindows.set(args.wid,'doc',res);
@@ -392,7 +392,7 @@ Actions({
     action: function(args,user,cb) {
       var doc = UserWindows.findOne(args.wid).doc;
       if (doc) {
-        Messenger.servers.desktop.send(args.wid,'doc_save',{type:doc.type},function(err,res) {
+        AppServer.send(args.wid,'doc_save',{type:doc.type},function(err,res) {
           if (err) return Actions.window_console_alert(err);
           UserWindows.set(args.wid,'doc.content',res);
           cb && cb(null,res);
@@ -440,7 +440,7 @@ Actions({
     },
     action: function(args,user) {
       UserWindows.set(args.wid,'doc',args.doc);
-      Messenger.servers.desktop.send(args.wid,'doc_open',{content:args.doc.content,type:args.doc.type});
+      AppServer.send(args.wid,'doc_open',{content:args.doc.content,type:args.doc.type});
     }
   },
 })
