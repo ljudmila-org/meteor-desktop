@@ -34,7 +34,9 @@ Template.window.helpers({
 
 Template.window.events({
   'mousedown .window': function(e,t) {
-    Actions.window_touch({wid:this._id})
+    Actions.window_touch({wid:this._id});
+    e.preventDefault();
+    e.stopPropagation();
   },
   'mousedown .window-resizer': function(e,t) {
     Actions.window_touch({wid:this._id})

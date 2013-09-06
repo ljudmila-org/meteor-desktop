@@ -74,11 +74,13 @@
       ;
     }
     transition:background 0.1s linear 0s;
-    &.popup {
-      background:rgba(85,85,85,1);
+    &:hover, &.popup {
       .menu-app-icon {
         background:rgba(85,85,85,1);
       }
+    }
+    &.popup {
+      background:rgba(85,85,85,1);
       
       .menu-app-remove {
         -webkit-transform:scale(1);

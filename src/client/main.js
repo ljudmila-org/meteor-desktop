@@ -19,7 +19,7 @@ Template.desktop.windows = function() {
 } 
 
 Template.dock.windows = function() {
-  return UserWindows.find({});
+  return UserWindows.find({},{sort:{closed:1}});
 }
 
 Template.dock_window.helpers({

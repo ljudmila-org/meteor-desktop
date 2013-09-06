@@ -27,11 +27,14 @@
     opacity: 0.2;
     box-shadow:0 0 2px white;
   }
-  
+
+  opacity:0.95; 
+    
   &.active {
     box-shadow:0 0 2px white;
+    opacity:1;
     .window-titlebar {
-      opacity:1;
+      .titlebar;
       color:white;
     }
     .window-button {
@@ -51,8 +54,8 @@
   }
   
   .window-titlebar {
-    opacity:0.8;
     .titlebar;
+    background:#666;
     color:#999;
     z-index:1;
     .top(@title-size);
@@ -128,7 +131,8 @@
     .iframe-cover {
       .full;
       z-index:2;
-      background:rgba(0,0,0,0.5);
+      background:#999;
+      opacity:0.2;
     }
 
     iframe {
