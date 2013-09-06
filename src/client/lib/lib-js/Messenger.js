@@ -175,7 +175,6 @@ Messenger = (function createMessenger() {
         token: 'con',
         kw: me.kw
       }, function(err,res) {
-        console.log(con);
         if (!err) me.clients[wid] = con;
         else con.disconnect(), console.log(err);
         cb && cb(err,res);

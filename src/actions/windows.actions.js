@@ -65,7 +65,7 @@ Actions({
       
       if (w.doc) {
         AppServer.send(args.wid,'doc_save',{type:w.doc.type},function(err,res) {
-          if (err) console.log('err',err);
+          if (err) return Actions.window_console_alert({wid:args.wid,message:err});
           UserWindows.set(args.wid,'doc.content',res);
           close();
         });
@@ -286,7 +286,7 @@ Actions({
     },
     action: function(args,user) {
       Actions.doc_open({docid:args.docid},function(err,res) {
-        console.log('erres',err,res);
+        if (err) return Actions.window_console_alert({wid:args.wid,message:err});
         Actions.window_doc_set({wid:args.wid,doc:res});
         Actions.window_pane_hide({wid:args.wid});
       });
@@ -301,12 +301,13 @@ Actions({
     action: function(args,user) {
       AppServer.send(args.wid,'doc_new',{type:args.type},function(err,res) {
         var title = res.title += ' ' + moment().format('YYYY-MM-DD hh:mm:ss');
-        if (err) return console.log(err);
+        if (err) return Actions.window_console_alert({wid:args.wid,message:err});
         Actions.doc_new({
           type: args.type,
           content: res.content,
           title: res.title
         },function(err,res) {
+          if (err) return Actions.window_console_alert({wid:args.wid,message:err});
           Actions.window_doc_set({wid:args.wid,doc:res});
           Actions.window_docinfo_show({wid:args.wid});
           var sel = '#window-'+args.wid +' input.docinfo-title';
@@ -327,19 +328,19 @@ Actions({
       var doc = UserWindows.get(args.wid,'doc');
       if (!doc) return;
       AppServer.send(args.wid,'doc_save',{type:args.type},function(err,res) {
+        if (err) return Actions.window_console_alert({wid:args.wid,message:err});
         var ins = {
           content: res,
           type: args.type,
           title: doc.title + ' (copy) '+ moment().format('YYYY-MM-DD hh:mm:ss')
         };
         Actions.doc_new(ins,function(err,res) {
-          if (!err) {
-            UserWindows.set(args.wid,'doc',res);
-            var sel = '#window-'+args.wid +' input.docinfo-title';
-            $(sel).val(res.title);
-            $(sel).focus();
-            $(sel).select();
-          };
+          if (err) return Actions.window_console_alert({wid:args.wid,message:err});
+          UserWindows.set(args.wid,'doc',res);
+          var sel = '#window-'+args.wid +' input.docinfo-title';
+          $(sel).val(res.title);
+          $(sel).focus();
+          $(sel).select();
         })
       })
     }
