@@ -221,7 +221,12 @@ Template.app_button.events({
 Template.docinfo.helpers({
   pub: function() {
     if (!this.doc) return;
-    var pub = PublishedDocs.find({docid:this.doc._id});
+    //this should really read from this.doc, but published is not updated there, probably it should be
+    var doc = UserDocs.Store.findOne(this.doc._id);
+    if (!doc || !doc.published) return null;
+    var username = Users.get(doc.owner,'username');
+    var pub = doc.published;
+    for (var type in pub) pub[type].url = PROTOCOL+'://'+username+'.'+DOMAIN+'/docs/'+ encodeURIComponent(doc.title) +'.'+ type.split('/').join('.');
     return pub;
-  }
+  },
 });

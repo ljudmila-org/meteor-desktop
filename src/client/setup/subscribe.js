@@ -8,6 +8,4 @@ Meteor.subscribe('apps',{
 });
 Meteor.subscribe('userdata');
 Meteor.subscribe('userwindows');
-Meteor.subscribe('userdocs');
-Meteor.subscribe('userpublished');
-
+UserDocs.subscribe();

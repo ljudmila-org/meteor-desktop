@@ -24,17 +24,17 @@
       </div>
       <div class="window-buttons">
         {{#if docs_enabled}}
+          {{#if eq pane 'docinfo'}}
+            {{include 'app_button' icon='reorder active' action='window_pane_hide'}}
+          {{else}}
+            {{include 'app_button' icon='reorder' action='window_docinfo_show'}}
+          {{/if}}        
           {{#if eq pane 'documents'}}
             {{include 'app_button' icon='folder-open active' action='window_pane_hide'}}
           {{else}}
             {{include 'app_button' icon='folder-open' action='window_docs_show'}}
           {{/if}}        
           {{include 'app_button' icon='save' action='window_doc_save'}}
-          {{#if eq pane 'docinfo'}}
-            {{include 'app_button' icon='reorder active' action='window_pane_hide'}}
-          {{else}}
-            {{include 'app_button' icon='reorder' action='window_docinfo_show'}}
-          {{/if}}        
         {{/if}}
       </div>
       <span class="window-title">
@@ -116,10 +116,10 @@
   {{include 'button' name='save' icon='save' text='Save' action='window_docs_save'}}
   {{call 'button_dropdown' name="save-as" text='Save As' icon='copy' choices=doclist.types.save}}
   {{call 'button_dropdown' name="publish-as" text='Publish As' icon='external-link-sign' choices=doclist.types.save}}
-  {{#each pub}}
-    <div class="pub">
-      <a href="http://{{userName owner}}.desktop.varnish.ljudmila.net/docs/{{urlencode title}}" target="_blank">
-        <i class="icon-external-link-sign"></i> {{type}} {{timec pdate}}
+  {{#each unzip pub}}
+    <div  class="pub">
+      <a href="{{value.url}}" target="_blank">
+        <i class="icon-external-link-sign"></i> {{key}} {{timec value.pdate}} ({{value.size}} b)
       </a>
     </div>
   {{/each}}

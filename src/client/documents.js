@@ -11,7 +11,7 @@ Template.documents.helpers({
     default:
       filter.type = this.type;
     }
-    var docs = UserDocs2.Store.find();
+    var docs = UserDocs.Store.find();
     return docs;
   },
   typelist: function() {
