@@ -14,11 +14,18 @@ Actions._defs = {};
 
 Actions._call = function(name,args,cb) {
   console.log('ACTION',name,args);
-  var user = Users.findOne(Meteor.userId());
-  var a = Actions._defs[name];
-  if (!a) throw new Meteor.Error(400,'bad action name '+name);
-  if (!match(user,a.args,args)) throw new Meteor.Error(400,'bad args for action '+name,args);
-  return a.action(args,user,cb);
+  try {
+    var user = Users.findOne(Meteor.userId());
+    var a = Actions._defs[name];
+    if (!a) throw new Meteor.Error(400,'bad action name '+name);
+    if (!match(user,a.args,args)) throw new Meteor.Error(400,'bad args for action '+name,args);
+    return a.action(args,user,cb);
+  } catch (err) {
+    console.log('ERROR IN ACTION',name,err.stack||err);
+    throw err;
+    if (cb) cb(err);
+    throw new Meteor.Error(500,String(err),{details:'none yet'});
+  }
 },
 
 
@@ -35,7 +42,7 @@ if (Meteor.isServer) {
       return Actions._call(name,args);
     },
   });
-}
+} 
 
 function match(user,p,v) {
   switch (p) {

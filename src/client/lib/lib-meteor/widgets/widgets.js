@@ -1,4 +1,4 @@
-$.fn.popup = function() {
+$.fn.popup = function(c) {
   var $this = this.eq(0);
 
   var $focus = $('<input style="width:1px;height:1px;font-size:1px;line-height:1px;margin:0;padding:0;opacity:0;position:absolute">');
@@ -9,10 +9,10 @@ $.fn.popup = function() {
   if ($input.length) $input.focus();
   else $focus.focus();
 
-  $this.addClass('popup');
+  $this.addClass(c||'popup');
   $this.one('focusout',function(){
     $focus.remove();
-    $this.removeClass('popup');
+    $this.removeClass(c||'popup');
   })
     
 }
@@ -48,21 +48,10 @@ var dropdownHelpers = {
 var dropdownEvents = {
   'mousedown .head': function(e,t) {
     var $dd = $(e.target).closest('.widget');
-    if ($dd.hasClass('active')) {
-      $dd.find('.widget-value').blur();
-    } else {
-      $dd.addClass('active');
-      $dd.find('.widget-value').focus();
-    }
+    $dd.popup('active');
     e.preventDefault();
     e.stopPropagation();
   },
-  'blur .widget-value': function(e,t) {
-    var $dd = $(e.target).closest('.widget');
-    $dd.removeClass('active');
-    e.preventDefault();
-    e.stopPropagation();
-  }
 };
 
 Template.dropdown.helpers(dropdownHelpers);
@@ -78,6 +67,7 @@ Template.dropdown.events({
     $dd.fire('select',{old:old,value:val});
   },
 })
+Template.dropdown.preserve(['.widget'])
 
 Template.button_dropdown.helpers(dropdownHelpers);
 Template.button_dropdown.events(dropdownEvents);

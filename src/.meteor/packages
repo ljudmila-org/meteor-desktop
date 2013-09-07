@@ -15,3 +15,5 @@ http
 random
 crypto-md5
 router
+contentstore-hashfile
+desktop-docstore

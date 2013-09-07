@@ -1,5 +1,4 @@
 Meteor.startup(function() {
-
   document.addEventListener('contextmenu',function(e){
     if(e.target.tagName=='INPUT' || e.target.tagName=='TEXTAREA') return;
     $(':focus').eq(0).blur();
@@ -13,7 +12,6 @@ Meteor.startup(function() {
     e.preventDefault();
   },true);
 })
-
 Template.desktop.windows = function() {
   return UserWindows.find({});
 } 

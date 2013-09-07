@@ -1,8 +1,8 @@
 function docID (docid,user) {
-  var d = UserDocs.findOne(docid);
+  var d = UserDocs2.Store.findOne(docid);
   return d && d.owner === user._id;
 }
-
+/*
 var toJSON = function(obj) {
   try {
     return JSON.stringify(obj);
@@ -31,6 +31,7 @@ var fromJSON = function(obj) {
 
 
 if (Meteor.isServer) {
+  console.log('content',ContentStore);
 
   var URL = Npm.require('url');
 
@@ -247,3 +248,98 @@ Actions({
     }
   },
 });
+*/
+
+UserDocs2 = DocStore.create('userdocs',{owner:1,title:1}, {type:1}, {
+  read: function(userId){ return {'owner':userId}; },
+  write: function(userId){ return {'owner':userId}; },
+});
+
+if (Meteor.isServer) {
+  UserDocs2.publish();
+} else {
+  UserDocs2.subscribe();
+}
+
+Actions({
+  doc_new: {
+    remote: true,
+    args: {
+      title: String,
+      type: /^[-\w]+\/[-\w]+$/,
+      content: 'any',
+    },
+    action: function(args,user) {
+      return UserDocs2.write(user._id,[user._id,args.title],[args.type],args.content);
+    },
+  },
+  doc_save: {
+    remote: true,
+    args: {
+      docid: docID,
+      content: Object
+    },
+    action: function(args,user) {
+      var doc = UserDocs2.Store.findOne(args.docid);
+      return UserDocs2.write(user._id,[doc.owner,doc.title],[],args.content);
+    }
+  },
+  doc_publish: {
+    remote: true,
+    args: {
+      docid: docID,
+      content: Object,
+      type: String
+    },
+    action: function(args,user) {
+    }
+  },
+  doc_unpublish: {
+    remote: true,
+    args: {
+      docid: docID,
+      type: String
+    },
+    action: function(args,user) {
+    }
+  },
+  doc_unpublish_all: {
+    remote: true,
+    args: {
+      docid: docID,
+    },
+    action: function(args,user) {
+    }
+  },
+  doc_rename: {
+    remote: true,
+    args: {
+      docid: docID,
+      title: String
+    },
+    action: function(args,user) {
+      var doc = UserDocs2.Store.findOne(args.docid);
+      return UserDocs2.move(user._id,[doc.owner,doc.title],[doc.owner,args.title]);
+    }
+  },
+  doc_open: {
+    remote: true,
+    args: {
+      docid: docID,
+    },
+    action: function(args,user) {
+      var doc = UserDocs2.Store.findOne(args.docid);
+      return UserDocs2.read(user._id,[doc.owner,doc.title]);
+    }
+  },
+  doc_remove: { 
+    remote: true,
+    args: {
+      docid: docID,
+    },
+    action: function(args,user) {
+      var doc = UserDocs2.Store.findOne(args.docid);
+      return UserDocs2.remove(user._id,[doc.owner,doc.title]);
+    }
+  },
+})

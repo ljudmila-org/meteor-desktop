@@ -142,9 +142,6 @@ Actions({
       var z = ( h.z | 0 ) + 1;
       UserWindows.update(args.wid,{$set:{z:z}});
       Users.update(user._id,{$set:{'state.z':z}});
-      if (Meteor.isClient) {
-        $('iframe[name='+args.wid+']').focus()
-      }
     },
   },
   window_to_back: {
@@ -283,7 +280,7 @@ Actions({
     local:true,
     args: {
       wid: windowID,
-      docid: UserDocs,
+      docid: String,
     },
     action: function(args,user) {
       Actions.doc_open({docid:args.docid},function(err,res) {
@@ -425,12 +422,13 @@ Actions({
     local: true,
     args: {
       wid: windowID,
-      docid: UserDocs,
+      docid: String,
       title: String
     },
     action: function(args,user) {
       Actions.doc_rename({docid:args.docid,title:args.title},function(err,res) {
-        if (!err) UserWindows.set(args.wid,'doc.title',res);
+        if (err) return Actions.window_console_alert({wid:args.wid,message:err});
+        UserWindows.set(args.wid,'doc.title',res.title);
       });
     }
   },
@@ -441,6 +439,7 @@ Actions({
       doc: Object,
     },
     action: function(args,user) {
+      console.log('docset',args);
       UserWindows.set(args.wid,'doc',args.doc);
       AppServer.send(args.wid,'doc_open',{content:args.doc.content,type:args.doc.type});
     }

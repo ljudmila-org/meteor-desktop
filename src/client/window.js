@@ -35,11 +35,16 @@ Template.window.helpers({
 Template.window.events({
   'mousedown .window': function(e,t) {
     Actions.window_touch({wid:this._id});
-    e.preventDefault();
     e.stopPropagation();
   },
+  'mousedown .window-titlebar': function(e,t) {
+    $('iframe[name='+this._id+']').focus()
+  },
+  'mousedown .window-iframe-cover': function(e,t) {
+    $('iframe[name='+this._id+']').focus()
+  },
   'mousedown .window-resizer': function(e,t) {
-    Actions.window_touch({wid:this._id})
+    $('iframe[name='+this._id+']').focus()
   },
   'middledown .window-titlebar': function(e,t) {
     Actions.window_to_back({wid:this._id});

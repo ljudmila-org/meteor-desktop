@@ -9,8 +9,24 @@ url-based docs, better publishing
 
 
 0.1:
-tabs
-bundles
 applets - rewrite login, add calendar, radio, user settings,file browser/manager...
+bundles
+tabs: 
+UserTabs: [{
+  owner: user._id,
+  wid: args.wid,
+  docid: args.docid,
+  doc: Docs.findOne(args.docid), //copy when doc opened
+  aid: args.aid, 
+  app: Apps.findOne(args.aid), //copy when tab created
+  features: {} //renew on every reload 
+}]
+
+UserWindows: [{
+  owner: user._id,
+
+}]
+
+
 
 
