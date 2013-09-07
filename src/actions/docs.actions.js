@@ -292,6 +292,11 @@ Actions({
       type: String
     },
     action: function(args,user) {
+      var _content = ContentStore.write( [ 'userdocs', 'published', docid, ftype ], content );
+      UserDoc2.Store.set(docid,'published'+args.type, {
+        pdate: Date.now(),
+        size: _content.size,
+      });
     }
   },
   doc_unpublish: {
@@ -301,6 +306,8 @@ Actions({
       type: String
     },
     action: function(args,user) {
+      ContentStore.remove( [ 'userdocs', 'published', docid, type ] );
+      UserDoc2.Store.unset(docid,'published.'+args.type);
     }
   },
   doc_unpublish_all: {
@@ -309,6 +316,11 @@ Actions({
       docid: docID,
     },
     action: function(args,user) {
+      var pubs = UserDoc2.Store.get(docid,'published');
+      for (var i in pubs) {
+        ContentStore.remove( [ 'userdocs', 'published', docid, i ] );
+      }
+      UserDoc2.Store.set(docid,'published', {});
     }
   },
   doc_rename: {
