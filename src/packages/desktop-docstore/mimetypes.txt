@@ -1,0 +1,684 @@
+Adaptive differential pulse-code modulation	audio/adpcm	adp	binary
+Applixware	application/applixware	aw	binary
+Atom Syndication Format	application/atom+xml	atom	xml
+Atom Publishing Protocol	application/atomcat+xml	atomcat	xml
+Atom Publishing Protocol Service Document	application/atomsvc+xml	atomsvc	xml
+Voice Browser Call Control	application/ccxml+xml	ccxml	xml
+Cloud Data Management Interface (CDMI) - Capability	application/cdmi-capability	cdmia	binary
+Cloud Data Management Interface (CDMI) - Contaimer	application/cdmi-container	cdmic	binary
+Cloud Data Management Interface (CDMI) - Domain	application/cdmi-domain	cdmid	binary
+Cloud Data Management Interface (CDMI) - Object	application/cdmi-object	cdmio	binary
+Cloud Data Management Interface (CDMI) - Queue	application/cdmi-queue	cdmiq	binary
+CU-SeeMe	application/cu-seeme	cu	binary
+Web Distributed Authoring and Versioning	application/davmount+xml	davmount	xml
+Data Structure for the Security Suitability of Cryptographic Algorithms	application/dssc+der	dssc	binary
+Data Structure for the Security Suitability of Cryptographic Algorithms	application/dssc+xml	xdssc	xml
+ECMAScript	application/ecmascript	es	binary
+Extensible MultiModal Annotation	application/emma+xml	emma	xml
+Electronic Publication	application/epub+zip	epub	binary
+Efficient XML Interchange	application/exi	exi	binary
+Portable Font Resource	application/font-tdpfr	pfr	binary
+Hyperstudio	application/hyperstudio	stk	binary
+Internet Protocol Flow Information Export	application/ipfix	ipfix	binary
+Java Archive	application/java-archive	jar	binary
+Java Serialized Object	application/java-serialized-object	ser	binary
+Java Bytecode File	application/java-vm	class	binary
+JavaScript	application/javascript	js	binary
+JavaScript Object Notation (JSON)	application/json	json	json
+Macintosh BinHex 4.0	application/mac-binhex40	hqx	binary
+Compact Pro	application/mac-compactpro	cpt	binary
+Metadata Authority Description Schema	application/mads+xml	mads	xml
+MARC Formats	application/marc	mrc	binary
+MARC21 XML Schema	application/marcxml+xml	mrcx	xml
+Mathematica Notebooks	application/mathematica	ma	binary
+Mathematical Markup Language	application/mathml+xml	mathml	xml
+Mbox database files	application/mbox	mbox	binary
+Media Server Control Markup Language	application/mediaservercontrol+xml	mscml	xml
+Metalink	application/metalink4+xml	meta4	xml
+Metadata Encoding and Transmission Standard	application/mets+xml	mets	xml
+Metadata Object Description Schema	application/mods+xml	mods	xml
+MPEG-21	application/mp21	m21	binary
+MPEG4	application/mp4	mp4	binary
+Microsoft Word	application/msword	doc	binary
+Material Exchange Format	application/mxf	mxf	binary
+Binary Data	application/octet-stream	bin	binary
+Office Document Architecture	application/oda	oda	binary
+Open eBook Publication Structure	application/oebps-package+xml	opf	xml
+Ogg	application/ogg	ogx	binary
+Microsoft OneNote	application/onenote	onetoc	binary
+XML Patch Framework	application/patch-ops-error+xml	xer	xml
+Adobe Portable Document Format	application/pdf	pdf	binary
+Pretty Good Privacy	application/pgp-encrypted		binary
+Pretty Good Privacy - Signature	application/pgp-signature	pgp	binary
+PICSRules	application/pics-rules	prf	binary
+PKCS #10 - Certification Request Standard	application/pkcs10	p10	binary
+PKCS #7 - Cryptographic Message Syntax Standard	application/pkcs7-mime	p7m	binary
+PKCS #7 - Cryptographic Message Syntax Standard	application/pkcs7-signature	p7s	binary
+PKCS #8 - Private-Key Information Syntax Standard	application/pkcs8	p8	binary
+Attribute Certificate	application/pkix-attr-cert	ac	binary
+Internet Public Key Infrastructure - Certificate	application/pkix-cert	cer	binary
+Internet Public Key Infrastructure - Certificate Revocation Lists	application/pkix-crl	crl	binary
+Internet Public Key Infrastructure - Certification Path	application/pkix-pkipath	pkipath	binary
+Internet Public Key Infrastructure - Certificate Management Protocole	application/pkixcmp	pki	binary
+Pronunciation Lexicon Specification	application/pls+xml	pls	xml
+PostScript	application/postscript	ai	text
+CU-Writer	application/prs.cww	cww	binary
+Portable Symmetric Key Container	application/pskc+xml	pskcxml	xml
+Resource Description Framework	application/rdf+xml	rdf	xml
+IMS Networks	application/reginfo+xml	rif	xml
+Relax NG Compact Syntax	application/relax-ng-compact-syntax	rnc	binary
+XML Resource Lists Diff	application/resource-lists-diff+xml	rld	xml
+XML Resource Lists	application/resource-lists+xml	rl	xml
+XML Resource Lists	application/rls-services+xml	rs	xml
+Really Simple Discovery	application/rsd+xml	rsd	xml
+RSS - Really Simple Syndication	application/rss+xml	rss	xml
+Rich Text Format	application/rtf	rtf	text
+Systems Biology Markup Language	application/sbml+xml	sbml	xml
+Server-Based Certificate Validation Protocol - Validation Request	application/scvp-cv-request	scq	binary
+Server-Based Certificate Validation Protocol - Validation Response	application/scvp-cv-response	scs	binary
+Server-Based Certificate Validation Protocol - Validation Policies - Request	application/scvp-vp-request	spq	binary
+Server-Based Certificate Validation Protocol - Validation Policies - Response	application/scvp-vp-response	spp	binary
+Session Description Protocol	application/sdp	sdp	binary
+Secure Electronic Transaction - Payment	application/set-payment-initiation	setpay	binary
+Secure Electronic Transaction - Registration	application/set-registration-initiation	setreg	binary
+S Hexdump Format	application/shf+xml	shf	xml
+Synchronized Multimedia Integration Language	application/smil+xml	smi	xml
+SPARQL - Query	application/sparql-query	rq	text
+SPARQL - Results	application/sparql-results+xml	srx	xml
+Speech Recognition Grammar Specification	application/srgs	gram	text
+Speech Recognition Grammar Specification - XML	application/srgs+xml	grxml	xml
+Search/Retrieve via URL Response Format	application/sru+xml	sru	xml
+Speech Synthesis Markup Language	application/ssml+xml	ssml	xml
+Text Encoding and Interchange	application/tei+xml	tei	xml
+Sharing Transaction Fraud Data	application/thraud+xml	tfi	xml
+Time Stamped Data Envelope	application/timestamped-data	tsd	binary
+3rd Generation Partnership Project - Pic Large	application/vnd.3gpp.pic-bw-large	plb	binary
+3rd Generation Partnership Project - Pic Small	application/vnd.3gpp.pic-bw-small	psb	binary
+3rd Generation Partnership Project - Pic Var	application/vnd.3gpp.pic-bw-var	pvb	binary
+3rd Generation Partnership Project - Transaction Capabilities Application Part	application/vnd.3gpp2.tcap	tcap	binary
+3M Post It Notes	application/vnd.3m.post-it-notes	pwn	binary
+Simply Accounting	application/vnd.accpac.simply.aso	aso	binary
+Simply Accounting - Data Import	application/vnd.accpac.simply.imp	imp	binary
+ACU Cobol	application/vnd.acucobol	acu	binary
+ACU Cobol	application/vnd.acucorp	atc	binary
+Adobe AIR Application	application/vnd.adobe.air-application-installer-package+zip	air	binary
+Adobe Flex Project	application/vnd.adobe.fxp	fxp	binary
+Adobe XML Data Package	application/vnd.adobe.xdp+xml	xdp	xml
+Adobe XML Forms Data Format	application/vnd.adobe.xfdf	xfdf	binary
+Ahead AIR Application	application/vnd.ahead.space	ahead	binary
+AirZip FileSECURE	application/vnd.airzip.filesecure.azf	azf	binary
+AirZip FileSECURE	application/vnd.airzip.filesecure.azs	azs	binary
+Amazon Kindle eBook format	application/vnd.amazon.ebook	azw	binary
+Active Content Compression	application/vnd.americandynamics.acc	acc	binary
+AmigaDE	application/vnd.amiga.ami	ami	binary
+Android Package Archive	application/vnd.android.package-archive	apk	binary
+ANSER-WEB Terminal Client - Certificate Issue	application/vnd.anser-web-certificate-issue-initiation	cii	binary
+ANSER-WEB Terminal Client - Web Funds Transfer	application/vnd.anser-web-funds-transfer-initiation	fti	binary
+Antix Game Player	application/vnd.antix.game-component	atx	binary
+Apple Installer Package	application/vnd.apple.installer+xml	mpkg	xml
+Multimedia Playlist Unicode	application/vnd.apple.mpegurl	m3u8	binary
+Arista Networks Software Image	application/vnd.aristanetworks.swi	swi	binary
+Audiograph	application/vnd.audiograph	aep	binary
+Blueice Research Multipass	application/vnd.blueice.multipass	mpm	binary
+BMI Drawing Data Interchange	application/vnd.bmi	bmi	binary
+BusinessObjects	application/vnd.businessobjects	rep	binary
+CambridgeSoft Chem Draw	application/vnd.chemdraw+xml	cdxml	xml
+Karaoke on Chipnuts Chipsets	application/vnd.chipnuts.karaoke-mmd	mmd	binary
+Interactive Geometry Software Cinderella	application/vnd.cinderella	cdy	binary
+Claymore Data Files	application/vnd.claymore	cla	binary
+RetroPlatform Player	application/vnd.cloanto.rp9	rp9	binary
+Clonk Game	application/vnd.clonk.c4group	c4g	binary
+ClueTrust CartoMobile - Config	application/vnd.cluetrust.cartomobile-config	c11amc	binary
+ClueTrust CartoMobile - Config Package	application/vnd.cluetrust.cartomobile-config-pkg	c11amz	binary
+Sixth Floor Media - CommonSpace	application/vnd.commonspace	csp	binary
+CIM Database	application/vnd.contact.cmsg	cdbcmsg	binary
+CosmoCaller	application/vnd.cosmocaller	cmc	binary
+CrickSoftware - Clicker	application/vnd.crick.clicker	clkx	binary
+CrickSoftware - Clicker - Keyboard	application/vnd.crick.clicker.keyboard	clkk	binary
+CrickSoftware - Clicker - Palette	application/vnd.crick.clicker.palette	clkp	binary
+CrickSoftware - Clicker - Template	application/vnd.crick.clicker.template	clkt	binary
+CrickSoftware - Clicker - Wordbank	application/vnd.crick.clicker.wordbank	clkw	binary
+Critical Tools - PERT Chart EXPERT	application/vnd.criticaltools.wbs+xml	wbs	xml
+PosML	application/vnd.ctc-posml	pml	binary
+Adobe PostScript Printer Description File Format	application/vnd.cups-ppd	ppd	binary
+CURL Applet	application/vnd.curl.car	car	binary
+CURL Applet	application/vnd.curl.pcurl	pcurl	binary
+RemoteDocs R-Viewer	application/vnd.data-vision.rdz	rdz	binary
+FCS Express Layout Link	application/vnd.denovo.fcselayout-link	fe_launch	binary
+New Moon Liftoff/DNA	application/vnd.dna	dna	binary
+Dolby Meridian Lossless Packing	application/vnd.dolby.mlp	mlp	binary
+DPGraph	application/vnd.dpgraph	dpg	binary
+DreamFactory	application/vnd.dreamfactory	dfac	binary
+Digital Video Broadcasting	application/vnd.dvb.ait	ait	binary
+Digital Video Broadcasting	application/vnd.dvb.service	svc	binary
+DynaGeo	application/vnd.dynageo	geo	binary
+EcoWin Chart	application/vnd.ecowin.chart	mag	binary
+Enliven Viewer	application/vnd.enliven	nml	binary
+QUASS Stream Player	application/vnd.epson.esf	esf	binary
+QUASS Stream Player	application/vnd.epson.msf	msf	binary
+QuickAnime Player	application/vnd.epson.quickanime	qam	binary
+SimpleAnimeLite Player	application/vnd.epson.salt	slt	binary
+QUASS Stream Player	application/vnd.epson.ssf	ssf	binary
+MICROSEC e-Szign¢	application/vnd.eszigno3+xml	es3	xml
+EZPix Secure Photo Album	application/vnd.ezpix-album	ez2	binary
+EZPix Secure Photo Album	application/vnd.ezpix-package	ez3	binary
+Forms Data Format	application/vnd.fdf	fdf	binary
+Digital Siesmograph Networks - SEED Datafiles	application/vnd.fdsn.seed	seed	binary
+NpGraphIt	application/vnd.flographit	gph	binary
+FluxTime Clip	application/vnd.fluxtime.clip	ftc	binary
+FrameMaker Normal Format	application/vnd.framemaker	fm	binary
+Frogans Player	application/vnd.frogans.fnc	fnc	binary
+Frogans Player	application/vnd.frogans.ltf	ltf	binary
+Friendly Software Corporation	application/vnd.fsc.weblaunch	fsc	binary
+Fujitsu Oasys	application/vnd.fujitsu.oasys	oas	binary
+Fujitsu Oasys	application/vnd.fujitsu.oasys2	oa2	binary
+Fujitsu Oasys	application/vnd.fujitsu.oasys3	oa3	binary
+Fujitsu Oasys	application/vnd.fujitsu.oasysgp	fg5	binary
+Fujitsu Oasys	application/vnd.fujitsu.oasysprs	bh2	binary
+Fujitsu - Xerox 2D CAD Data	application/vnd.fujixerox.ddd	ddd	binary
+Fujitsu - Xerox DocuWorks	application/vnd.fujixerox.docuworks	xdw	binary
+Fujitsu - Xerox DocuWorks Binder	application/vnd.fujixerox.docuworks.binder	xbd	binary
+FuzzySheet	application/vnd.fuzzysheet	fzs	binary
+Genomatix Tuxedo Framework	application/vnd.genomatix.tuxedo	txd	binary
+GeoGebra	application/vnd.geogebra.file	ggb	binary
+GeoGebra	application/vnd.geogebra.tool	ggt	binary
+GeoMetry Explorer	application/vnd.geometry-explorer	gex	binary
+GEONExT and JSXGraph	application/vnd.geonext	gxt	binary
+GeoplanW	application/vnd.geoplan	g2w	binary
+GeospacW	application/vnd.geospace	g3w	binary
+GameMaker ActiveX	application/vnd.gmx	gmx	binary
+Google Earth - KML	application/vnd.google-earth.kml+xml	kml	xml
+Google Earth - Zipped KML	application/vnd.google-earth.kmz	kmz	binary
+GrafEq	application/vnd.grafeq	gqf	binary
+Groove - Account	application/vnd.groove-account	gac	binary
+Groove - Help	application/vnd.groove-help	ghf	binary
+Groove - Identity Message	application/vnd.groove-identity-message	gim	binary
+Groove - Injector	application/vnd.groove-injector	grv	binary
+Groove - Tool Message	application/vnd.groove-tool-message	gtm	binary
+Groove - Tool Template	application/vnd.groove-tool-template	tpl	binary
+Groove - Vcard	application/vnd.groove-vcard	vcg	binary
+Hypertext Application Language	application/vnd.hal+xml	hal	xml
+ZVUE Media Manager	application/vnd.handheld-entertainment+xml	zmm	xml
+Homebanking Computer Interface (HBCI)	application/vnd.hbci	hbci	binary
+Archipelago Lesson Player	application/vnd.hhe.lesson-player	les	binary
+HP-GL/2 and HP RTL	application/vnd.hp-hpgl	hpgl	binary
+Hewlett Packard Instant Delivery	application/vnd.hp-hpid	hpid	binary
+Hewlett-Packard's WebPrintSmart	application/vnd.hp-hps	hps	binary
+HP Indigo Digital Press - Job Layout Languate	application/vnd.hp-jlyt	jlt	binary
+HP Printer Command Language	application/vnd.hp-pcl	pcl	binary
+PCL 6 Enhanced (Formely PCL XL)	application/vnd.hp-pclxl	pclxl	binary
+Hydrostatix Master Suite	application/vnd.hydrostatix.sof-data	sfd-hdstx	binary
+3D Crossword Plugin	application/vnd.hzn-3d-crossword	x3d	binary
+MiniPay	application/vnd.ibm.minipay	mpy	binary
+MO:DCA-P	application/vnd.ibm.modcap	afp	binary
+IBM DB2 Rights Manager	application/vnd.ibm.rights-management	irm	binary
+IBM Electronic Media Management System - Secure Container	application/vnd.ibm.secure-container	sc	binary
+ICC profile	application/vnd.iccprofile	icc	binary
+igLoader	application/vnd.igloader	igl	binary
+ImmerVision PURE Players	application/vnd.immervision-ivp	ivp	binary
+ImmerVision PURE Players	application/vnd.immervision-ivu	ivu	binary
+IOCOM Visimeet	application/vnd.insors.igm	igm	binary
+Intercon FormNet	application/vnd.intercon.formnet	xpw	binary
+Interactive Geometry Software	application/vnd.intergeo	i2g	binary
+Open Financial Exchange	application/vnd.intu.qbo	qbo	binary
+Quicken	application/vnd.intu.qfx	qfx	binary
+IP Unplugged Roaming Client	application/vnd.ipunplugged.rcprofile	rcprofile	binary
+iRepository / Lucidoc Editor	application/vnd.irepository.package+xml	irp	xml
+Express by Infoseek	application/vnd.is-xpr	xpr	binary
+International Society for Advancement of Cytometry	application/vnd.isac.fcs	fcs	binary
+Lightspeed Audio Lab	application/vnd.jam	jam	binary
+Mobile Information Device Profile	application/vnd.jcp.javame.midlet-rms	rms	binary
+RhymBox	application/vnd.jisp	jisp	binary
+Joda Archive	application/vnd.joost.joda-archive	joda	binary
+Kahootz	application/vnd.kahootz	ktz	binary
+KDE KOffice Office Suite - Karbon	application/vnd.kde.karbon	karbon	binary
+KDE KOffice Office Suite - KChart	application/vnd.kde.kchart	chrt	binary
+KDE KOffice Office Suite - Kformula	application/vnd.kde.kformula	kfo	binary
+KDE KOffice Office Suite - Kivio	application/vnd.kde.kivio	flw	binary
+KDE KOffice Office Suite - Kontour	application/vnd.kde.kontour	kon	binary
+KDE KOffice Office Suite - Kpresenter	application/vnd.kde.kpresenter	kpr	binary
+KDE KOffice Office Suite - Kspread	application/vnd.kde.kspread	ksp	binary
+KDE KOffice Office Suite - Kword	application/vnd.kde.kword	kwd	binary
+Kenamea App	application/vnd.kenameaapp	htke	binary
+Kidspiration	application/vnd.kidspiration	kia	binary
+Kinar Applications	application/vnd.kinar	kne	binary
+SSEYO Koan Play File	application/vnd.koan	skp	binary
+Kodak Storyshare	application/vnd.kodak-descriptor	sse	binary
+Laser App Enterprise	application/vnd.las.las+xml	lasxml	xml
+Life Balance - Desktop Edition	application/vnd.llamagraphics.life-balance.desktop	lbd	binary
+Life Balance - Exchange Format	application/vnd.llamagraphics.life-balance.exchange+xml	lbe	xml
+Lotus 1-2-3	application/vnd.lotus-1-2-3	123	binary
+Lotus Approach	application/vnd.lotus-approach	apr	binary
+Lotus Freelance	application/vnd.lotus-freelance	pre	binary
+Lotus Notes	application/vnd.lotus-notes	nsf	binary
+Lotus Organizer	application/vnd.lotus-organizer	org	binary
+Lotus Screencam	application/vnd.lotus-screencam	scm	binary
+Lotus Wordpro	application/vnd.lotus-wordpro	lwp	binary
+MacPorts Port System	application/vnd.macports.portpkg	portpkg	binary
+Micro CADAM Helix D&D	application/vnd.mcd	mcd	binary
+MedCalc	application/vnd.medcalcdata	mc1	binary
+MediaRemote	application/vnd.mediastation.cdkey	cdkey	binary
+Medical Waveform Encoding Format	application/vnd.mfer	mwf	binary
+Melody Format for Mobile Platform	application/vnd.mfmp	mfm	binary
+Micrografx	application/vnd.micrografx.flo	flo	binary
+Micrografx iGrafx Professional	application/vnd.micrografx.igx	igx	binary
+FrameMaker Interchange Format	application/vnd.mif	mif	binary
+Mobius Management Systems - UniversalArchive	application/vnd.mobius.daf	daf	binary
+Mobius Management Systems - Distribution Database	application/vnd.mobius.dis	dis	binary
+Mobius Management Systems - Basket file	application/vnd.mobius.mbk	mbk	binary
+Mobius Management Systems - Query File	application/vnd.mobius.mqy	mqy	binary
+Mobius Management Systems - Script Language	application/vnd.mobius.msl	msl	binary
+Mobius Management Systems - Policy Definition Language File	application/vnd.mobius.plc	plc	binary
+Mobius Management Systems - Topic Index File	application/vnd.mobius.txf	txf	binary
+Mophun VM	application/vnd.mophun.application	mpn	binary
+Mophun Certificate	application/vnd.mophun.certificate	mpc	binary
+XUL - XML User Interface Language	application/vnd.mozilla.xul+xml	xul	xml
+Microsoft Artgalry	application/vnd.ms-artgalry	cil	binary
+Microsoft Cabinet File	application/vnd.ms-cab-compressed	cab	binary
+Microsoft Excel	application/vnd.ms-excel	xls	binary
+Microsoft Excel - Add-In File	application/vnd.ms-excel.addin.macroenabled.12	xlam	binary
+Microsoft Excel - Binary Workbook	application/vnd.ms-excel.sheet.binary.macroenabled.12	xlsb	binary
+Microsoft Excel - Macro-Enabled Workbook	application/vnd.ms-excel.sheet.macroenabled.12	xlsm	binary
+Microsoft Excel - Macro-Enabled Template File	application/vnd.ms-excel.template.macroenabled.12	xltm	binary
+Microsoft Embedded OpenType	application/vnd.ms-fontobject	eot	binary
+Microsoft Html Help File	application/vnd.ms-htmlhelp	chm	binary
+Microsoft Class Server	application/vnd.ms-ims	ims	binary
+Microsoft Learning Resource Module	application/vnd.ms-lrm	lrm	binary
+Microsoft Office System Release Theme	application/vnd.ms-officetheme	thmx	binary
+Microsoft Trust UI Provider - Security Catalog	application/vnd.ms-pki.seccat	cat	binary
+Microsoft Trust UI Provider - Certificate Trust Link	application/vnd.ms-pki.stl	stl	binary
+Microsoft PowerPoint	application/vnd.ms-powerpoint	ppt	binary
+Microsoft PowerPoint - Add-in file	application/vnd.ms-powerpoint.addin.macroenabled.12	ppam	binary
+Microsoft PowerPoint - Macro-Enabled Presentation File	application/vnd.ms-powerpoint.presentation.macroenabled.12	pptm	binary
+Microsoft PowerPoint - Macro-Enabled Open XML Slide	application/vnd.ms-powerpoint.slide.macroenabled.12	sldm	binary
+Microsoft PowerPoint - Macro-Enabled Slide Show File	application/vnd.ms-powerpoint.slideshow.macroenabled.12	ppsm	binary
+Micosoft PowerPoint - Macro-Enabled Template File	application/vnd.ms-powerpoint.template.macroenabled.12	potm	binary
+Microsoft Project	application/vnd.ms-project	mpp	binary
+Micosoft Word - Macro-Enabled Document	application/vnd.ms-word.document.macroenabled.12	docm	binary
+Micosoft Word - Macro-Enabled Template	application/vnd.ms-word.template.macroenabled.12	dotm	binary
+Microsoft Works	application/vnd.ms-works	wps	binary
+Microsoft Windows Media Player Playlist	application/vnd.ms-wpl	wpl	binary
+Microsoft XML Paper Specification	application/vnd.ms-xpsdocument	xps	binary
+3GPP MSEQ File	application/vnd.mseq	mseq	binary
+MUsical Score Interpreted Code Invented for the ASCII designation of Notation	application/vnd.musician	mus	binary
+Muvee Automatic Video Editing	application/vnd.muvee.style	msty	binary
+neuroLanguage	application/vnd.neurolanguage.nlu	nlu	binary
+NobleNet Directory	application/vnd.noblenet-directory	nnd	binary
+NobleNet Sealer	application/vnd.noblenet-sealer	nns	binary
+NobleNet Web	application/vnd.noblenet-web	nnw	binary
+N-Gage Game Data	application/vnd.nokia.n-gage.data	ngdat	binary
+N-Gage Game Installer	application/vnd.nokia.n-gage.symbian.install	n-gage	binary
+Nokia Radio Application - Preset	application/vnd.nokia.radio-preset	rpst	binary
+Nokia Radio Application - Preset	application/vnd.nokia.radio-presets	rpss	binary
+Novadigm's RADIA and EDM products	application/vnd.novadigm.edm	edm	binary
+Novadigm's RADIA and EDM products	application/vnd.novadigm.edx	edx	binary
+Novadigm's RADIA and EDM products	application/vnd.novadigm.ext	ext	binary
+OpenDocument Chart	application/vnd.oasis.opendocument.chart	odc	xml
+OpenDocument Chart Template	application/vnd.oasis.opendocument.chart-template	otc	xml
+OpenDocument Database	application/vnd.oasis.opendocument.database	odb	xml
+OpenDocument Formula	application/vnd.oasis.opendocument.formula	odf	xml
+OpenDocument Formula Template	application/vnd.oasis.opendocument.formula-template	odft	xml
+OpenDocument Graphics	application/vnd.oasis.opendocument.graphics	odg	xml
+OpenDocument Graphics Template	application/vnd.oasis.opendocument.graphics-template	otg	xml
+OpenDocument Image	application/vnd.oasis.opendocument.image	odi	xml
+OpenDocument Image Template	application/vnd.oasis.opendocument.image-template	oti	xml
+OpenDocument Presentation	application/vnd.oasis.opendocument.presentation	odp	xml
+OpenDocument Presentation Template	application/vnd.oasis.opendocument.presentation-template	otp	xml
+OpenDocument Spreadsheet	application/vnd.oasis.opendocument.spreadsheet	ods	xml
+OpenDocument Spreadsheet Template	application/vnd.oasis.opendocument.spreadsheet-template	ots	xml
+OpenDocument Text	application/vnd.oasis.opendocument.text	odt	xml
+OpenDocument Text Master	application/vnd.oasis.opendocument.text-master	odm	xml
+OpenDocument Text Template	application/vnd.oasis.opendocument.text-template	ott	xml
+Open Document Text Web	application/vnd.oasis.opendocument.text-web	oth	xml
+Sugar Linux Application Bundle	application/vnd.olpc-sugar	xo	binary
+OMA Download Agents	application/vnd.oma.dd2+xml	dd2	xml
+Open Office Extension	application/vnd.openofficeorg.extension	oxt	binary
+Microsoft Office - OOXML - Presentation	application/vnd.openxmlformats-officedocument.presentationml.presentation	pptx	xml
+Microsoft Office - OOXML - Presentation (Slide)	application/vnd.openxmlformats-officedocument.presentationml.slide	sldx	xml
+Microsoft Office - OOXML - Presentation (Slideshow)	application/vnd.openxmlformats-officedocument.presentationml.slideshow	ppsx	xml
+Microsoft Office - OOXML - Presentation Template	application/vnd.openxmlformats-officedocument.presentationml.template	potx	xml
+Microsoft Office - OOXML - Spreadsheet	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet	xlsx	xml
+Microsoft Office - OOXML - Spreadsheet Teplate	application/vnd.openxmlformats-officedocument.spreadsheetml.template	xltx	xml
+Microsoft Office - OOXML - Word Document	application/vnd.openxmlformats-officedocument.wordprocessingml.document	docx	xml
+Microsoft Office - OOXML - Word Document Template	application/vnd.openxmlformats-officedocument.wordprocessingml.template	dotx	xml
+MapGuide DBXML	application/vnd.osgeo.mapguide.package	mgp	xml
+OSGi Deployment Package	application/vnd.osgi.dp	dp	binary
+PalmOS Data	application/vnd.palm	pdb	binary
+PawaaFILE	application/vnd.pawaafile	paw	binary
+Proprietary P&G Standard Reporting System	application/vnd.pg.format	str	binary
+Proprietary P&G Standard Reporting System	application/vnd.pg.osasli	ei6	binary
+Pcsel eFIF File	application/vnd.picsel	efif	binary
+Qualcomm's Plaza Mobile Internet	application/vnd.pmi.widget	wg	binary
+PocketLearn Viewers	application/vnd.pocketlearn	plf	binary
+PowerBuilder	application/vnd.powerbuilder6	pbd	binary
+Preview Systems ZipLock/VBox	application/vnd.previewsystems.box	box	binary
+EFI Proteus	application/vnd.proteus.magazine	mgz	binary
+PubliShare Objects	application/vnd.publishare-delta-tree	qps	binary
+Princeton Video Image	application/vnd.pvi.ptid1	ptid	binary
+QuarkXpress	application/vnd.quark.quarkxpress	qxd	binary
+RealVNC	application/vnd.realvnc.bed	bed	binary
+Recordare Applications	application/vnd.recordare.musicxml	mxl	binary
+Recordare Applications	application/vnd.recordare.musicxml+xml	musicxml	xml
+CryptoNote	application/vnd.rig.cryptonote	cryptonote	binary
+Blackberry COD File	application/vnd.rim.cod	cod	binary
+RealMedia	application/vnd.rn-realmedia	rm	binary
+ROUTE 66 Location Based Services	application/vnd.route66.link66+xml	link66	xml
+SailingTracker	application/vnd.sailingtracker.track	st	binary
+SeeMail	application/vnd.seemail	see	binary
+Secured eMail	application/vnd.sema	sema	binary
+Secured eMail	application/vnd.semd	semd	binary
+Secured eMail	application/vnd.semf	semf	binary
+Shana Informed Filler	application/vnd.shana.informed.formdata	ifm	binary
+Shana Informed Filler	application/vnd.shana.informed.formtemplate	itp	binary
+Shana Informed Filler	application/vnd.shana.informed.interchange	iif	binary
+Shana Informed Filler	application/vnd.shana.informed.package	ipk	binary
+SimTech MindMapper	application/vnd.simtech-mindmapper	twd	binary
+SMAF File	application/vnd.smaf	mmf	binary
+SMART Technologies Apps	application/vnd.smart.teacher	teacher	binary
+SudokuMagic	application/vnd.solent.sdkm+xml	sdkm	xml
+TIBCO Spotfire	application/vnd.spotfire.dxp	dxp	binary
+TIBCO Spotfire	application/vnd.spotfire.sfs	sfs	binary
+StarOffice - Calc	application/vnd.stardivision.calc	sdc	binary
+StarOffice - Draw	application/vnd.stardivision.draw	sda	binary
+StarOffice - Impress	application/vnd.stardivision.impress	sdd	binary
+StarOffice - Math	application/vnd.stardivision.math	smf	binary
+StarOffice - Writer	application/vnd.stardivision.writer	sdw	binary
+StarOffice - Writer (Global)	application/vnd.stardivision.writer-global	sgl	binary
+StepMania	application/vnd.stepmania.stepchart	sm	binary
+OpenOffice - Calc (Spreadsheet)	application/vnd.sun.xml.calc	sxc	binary
+OpenOffice - Calc Template (Spreadsheet)	application/vnd.sun.xml.calc.template	stc	binary
+OpenOffice - Draw (Graphics)	application/vnd.sun.xml.draw	sxd	binary
+OpenOffice - Draw Template (Graphics)	application/vnd.sun.xml.draw.template	std	binary
+OpenOffice - Impress (Presentation)	application/vnd.sun.xml.impress	sxi	binary
+OpenOffice - Impress Template (Presentation)	application/vnd.sun.xml.impress.template	sti	binary
+OpenOffice - Math (Formula)	application/vnd.sun.xml.math	sxm	binary
+OpenOffice - Writer (Text - HTML)	application/vnd.sun.xml.writer	sxw	binary
+OpenOffice - Writer (Text - HTML)	application/vnd.sun.xml.writer.global	sxg	binary
+OpenOffice - Writer Template (Text - HTML)	application/vnd.sun.xml.writer.template	stw	binary
+ScheduleUs	application/vnd.sus-calendar	sus	binary
+SourceView Document	application/vnd.svd	svd	binary
+Symbian Install Package	application/vnd.symbian.install	sis	binary
+SyncML - Device Management	application/vnd.syncml.dm+wbxml	bdm	binary
+SyncML - Device Management	application/vnd.syncml.dm+xml	xdm	xml
+SyncML	application/vnd.syncml+xml	xsm	xml
+Tao Intent	application/vnd.tao.intent-module-archive	tao	binary
+MobileTV	application/vnd.tmobile-livetv	tmo	binary
+TRI Systems Config	application/vnd.trid.tpt	tpt	binary
+Triscape Map Explorer	application/vnd.triscape.mxs	mxs	binary
+True BASIC	application/vnd.trueapp	tra	binary
+Universal Forms Description Language	application/vnd.ufdl	ufd	binary
+User Interface Quartz - Theme (Symbian)	application/vnd.uiq.theme	utz	binary
+UMAJIN	application/vnd.umajin	umj	binary
+Unity 3d	application/vnd.unity	unityweb	binary
+Unique Object Markup Language	application/vnd.uoml+xml	uoml	xml
+VirtualCatalog	application/vnd.vcx	vcx	binary
+Microsoft Visio	application/vnd.visio	vsd	binary
+Visionary	application/vnd.visionary	vis	binary
+Viewport+	application/vnd.vsf	vsf	binary
+WAP Binary XML (WBXML)	application/vnd.wap.wbxml	wbxml	binary
+Compiled Wireless Markup Language (WMLC)	application/vnd.wap.wmlc	wmlc	binary
+WMLScript	application/vnd.wap.wmlscriptc	wmlsc	binary
+WebTurbo	application/vnd.webturbo	wtb	binary
+Mathematica Notebook Player	application/vnd.wolfram.player	nbp	binary
+Wordperfect	application/vnd.wordperfect	wpd	binary
+SundaHus WQ	application/vnd.wqd	wqd	binary
+Worldtalk	application/vnd.wt.stf	stf	binary
+CorelXARA	application/vnd.xara	xar	binary
+Extensible Forms Description Language	application/vnd.xfdl	xfdl	binary
+HV Voice Dictionary	application/vnd.yamaha.hv-dic	hvd	binary
+HV Script	application/vnd.yamaha.hv-script	hvs	binary
+HV Voice Parameter	application/vnd.yamaha.hv-voice	hvp	binary
+Open Score Format	application/vnd.yamaha.openscoreformat	osf	binary
+OSFPVG	application/vnd.yamaha.openscoreformat.osfpvg+xml	osfpvg	xml
+SMAF Audio	application/vnd.yamaha.smaf-audio	saf	binary
+SMAF Phrase	application/vnd.yamaha.smaf-phrase	spf	binary
+CustomMenu	application/vnd.yellowriver-custom-menu	cmp	binary
+Z.U.L. Geometry	application/vnd.zul	zir	binary
+Zzazz Deck	application/vnd.zzazz.deck+xml	zaz	xml
+VoiceXML	application/voicexml+xml	vxml	xml
+Widget Packaging and XML Configuration	application/widget	wgt	binary
+WinHelp	application/winhlp	hlp	binary
+WSDL - Web Services Description Language	application/wsdl+xml	wsdl	xml
+Web Services Policy	application/wspolicy+xml	wspolicy	xml
+7-Zip	application/x-7z-compressed	7z	binary
+AbiWord	application/x-abiword	abw	binary
+Ace Archive	application/x-ace-compressed	ace	binary
+Adobe (Macropedia) Authorware - Binary File	application/x-authorware-bin	aab	binary
+Adobe (Macropedia) Authorware - Map	application/x-authorware-map	aam	binary
+Adobe (Macropedia) Authorware - Segment File	application/x-authorware-seg	aas	binary
+Binary CPIO Archive	application/x-bcpio	bcpio	binary
+BitTorrent	application/x-bittorrent	torrent	binary
+Bzip Archive	application/x-bzip	bz	binary
+Bzip2 Archive	application/x-bzip2	bz2	binary
+Video CD	application/x-cdlink	vcd	binary
+pIRCh	application/x-chat	chat	binary
+Portable Game Notation (Chess Games)	application/x-chess-pgn	pgn	binary
+CPIO Archive	application/x-cpio	cpio	binary
+C Shell Script	application/x-csh	csh	binary
+Debian Package	application/x-debian-package	deb	binary
+Adobe Shockwave Player	application/x-director	dir	binary
+Doom Video Game	application/x-doom	wad	binary
+Navigation Control file for XML (for ePub)	application/x-dtbncx+xml	ncx	xml
+Digital Talking Book	application/x-dtbook+xml	dtb	xml
+Digital Talking Book - Resource File	application/x-dtbresource+xml	res	xml
+Device Independent File Format (DVI)	application/x-dvi	dvi	binary
+Glyph Bitmap Distribution Format	application/x-font-bdf	bdf	binary
+Ghostscript Font	application/x-font-ghostscript	gsf	binary
+PSF Fonts	application/x-font-linux-psf	psf	binary
+OpenType Font File	application/x-font-otf	otf	binary
+Portable Compiled Format	application/x-font-pcf	pcf	binary
+Server Normal Format	application/x-font-snf	snf	binary
+TrueType Font	application/x-font-ttf	ttf	binary
+PostScript Fonts	application/x-font-type1	pfa	binary
+Web Open Font Format	application/x-font-woff	woff	binary
+FutureSplash Animator	application/x-futuresplash	spl	binary
+Gnumeric	application/x-gnumeric	gnumeric	binary
+GNU Tar Files	application/x-gtar	gtar	binary
+Hierarchical Data Format	application/x-hdf	hdf	binary
+Java Network Launching Protocol	application/x-java-jnlp-file	jnlp	binary
+LaTeX	application/x-latex	latex	text
+Mobipocket	application/x-mobipocket-ebook	prc	binary
+Microsoft ClickOnce	application/x-ms-application	application	binary
+Microsoft Windows Media Player Download Package	application/x-ms-wmd	wmd	binary
+Microsoft Windows Media Player Skin Package	application/x-ms-wmz	wmz	binary
+Microsoft XAML Browser Application	application/x-ms-xbap	xbap	binary
+Microsoft Access	application/x-msaccess	mdb	binary
+Microsoft Office Binder	application/x-msbinder	obd	binary
+Microsoft Information Card	application/x-mscardfile	crd	binary
+Microsoft Clipboard Clip	application/x-msclip	clp	binary
+Microsoft Application	application/x-msdownload	exe	binary
+Microsoft MediaView	application/x-msmediaview	mvb	binary
+Microsoft Windows Metafile	application/x-msmetafile	wmf	binary
+Microsoft Money	application/x-msmoney	mny	binary
+Microsoft Publisher	application/x-mspublisher	pub	binary
+Microsoft Schedule+	application/x-msschedule	scd	binary
+Microsoft Windows Terminal Services	application/x-msterminal	trm	binary
+Microsoft Wordpad	application/x-mswrite	wri	binary
+Network Common Data Form (NetCDF)	application/x-netcdf	nc	binary
+PKCS #12 - Personal Information Exchange Syntax Standard	application/x-pkcs12	p12	binary
+PKCS #7 - Cryptographic Message Syntax Standard (Certificates)	application/x-pkcs7-certificates	p7b	binary
+PKCS #7 - Cryptographic Message Syntax Standard (Certificate Request Response)	application/x-pkcs7-certreqresp	p7r	binary
+RAR Archive	application/x-rar-compressed	rar	binary
+Bourne Shell Script	application/x-sh	sh	text
+Shell Archive	application/x-shar	shar	binary
+Adobe Flash	application/x-shockwave-flash	swf	binary
+Microsoft Silverlight	application/x-silverlight-app	xap	binary
+Stuffit Archive	application/x-stuffit	sit	binary
+Stuffit Archive	application/x-stuffitx	sitx	binary
+System V Release 4 CPIO Archive	application/x-sv4cpio	sv4cpio	binary
+System V Release 4 CPIO Checksum Data	application/x-sv4crc	sv4crc	binary
+Tar File (Tape Archive)	application/x-tar	tar	binary
+Tcl Script	application/x-tcl	tcl	text
+TeX	application/x-tex	tex	binary
+TeX Font Metric	application/x-tex-tfm	tfm	binary
+GNU Texinfo Document	application/x-texinfo	texinfo	binary
+Ustar (Uniform Standard Tape Archive)	application/x-ustar	ustar	binary
+WAIS Source	application/x-wais-source	src	binary
+X.509 Certificate	application/x-x509-ca-cert	der	binary
+Xfig	application/x-xfig	fig	binary
+XPInstall - Mozilla	application/x-xpinstall	xpi	binary
+XML Configuration Access Protocol - XCAP Diff	application/xcap-diff+xml	xdf	xml
+XML Encryption Syntax and Processing	application/xenc+xml	xenc	xml
+XHTML - The Extensible HyperText Markup Language	application/xhtml+xml	xhtml	xml
+XML - Extensible Markup Language	application/xml	xml	binary
+Document Type Definition	application/xml-dtd	dtd	binary
+XML-Binary Optimized Packaging	application/xop+xml	xop	xml
+XML Transformations	application/xslt+xml	xslt	xml
+XSPF - XML Shareable Playlist Format	application/xspf+xml	xspf	xml
+MXML	application/xv+xml	mxml	xml
+YANG Data Modeling Language	application/yang	yang	binary
+YIN (YANG - XML)	application/yin+xml	yin	xml
+Zip Archive	application/zip	zip	binary
+Sun Audio - Au file format	audio/basic	au	binary
+MIDI - Musical Instrument Digital Interface	audio/midi	mid	binary
+MPEG-4 Audio	audio/mp4	mp4a	binary
+MPEG Audio	audio/mpeg	mpga	binary
+Ogg Audio	audio/ogg	oga	binary
+DECE Audio	audio/vnd.dece.audio	uva	binary
+Digital Winds Music	audio/vnd.digital-winds	eol	binary
+DRA Audio	audio/vnd.dra	dra	binary
+DTS Audio	audio/vnd.dts	dts	binary
+DTS High Definition Audio	audio/vnd.dts.hd	dtshd	binary
+Lucent Voice	audio/vnd.lucent.voice	lvp	binary
+Microsoft PlayReady Ecosystem	audio/vnd.ms-playready.media.pya	pya	binary
+Nuera ECELP 4800	audio/vnd.nuera.ecelp4800	ecelp4800	binary
+Nuera ECELP 7470	audio/vnd.nuera.ecelp7470	ecelp7470	binary
+Nuera ECELP 9600	audio/vnd.nuera.ecelp9600	ecelp9600	binary
+Hit'n'Mix	audio/vnd.rip	rip	binary
+Open Web Media Project - Audio	audio/webm	weba	binary
+Advanced Audio Coding (AAC)	audio/x-aac	aac	binary
+Audio Interchange File Format	audio/x-aiff	aif	binary
+M3U (Multimedia Playlist)	audio/x-mpegurl	m3u	binary
+Microsoft Windows Media Audio Redirector	audio/x-ms-wax	wax	binary
+Microsoft Windows Media Audio	audio/x-ms-wma	wma	binary
+Real Audio Sound	audio/x-pn-realaudio	ram	binary
+Real Audio Sound	audio/x-pn-realaudio-plugin	rmp	binary
+Waveform Audio File Format (WAV)	audio/x-wav	wav	binary
+ChemDraw eXchange file	chemical/x-cdx	cdx	text
+Crystallographic Interchange Format	chemical/x-cif	cif	text
+CrystalMaker Data Format	chemical/x-cmdf	cmdf	text
+Chemical Markup Language	chemical/x-cml	cml	text
+Chemical Style Markup Language	chemical/x-csml	csml	text
+XYZ File Format	chemical/x-xyz	xyz	text
+Bitmap Image File	image/bmp	bmp	binary
+Computer Graphics Metafile	image/cgm	cgm	binary
+G3 Fax Image	image/g3fax	g3	binary
+Graphics Interchange Format	image/gif	gif	binary
+Image Exchange Format	image/ief	ief	binary
+JPEG Image	image/jpeg	jpeg	binary
+OpenGL Textures (KTX)	image/ktx	ktx	binary
+Portable Network Graphics (PNG)	image/png	png	binary
+BTIF	image/prs.btif	btif	binary
+Scalable Vector Graphics (SVG)	image/svg+xml	svg	xml
+Tagged Image File Format	image/tiff	tiff	binary
+Photoshop Document	image/vnd.adobe.photoshop	psd	binary
+DECE Graphic	image/vnd.dece.graphic	uvi	binary
+DjVu	image/vnd.djvu	djvu	binary
+Close Captioning - Subtitle	image/vnd.dvb.subtitle	sub	binary
+DWG Drawing	image/vnd.dwg	dwg	binary
+AutoCAD DXF	image/vnd.dxf	dxf	binary
+FastBid Sheet	image/vnd.fastbidsheet	fbs	binary
+FlashPix	image/vnd.fpx	fpx	binary
+FAST Search & Transfer ASA	image/vnd.fst	fst	binary
+EDMICS 2000	image/vnd.fujixerox.edmics-mmr	mmr	binary
+EDMICS 2000	image/vnd.fujixerox.edmics-rlc	rlc	binary
+Microsoft Document Imaging Format	image/vnd.ms-modi	mdi	binary
+FlashPix	image/vnd.net-fpx	npx	binary
+WAP Bitamp (WBMP)	image/vnd.wap.wbmp	wbmp	binary
+eXtended Image File Format (XIFF)	image/vnd.xiff	xif	binary
+WebP Image	image/webp	webp	binary
+CMU Image	image/x-cmu-raster	ras	binary
+Corel Metafile Exchange (CMX)	image/x-cmx	cmx	binary
+FreeHand MX	image/x-freehand	fh	binary
+Icon Image	image/x-icon	ico	binary
+PCX Image	image/x-pcx	pcx	binary
+PICT Image	image/x-pict	pic	binary
+Portable Anymap Image	image/x-portable-anymap	pnm	binary
+Portable Bitmap Format	image/x-portable-bitmap	pbm	binary
+Portable Graymap Format	image/x-portable-graymap	pgm	binary
+Portable Pixmap Format	image/x-portable-pixmap	ppm	binary
+Silicon Graphics RGB Bitmap	image/x-rgb	rgb	binary
+X BitMap	image/x-xbitmap	xbm	binary
+X PixMap	image/x-xpixmap	xpm	binary
+X Window Dump	image/x-xwindowdump	xwd	binary
+Email Message	message/rfc822	eml	text
+Initial Graphics Exchange Specification (IGES)	model/iges	igs	binary
+Mesh Data Type	model/mesh	msh	binary
+COLLADA	model/vnd.collada+xml	dae	xml
+Autodesk Design Web Format (DWF)	model/vnd.dwf	dwf	binary
+Geometric Description Language (GDL)	model/vnd.gdl	gdl	binary
+Gen-Trix Studio	model/vnd.gtw	gtw	binary
+Virtue MTS	model/vnd.mts	mts	binary
+Virtue VTU	model/vnd.vtu	vtu	binary
+Virtual Reality Modeling Language	model/vrml	wrl	xml
+iCalendar	text/calendar	ics	text
+Cascading Style Sheets (CSS)	text/css	css	text
+Comma-Seperated Values	text/csv	csv	text
+HyperText Markup Language (HTML)	text/html	html	text
+Notation3	text/n3	n3	text
+Text File	text/plain	txt	text
+BAS Partitur Format	text/plain-bas	par	text
+PRS Lines Tag	text/prs.lines.tag	dsc	text
+Rich Text Format (RTF)	text/richtext	rtx	text
+Standard Generalized Markup Language (SGML)	text/sgml	sgml	text
+Tab Seperated Values	text/tab-separated-values	tsv	text
+troff	text/troff	t	text
+Turtle (Terse RDF Triple Language)	text/turtle	ttl	text
+URI Resolution Services	text/uri-list	uri	text
+Curl - Applet	text/vnd.curl	curl	text
+Curl - Detached Applet	text/vnd.curl.dcurl	dcurl	text
+Curl - Manifest File	text/vnd.curl.mcurl	mcurl	text
+Curl - Source Code	text/vnd.curl.scurl	scurl	text
+mod_fly / fly.cgi	text/vnd.fly	fly	text
+FLEXSTOR	text/vnd.fmi.flexstor	flx	text
+Graphviz	text/vnd.graphviz	gv	text
+In3D - 3DML	text/vnd.in3d.3dml	3dml	text
+In3D - 3DML	text/vnd.in3d.spot	spot	text
+J2ME App Descriptor	text/vnd.sun.j2me.app-descriptor	jad	text
+Wireless Markup Language (WML)	text/vnd.wap.wml	wml	text
+Wireless Markup Language Script (WMLScript)	text/vnd.wap.wmlscript	wmls	text
+Assembler Source File	text/x-asm	s	text
+C Source File	text/x-c	c	text
+Fortran Source File	text/x-fortran	f	text
+Java Source File	text/x-java-source	java	text
+Pascal Source File	text/x-pascal	p	text
+Setext	text/x-setext	etx	text
+UUEncode	text/x-uuencode	uu	text
+vCalendar	text/x-vcalendar	vcs	text
+vCard	text/x-vcard	vcf	binary
+3GP	video/3gpp	3gp	binary
+3GP2	video/3gpp2	3g2	binary
+H.261	video/h261	h261	binary
+H.263	video/h263	h263	binary
+H.264	video/h264	h264	binary
+JPGVideo	video/jpeg	jpgv	binary
+JPEG 2000 Compound Image File Format	video/jpm	jpm	binary
+Motion JPEG 2000	video/mj2	mj2	binary
+MPEG-4 Video	video/mp4	mp4	binary
+MPEG Video	video/mpeg	mpeg	binary
+Ogg Video	video/ogg	ogv	binary
+Quicktime Video	video/quicktime	qt	binary
+DECE High Definition Video	video/vnd.dece.hd	uvh	binary
+DECE Mobile Video	video/vnd.dece.mobile	uvm	binary
+DECE PD Video	video/vnd.dece.pd	uvp	binary
+DECE SD Video	video/vnd.dece.sd	uvs	binary
+DECE Video	video/vnd.dece.video	uvv	binary
+FAST Search & Transfer ASA	video/vnd.fvt	fvt	binary
+MPEG Url	video/vnd.mpegurl	mxu	binary
+Microsoft PlayReady Ecosystem Video	video/vnd.ms-playready.media.pyv	pyv	binary
+DECE MP4	video/vnd.uvvu.mp4	uvu	binary
+Vivo	video/vnd.vivo	viv	binary
+Open Web Media Project - Video	video/webm	webm	binary
+Flash Video	video/x-f4v	f4v	binary
+FLI/FLC Animation Format	video/x-fli	fli	binary
+Flash Video	video/x-flv	flv	binary
+M4v	video/x-m4v	m4v	binary
+Microsoft Advanced Systems Format (ASF)	video/x-ms-asf	asf	binary
+Microsoft Windows Media	video/x-ms-wm	wm	binary
+Microsoft Windows Media Video	video/x-ms-wmv	wmv	binary
+Microsoft Windows Media Audio/Video Playlist	video/x-ms-wmx	wmx	binary
+Microsoft Windows Media Video Playlist	video/x-ms-wvx	wvx	binary
+Audio Video Interleave (AVI)	video/x-msvideo	avi	binary
+SGI Movie	video/x-sgi-movie	movie	binary
+CoolTalk	x-conference/x-cooltalk	ice	binary
+
