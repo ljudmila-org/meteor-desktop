@@ -1,16 +1,13 @@
-ContentStore
-============
+##ContentStore
 
 Stores arbitrary content in hashed directories in the file system, avoiding duplication.
 
-Synopsis
-========
+###Synopsis
     ContentStore.write(['userdocs',title],content);
     var data = ContentStore.read('example.png');
     ContentStore.remove({any:'thing',can:'be',an:'address'};
 
-API
-===
+###API
 ####`ContentStore.write(address,content)`
 Save the content, add a reference to it. Returns the ContentStore record, the most interesting fields being `.size` and `.content_encoding`.
 
