@@ -1,6 +1,6 @@
-function windowID (wid,user) {
+function windowID (wid,userId) {
   var w = UserWindows.findOne(wid);
-  return w && w.owner === user._id;
+  return w && w.owner === userId;
 }
 
 Actions({
@@ -9,7 +9,7 @@ Actions({
     args: {
       url: /^https?:\/\/.+/
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       var app = Apps.findOne({url:args.url});
       if (app) var id = app._id;
       else var id = Apps.insert({url:args.url,scraping:true});
@@ -28,7 +28,7 @@ Actions({
     args: {
       aid: Apps
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       Apps.remove(args.aid);
     }
   },
@@ -37,8 +37,8 @@ Actions({
     args: {
       aid: Apps
     },
-    action: function(args,user) {
-      var w = UserWindows.findOne({'app._id':args.aid,owner:user._id});
+    action: function(args,userId) {
+      var w = UserWindows.findOne({'app._id':args.aid,owner:userId});
       if (!w) {
         Actions.window_create({aid:args.aid});
       } else {

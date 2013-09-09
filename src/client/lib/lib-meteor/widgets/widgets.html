@@ -39,6 +39,18 @@
   <input type="text" placeholder="{{placeholder}}" class="widget widget-input" name="{{name}}" value="{{value}}">
 </template>
 
+<template name="upload_file">
+  <div class="widget widget-upload-file" name="{{name}}">
+    <button>
+      {{#if right}}<i class="icon-{{right}} right-icon"></i>{{/if}}
+      {{#if icon}}<i class="icon-{{icon}} left-icon"></i> {{/if}}
+      <span class="text">{{#if prefix}}{{prefix}} {{/if}}<span class="text-main">{{text}}</span>{{#if suffix}} {{suffix}}{{/if}}</span>
+    </button>
+    <input type="file" class="widget-upload-file-input" accept="{{accept}}">
+  </div>
+</template>
+
+
 <template name="button">
   <button class="widget widget-button" name="{{name}}">
     {{#if right}}<i class="icon-{{right}} right-icon"></i>{{/if}}

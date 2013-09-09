@@ -43,15 +43,16 @@ var deleteHashFile = function(hash) {
 
 function encode(data) {
   if (typeof data == 'string') return {data: new Buffer(data,'utf8'), encoding: 'text'};
-  if (data instanceof Buffer)  return {data: data, encoding: 'binary'}
-  return {data: new Buffer(JSON.stringify(data),'utf8'), encoding: 'json'}
+  if (data instanceof Uint8Array)  return {data: new Buffer(data), encoding: 'binary'};
+  if (_.isObject(data)) return {data: new Buffer(JSON.stringify(data),'utf8'), encoding: 'json'};
+  throw('bad content '+String(data));
 }
 
 function decode(data, encoding) {
   switch(encoding) {
     case 'text': return data.toString('utf8');
-    case 'binary': return data;
-    case 'json': JSON.parse(data.toString('utf8'));
+    case 'binary': return data.toString('binary');
+    case 'json': return JSON.parse(data.toString('utf8'));
   }
 }
 
@@ -79,7 +80,7 @@ ContentStore = {
     var content_hash = md5(enc.data);
     writeHashFile(content_hash,enc.data);
     var size = enc.data.length;
-    console.log('writing',address,address_hash);
+    console.log('writing',address,address_hash,enc.data);
     var olddoc = Hashes.findOne({address_hash:address_hash});
     if (olddoc) {  
       console.log('olddoc',olddoc);  
@@ -89,7 +90,7 @@ ContentStore = {
       for (var i in changes) olddoc[i] = changes[i];
       return olddoc;
     } else {
-      var newdoc = { _id: Meteor.uuid(), address_hash:address_hash, content_hash:content_hash,size:size,content_encoding:enc.encoding};
+      var newdoc = { _id: Meteor.uuid(), address:address, address_hash:address_hash, content_hash:content_hash,size:size,content_encoding:enc.encoding};
       Hashes.insert(newdoc);
       return newdoc;
     }
@@ -100,6 +101,7 @@ ContentStore = {
     if (!h) return h;
     var data = readHashFile(h.content_hash);
     h.content = decode(data,h.content_encoding);
+    console.log('read data',h.content);
     return h;
   },
   remove: function(address) {

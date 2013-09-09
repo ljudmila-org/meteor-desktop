@@ -77,5 +77,72 @@ Template.button_dropdown.events({
     var $dd = $ch.closest('.widget');
     var val = $ch.attr('data-value');
     $dd.fire('select',{value:val});
+    e.stopPropagation();
   },
 });
+
+Template.upload_file.events({
+  'mousedown button': function(e,t) {
+    t.find('.widget-upload-file-input').click();
+  },
+  'change .widget-upload-file-input': function(e,t) {
+  
+    var el = e.target;
+    var wg = $(e.target).closest('.widget').get(0);
+    var file = el.files[0];
+    if (!file) return;
+    
+    var data = {file:file};
+      
+    var accept = _.unique(el.accept.trim().split(/\s*,\s*/));
+    console.log('*** UPLOADED',file.type,accept);
+    
+    
+    if (file.type) {
+      if (accept.indexOf(file.type)<0) {
+        data.error = 'bad type';
+        $(wg).fire('upload-error',{originalEvent:e,upload:data});
+        $(wg).fire('upload-end',{originalEvent:e,upload:data});
+        return;
+      }
+      var type = file.type;
+    } else {
+      if (accept.length>1) {
+        data.error = 'ambiguous type';
+        $(wg).fire('upload-error',{originalEvent:e,upload:data});
+        $(wg).fire('upload-end',{originalEvent:e,upload:data});
+        return;
+      }
+      var type = accept[0];
+    }
+    
+    data.mime = mime(type);
+    console.log(data.mime,data.mime.enc);
+    
+    var fr = new FileReader();
+    fr.onload = function() {
+      if (data.mime.enc == 'binary') data.content = Uint8Array(fr.result);
+      else if (data.mime.enc == 'json') data.content = JSON.parse(fr.result);
+      else data.content = fr.result;
+      console.log(typeof (data.content));
+      $(wg).fire('upload-done',{originalEvent:e,upload:data});
+      $(wg).fire('upload-end',{originalEvent:e,upload:data});
+    }
+    fr.onerror = function(e) {
+      data.error = e.error;
+      $(wg).fire('upload-error',{originalEvent:e,upload:data});
+      $(wg).fire('upload-end',{originalEvent:e,upload:data});
+    }
+    
+    switch(mime.enc) { 
+    case 'text': 
+    case 'xml': 
+    case 'json': 
+      fr.readAsText(file); break;
+    default:
+      fr.readAsBinaryString(file); break;
+    }
+  }
+});
+
+Template.upload_file.preserve(['.widget','input']);

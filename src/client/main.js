@@ -2,7 +2,7 @@ Meteor.startup(function() {
   document.addEventListener('contextmenu',function(e){
     if(e.target.tagName=='INPUT' || e.target.tagName=='TEXTAREA') return;
     $(':focus').eq(0).blur();
-    e.preventDefault();
+    //e.preventDefault();
   },true);
  
   document.addEventListener('mousedown',function(e){

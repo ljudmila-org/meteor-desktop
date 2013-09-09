@@ -1,3 +1,4 @@
+
 if (Meteor.isClient) {
   $(self).on('beforeunload', function(){ 
   	Actions.window_doc_autosave_all();
@@ -9,9 +10,13 @@ if (Meteor.isClient) {
   },120000);
 };
 
-function windowID (wid,user) {
+function windowID (wid,userId) {
   var w = UserWindows.findOne(wid);
-  return w && w.owner === user._id;
+  return w && w.owner === userId;
+}
+
+var alert = function(wid,message,details) {
+  Actions.window_console_alert({wid:wid,message:message,details:details||''});
 }
 
 Actions({
@@ -20,11 +25,11 @@ Actions({
     args: {
       aid: Apps
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       var app = Apps.findOne(args.aid);
       var wid = UserWindows.insert({
         app: app,
-        owner: user._id,
+        owner: userId,
         mdate: Date.now(),
         cdate: Date.now(),
         maximized: false,
@@ -42,7 +47,7 @@ Actions({
   window_duplicate: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       var w = UserWindows.findOne(args.wid);
       Actions.window_create({aid:w.app._id});
     },
@@ -50,14 +55,14 @@ Actions({
   window_remove: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.remove(args.wid);
     },
   },
   window_open: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.set(args.wid,{closed:false,hidden:false,mdate:Date.now()});
       Actions.window_touch({wid:args.wid});
     },
@@ -65,7 +70,7 @@ Actions({
   window_close: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       var w = UserWindows.findOne(args.wid);
       if (w.closed) return;
       function close() {
@@ -75,7 +80,7 @@ Actions({
       
       if (w.doc) {
         AppServer.send(args.wid,'doc_save',{type:w.doc.type},function(err,res) {
-          if (err) return Actions.window_console_alert({wid:args.wid,message:err});
+          if (err) return alert(args.wid,"Application couldn't save",err);
           UserWindows.set(args.wid,'doc.content',res);
           close();
         });
@@ -94,7 +99,7 @@ Actions({
       doclist: {types:{}},
       doc: false
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       var set = {};
       if ('x' in args) set.x = args.x;
       if ('y' in args) set.y = args.y;
@@ -106,21 +111,21 @@ Actions({
   window_maximize: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.set(args.wid,{maximized:true});
     },
   },
   window_normalize: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.set(args.wid,{maximized:false});
     },
   },
   window_hide: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       Actions.window_to_back({wid:args.wid});
       UserWindows.set(args.wid,{hidden:true});
     },
@@ -128,26 +133,30 @@ Actions({
   window_unhide: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.set(args.wid,{hidden:false});
       Actions.window_touch({wid:args.wid});
     },
   },
   window_touch: {
+    silent:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
+      var topz = Users.get(userId,'state').z;
+      var thisz = UserWindows.get(args.wid,'z');
+      if (topz == thisz) return;
       var h = UserWindows.findOne({closed:false,hidden:false},{sort:{z:-1}});
       if (!h) return;
       var z = h.z;
       var z = ( h.z | 0 ) + 1;
       UserWindows.update(args.wid,{$set:{z:z}});
-      Users.update(user._id,{$set:{'state.z':z}});
+      Users.set(userId,'state.z',z);
     },
   },
   window_to_back: {
     local: true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       var l = UserWindows.findOne({},{sort:{z:1}});
       if (l._id == args.wid) return;
       var z = ( l.z | 0 ) - 1;
@@ -159,7 +168,7 @@ Actions({
   window_reload: {
     local: true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       var w = UserWindows.findOne(args.wid);
       $('iframe[name='+args.wid+']').attr('src',w.app.url);
     },
@@ -167,28 +176,28 @@ Actions({
   window_docs_show: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.set(args.wid,'pane','documents');
     },
   },
   window_docinfo_show: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.set(args.wid,'pane','docinfo');
     },
   },
   window_pane_hide: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.set(args.wid,'pane','none');
     },
   },
   window_docs_enable: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.set(args.wid,{docs_enabled:true, 'doclist.types':args.types,'doclist.type':'supported'});
       if (Meteor.isServer) return;
       var doc = UserWindows.get(args.wid,'doc');
@@ -205,14 +214,14 @@ Actions({
   window_console_show: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.set(args.wid,'console.show',true);
     },
   },
   window_console_hide: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.set(args.wid,'console.show',false);
     },
   },
@@ -221,28 +230,11 @@ Actions({
     args: { 
       wid: windowID,
       message: 'any',
+      details: 'any'
     },
-    action: function(args,user) {
-      var msg = args.message;
-      var out = {};
-      switch (typeof msg) {
-      case 'string': out = {message:msg}; break;
-      case 'number': out = {status:msg}; break;
-      case 'object':         
-        if (_.isArray(msg)) {
-          var map = { number: 'status',string: 'message', object: 'details'};
-          msg.slice(0,3).forEach(function(n){ 
-            var a = map[typeof[n]];
-            if (a) out[a] = n;
-          })
-        } else {
-          var out = { status: 0 | msg.status, message: String(msg.message), details: _.isObject(msg.details) && msg.details };
-        }
-        break;
-      default: out.message = String(msg.message);
-      }
+    action: function(args,userId) {
       var mid = Meteor.uuid();
-      out = { status: out.status || 100, message: out.message || '...', details: out.details || {}, _id: mid, date: Date.now()};
+      var out = { details: args.details, message: String(args.message && args.message.message || args.message), _id: mid, date: Date.now()};
       UserWindows.set(args.wid,'console.log.'+mid,out);   
     },
   },
@@ -251,8 +243,10 @@ Actions({
     args: { 
       wid: windowID,
       message: 'any',
+      details: 'any',
     },
-    action: function(args,user) {
+    action: function(args,userId) {
+      console.log('ERROR',args);
       Actions.window_console_log(args);
       Actions.window_console_show({wid:args.wid});
     },
@@ -263,7 +257,7 @@ Actions({
       wid: windowID,
       mid: String,
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.unset(args.wid,'console.log.'+args.mid);   
       var l = UserWindows.get(args.wid,'console').log;
       if (!l || !Object.keys(l).length) UserWindows.set(args.wid,'console.show',false);
@@ -272,7 +266,7 @@ Actions({
   window_docs_disable: {
     local:true,
     args: { wid: windowID },
-    action: function(args,user) {
+    action: function(args,userId) {
       UserWindows.set(args.wid,{docs_enabled:false, docs_types:[]});
     },
   },
@@ -282,9 +276,12 @@ Actions({
       wid: windowID,
       docid: String,
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       Actions.doc_open({docid:args.docid},function(err,res) {
         if (err) return Actions.window_console_alert({wid:args.wid,message:err});
+        console.log('opened',res);
+        var types = UserWindows.get(args.wid,'doclist').types;
+        if (types.open.indexOf(res.type)<0) return alert(args.wid,'Application cannot open '+res.type,':'+types.open.join(','));
         Actions.window_doc_set({wid:args.wid,doc:res});
         Actions.window_pane_hide({wid:args.wid});
       });
@@ -296,23 +293,11 @@ Actions({
       wid: windowID,
       type: String
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       AppServer.send(args.wid,'doc_new',{type:args.type},function(err,res) {
         var title = res.title += ' ' + moment().format('YYYY-MM-DD hh:mm:ss');
         if (err) return Actions.window_console_alert({wid:args.wid,message:err});
-        Actions.doc_new({
-          type: args.type,
-          content: res.content,
-          title: res.title
-        },function(err,res) {
-          if (err) return Actions.window_console_alert({wid:args.wid,message:err});
-          Actions.window_doc_set({wid:args.wid,doc:res});
-          Actions.window_docinfo_show({wid:args.wid});
-          var sel = '#window-'+args.wid +' input.docinfo-title';
-          $(sel).val(res.title);
-          $(sel).focus();
-          $(sel).select();
-        });
+        Actions.window_doc_set({wid:args.wid, doc:{owner:userId, title: res.title, type: args.type, content: res.content}});
       })
     }
   },
@@ -322,11 +307,11 @@ Actions({
       wid: windowID,
       type: String
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       var doc = UserWindows.get(args.wid,'doc');
       if (!doc) return;
       AppServer.send(args.wid,'doc_save',{type:args.type},function(err,res) {
-        if (err) return Actions.window_console_alert({wid:args.wid,message:err});
+        if (err) return alert(args.wid,"Application couldn't save",err);
         var ins = {
           content: res,
           type: args.type,
@@ -349,7 +334,7 @@ Actions({
       wid: windowID,
       type: String
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       var doc = UserWindows.get(args.wid,'doc');
       if (!doc) return;
       AppServer.send(args.wid,'doc_save',{type:args.type},function(err,res) {
@@ -372,11 +357,12 @@ Actions({
     args: {
       wid: windowID,
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       var doc = UserWindows.findOne(args.wid).doc;
       if (!doc) return;
       AppServer.send(args.wid,'doc_save',{type:doc.type},function(err,res) {
-        Actions.doc_save({docid: doc._id,content:res},function(err,res){
+        if (err) return alert(args.wid,"Application couldn't save",err);
+        Actions.doc_save({owner: doc.owner,title:doc.title,type:doc.type,content:res},function(err,res){
           if (err) return console.log(err);
           UserWindows.set(args.wid,'doc',res);
         });
@@ -388,11 +374,11 @@ Actions({
     args: {
       wid: windowID,
     },
-    action: function(args,user,cb) {
+    action: function(args,userId,cb) {
       var doc = UserWindows.findOne(args.wid).doc;
       if (doc) {
         AppServer.send(args.wid,'doc_save',{type:doc.type},function(err,res) {
-          if (err) return Actions.window_console_alert(err);
+          if (err) return Actions.window_console_alert({wid:args.wid,message:err});
           UserWindows.set(args.wid,'doc.content',res);
           cb && cb(null,res);
         });
@@ -403,7 +389,7 @@ Actions({
   },
   window_doc_autosave_all: {
     local: true,
-    action: function(args,user,cb) {
+    action: function(args,userId,cb) {
       var count = 0;
       var errs = [];
       UserWindows.find({'doc':{$type:3},closed:false}).forEach(function(n) {
@@ -425,7 +411,7 @@ Actions({
       docid: String,
       title: String
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       Actions.doc_rename({docid:args.docid,title:args.title},function(err,res) {
         if (err) return Actions.window_console_alert({wid:args.wid,message:err});
         UserWindows.set(args.wid,'doc.title',res.title);
@@ -438,10 +424,12 @@ Actions({
       wid: windowID,
       doc: Object,
     },
-    action: function(args,user) {
-      console.log('docset',args);
+    action: function(args,userId) {
       UserWindows.set(args.wid,'doc',args.doc);
-      AppServer.send(args.wid,'doc_open',{content:args.doc.content,type:args.doc.type});
+      console.log('docset',args);
+      AppServer.send(args.wid,'doc_open',{content:args.doc.content,type:args.doc.type},function(err,res) {
+        if (err) return Actions.window_console_alert({wid:args.wid,message:err});
+      });
     }
   },
 })

@@ -13,13 +13,13 @@ Actions = function(obj) {
 Actions._defs = {};
 
 Actions._call = function(name,args,cb) {
-  console.log('ACTION',name,args);
   try {
-    var user = Users.findOne(Meteor.userId());
+    var userId =Meteor.userId();
     var a = Actions._defs[name];
+    if (!a.silent) console.log((a.remote ? 'REMOTE ':'')+'ACTION',name);
     if (!a) throw new Meteor.Error(400,'bad action name '+name);
-    if (!match(user,a.args,args)) throw new Meteor.Error(400,'bad args for action '+name,args);
-    return a.action(args,user,cb);
+    if (!match(userId,a.args,args)) throw new Meteor.Error(400,'bad args for action '+name+' << '+JSON.stringify(args) + '>>');
+    return a.action(args,userId,cb);
   } catch (err) {
     console.log('ERROR IN ACTION',name,err.stack||err);
     throw err;
@@ -38,13 +38,12 @@ Meteor.methods({
 if (Meteor.isServer) {
   Meteor.methods({
     action_remote: function(name,args) {
-      console.log('REMOTE ACTION',name,args);
       return Actions._call(name,args);
     },
   });
 } 
 
-function match(user,p,v) {
+function match(userId,p,v) {
   switch (p) {
     case 'any': return true;
     case String: 
@@ -60,9 +59,9 @@ function match(user,p,v) {
     case null:
     case 'null': return v === null;
   }
-  if (typeof(p) === 'function')           return p(v,user);
+  if (typeof(p) === 'function')           return p(v,userId);
   if (p instanceof RegExp)                return typeof(v)==='string' && v.match(p);
-  if (Array.isArray(p) && p.length == 1)  return Array.isArray(v) && v.every(match.bind(this,user,p[0]));
-  if (p && p.constructor === Object)      return v && v.constructor === Object && _.every(v,function(vv,i) { return !(i in p) || match(user,p[i],vv) });
-  if (p instanceof Meteor.Collection)     return !!p.findOne(v);
+  if (Array.isArray(p) && p.length == 1)  return Array.isArray(v) && v.every(match.bind(this,userId,p[0]));
+  if (p && p.constructor === Object)      return v && v.constructor === Object && _.every(v,function(vv,i) { return !(i in p) || match(userId,p[i],vv) });
+  return true;
 }

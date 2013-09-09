@@ -71,7 +71,6 @@ DocStore = {
       } else {
         for (var i in keys) if (keys[i] in f) ret[keys[i]] = f[keys[i]];
       }
-      console.log('_fields',f,ret);
       return ret;
     }
 
@@ -83,7 +82,6 @@ DocStore = {
     function address(f) {
       var af = afields(f);
       var aj = JSON.stringify(af);
-      console.log('address',f,af,aj);
       return md5(aj);
     }
 
@@ -122,7 +120,6 @@ DocStore = {
         return Meteor.publish(name,function() {
           var f = userFilter(this.userId,'stat');
           f = {$and:[f,filter||{}]};
-          console.log('filter',f);
           return Store.find(f, {fields:{address:0}});
         })
       },
@@ -133,6 +130,7 @@ DocStore = {
         var doc = this.stat(userId,af);
         userMust(userId,'read',doc);
         doc.content = ContentStore.read(content_id(doc._id)).content;
+        console.log('read content',doc.content);
         return doc;
       },
       stat: function(userId,af) {
@@ -206,6 +204,7 @@ DocStore = {
       
       var _content = ContentStore.write(content_id(newdoc._id),content);
       newdoc.size = _content.size;
+      newdoc.encoding = _content.content_encoding;
       Store.insert(newdoc);
       newdoc.content = content;
       return newdoc;
@@ -230,7 +229,7 @@ DocStore = {
 
       var _content = ContentStore.write(content_id(newdoc._id),content);
       newdoc.size = changes.size = _content.size;
-      
+      newdoc.encoding = changes.encoding = _content.content_encoding;
       Store.update({address:olddoc.address},{$set:changes});
       return newdoc;
     }

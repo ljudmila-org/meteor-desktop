@@ -62,7 +62,7 @@
         </div>
         <div class="window-pane window-pane-docinfo preserve">
           {{#if eq pane 'docinfo'}}
-            {{>docinfo}}
+            {{apply 'docinfo' this}}
           {{/if}}
         </div>
       </div>
@@ -81,10 +81,10 @@
   <div class="window-console">
     {{#each unzip console.log}}
       <div class="window-console-message">
-        {{value.status}}: {{value.message}}
         <a class="window-dismiss" name="dismiss">
           <i class="icon-remove"></i> dismiss
-        </a>
+        </a>:
+        {{value.message}}<br><small>{{value.details}}</small>
       </div>
     {{else}}
       <div class="window-console-empty">
@@ -109,11 +109,14 @@
     This document
   </div>
   <input class="block docinfo-title" type="text" value="{{doc.title}}">
-  {{#with doc}}
-    {{>document_details}}
-  {{/with}}
-
-  {{include 'button' name='save' icon='save' text='Save' action='window_docs_save'}}
+  {{#if doc._id}}
+    {{apply 'document_details' doc}}
+  {{else}}
+    <b>Not saved yet!</b>
+  {{/if}}
+  {{#if cansave}}
+    {{include 'button' name='save' icon='save' text='Save' action='window_docs_save'}}
+  {{/if}}
   {{call 'button_dropdown' name="save-as" text='Save As' icon='copy' choices=doclist.types.save}}
   {{call 'button_dropdown' name="publish-as" text='Publish As' icon='external-link-sign' choices=doclist.types.save}}
   {{#each unzip pub}}

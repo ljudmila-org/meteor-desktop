@@ -21,6 +21,7 @@
     <div class="commands">
       {{#if eq dialog 'open'}}
         {{call 'button' icon='folder-open' name='open' text="Open"}}
+        {{include 'upload_file' name='upload' icon='upload' text='Upload' accept=uploadtypes}}
         {{call 'button' icon='caret-left' name='cancel' text="Cancel"}}
       {{/if}}
       {{#if eq dialog 'save'}}
@@ -63,6 +64,6 @@
       on
       <span class="mdate date">{{timec mdate}}</span>
     {{/if}}
-    <span class="size">({{size}} b)</span>
+    <span class="size">({{size}} b, {{encoding}})</span>
   </div>
 </template>

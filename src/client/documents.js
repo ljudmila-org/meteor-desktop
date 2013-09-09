@@ -27,6 +27,11 @@ Template.documents.helpers({
       return ['all'];
     }
   },
+  uploadtypes: function() {
+    var ret = this.types.open.map(function(n){return mime(n).accept}).join(',');
+    console.log('upload types',this.types.open,ret);
+    return ret;
+  }
 });
 
 function $up(e,sel) {
@@ -50,6 +55,10 @@ Template.documents.events({
   'mousedown .commands [name=cancel]': function(e,t) {
     $up(e,'.documents').fire('cancel');
   },
+  'upload-done .commands [name=upload]': function(e,t) {
+    e.stopPropagation();
+    $up(e,'.documents').fire('upload-done',{originalEvent:e.originialEvent,upload:e.upload});
+  }
 })
 
 Template.document_button.events({

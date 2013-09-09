@@ -1,4 +1,4 @@
-function docID (docid,user) {
+function docID (docid,userId) {
   var d = UserDocs.Store.findOne(docid);
   return !!d;
 }
@@ -8,32 +8,35 @@ Actions({
     remote: true,
     args: {
       title: String,
-      type: /^[-\w]+\/[-\w]+$/,
+      type: /^[-\w]+\/[-\w+]+$/,
       content: 'any',
     },
-    action: function(args,user) {
-      return UserDocs.write(user._id,[user._id,args.title],[args.type],args.content);
+    action: function(args,userId) {
+      return UserDocs.write(userId,[userId,args.title],[args.type],args.content);
     },
   },
   doc_save: {
+    silent:true,
     remote: true,
     args: {
-      docid: docID,
-      content: Object
+      owner: String,
+      title: String,
+      type: String,
+      content: 'any'
     },
-    action: function(args,user) {
-      var doc = UserDocs.Store.findOne(args.docid);
-      return UserDocs.write(user._id,[doc.owner,doc.title],[],args.content);
+    action: function(args,userId) {
+      return UserDocs.write(userId,[args.owner,args.title],[args.type],args.content);
     }
   },
   doc_publish: {
+    silent:true,
     remote: true,
     args: {
       docid: docID,
       content: Object,
       type: String
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       var _content = ContentStore.write( [ 'userdocs', 'published', args.docid, args.type ], args.content );
       UserDocs.Store.set(args.docid,'published.'+args.type, {
         pdate: Date.now(),
@@ -47,7 +50,7 @@ Actions({
       docid: docID,
       type: String
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       ContentStore.remove( [ 'userdocs', 'published', args.docid, args.type ] );
       UserDocs.Store.unset(args.docid,'published.'+args.type);
     }
@@ -57,7 +60,7 @@ Actions({
     args: {
       docid: docID,
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       var pubs = UserDoc2.Store.get(args.docid,'published');
       for (var i in pubs) {
         ContentStore.remove( [ 'userdocs', 'published', args.docid, i ] );
@@ -71,9 +74,9 @@ Actions({
       docid: docID,
       title: String
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       var doc = UserDocs.Store.findOne(args.docid);
-      return UserDocs.move(user._id,[doc.owner,doc.title],[doc.owner,args.title]);
+      return UserDocs.move(userId,[doc.owner,doc.title],[doc.owner,args.title]);
     }
   },
   doc_open: {
@@ -81,9 +84,9 @@ Actions({
     args: {
       docid: docID,
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       var doc = UserDocs.Store.findOne(args.docid);
-      return UserDocs.read(user._id,[doc.owner,doc.title]);
+      return UserDocs.read(userId,[doc.owner,doc.title]);
     }
   },
   doc_remove: { 
@@ -91,9 +94,9 @@ Actions({
     args: {
       docid: docID,
     },
-    action: function(args,user) {
+    action: function(args,userId) {
       var doc = UserDocs.Store.findOne(args.docid);
-      return UserDocs.remove(user._id,[doc.owner,doc.title]);
+      return UserDocs.remove(userId,[doc.owner,doc.title]);
     }
   },
 })

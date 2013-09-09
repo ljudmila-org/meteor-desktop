@@ -1,6 +1,6 @@
 @import '../mixins.less.import';
 
-.widget {
+.widgetlike {
   border-radius:3px;
   box-shadow: 0 0 3px #ccc inset;
   background: #444;
@@ -28,14 +28,6 @@
     outline:none;
   }
 }
-input[type=text].widget, button.widget, select.widget {
-  line-height:1em;
-  appearance:none;
-  -webkit-appearance:none;
-  font:inherit;
-  font-size:12px;
-  color:#ccc;
-}
 
 .zero {
   width:1px;
@@ -61,6 +53,7 @@ input[type=text].widget, button.widget, select.widget {
 
 
 .widget-dropdown {
+  .widgetlike;
   white-space:nowrap;
   .current {
     .fillleft(20px);
@@ -110,6 +103,7 @@ input[type=text].widget, button.widget, select.widget {
 }
 
 .widget-button { 
+  .widgetlike;
   .buttonlike;
   border-radius:0.5em;
   padding:0 3em;
@@ -123,4 +117,9 @@ input[type=text].widget, button.widget, select.widget {
     &.left-icon { .left(3em); line-height:3.5em; }
     &.right-icon { .right(3em);line-height:3.5em; }
   }
+}
+
+.widget-upload-file {
+  button { .widgetlike;.widget-button; }
+  input[type=file] {.zero}
 }
