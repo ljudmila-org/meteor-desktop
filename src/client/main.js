@@ -13,7 +13,7 @@ Meteor.startup(function() {
   },true);
 })
 Template.desktop.windows = function() {
-  return UserWindows.find({});
+  return UserWindows.find({},{sort:{_id:1}});
 } 
 
 Template.dock.windows = function() {

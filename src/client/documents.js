@@ -29,7 +29,6 @@ Template.documents.helpers({
   },
   uploadtypes: function() {
     var ret = this.types.open.map(function(n){return mime(n).accept}).join(',');
-    console.log('upload types',this.types.open,ret);
     return ret;
   }
 });
