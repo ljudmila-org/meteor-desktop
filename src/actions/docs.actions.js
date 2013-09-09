@@ -96,6 +96,9 @@ Actions({
     },
     action: function(args,userId) {
       var doc = UserDocs.Store.findOne(args.docid);
+      for (var i in doc.published) {
+        ContentStore.remove( [ 'userdocs', 'published', doc._id, i ] );
+      }
       return UserDocs.remove(userId,[doc.owner,doc.title]);
     }
   },
