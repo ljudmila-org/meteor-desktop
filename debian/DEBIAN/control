@@ -1,0 +1,9 @@
+Package: meteor-desktop
+Version: 0.1-1
+Section: devel
+Priority: optional
+Architecture: all
+Depends: mongodb, node
+Maintainer: Ljudmila.org <info@ljudmila.org>
+Description: Meteor based web desktop environment and IDE
+ Access your computer and data over the web browser in a better way than you can on classic desktops. Based Based on Meteor framework, Node.js and JavaScript. Includes integrated development environment.

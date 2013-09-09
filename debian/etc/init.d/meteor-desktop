@@ -1,0 +1,84 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          Meteor Desktop Environment
+# Required-Start:    networking
+# Required-Stop:     networking
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: XOO Base
+#
+
+NAME=meteor-desktop
+PORT=3000
+RUN_AS=www-data
+PID_FILE=/var/run/$NAME.pid
+APP_DIR=/usr/share/$NAME
+ 
+set -e
+
+NODEJS=node 
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DESC="$NAME Base"
+SCRIPTNAME=/etc/init.d/$NAME
+ 
+#
+#       Function that starts the daemon/service.
+#
+d_start()
+{
+    # Starting node.js process
+
+    echo -n ", $NAME"
+    if [ -f $PID_FILE ]; then
+        echo -n " already running"
+    else
+       cd $APP_DIR
+       start-stop-daemon --start --quiet \
+           --pidfile $PID_FILE \
+           --chuid $RUN_AS --exec /usr/bin/env -- \
+	   $NODEJS main.js
+    fi
+}
+
+#
+#       Function that stops the daemon/service.
+#
+d_stop() {
+    # Killing node.js process
+
+    echo -n ", $NAME"
+    start-stop-daemon --stop --quiet --pidfile $RUNFILES_PATH/$SITE.pid \
+                          || echo -n " not running"
+    if [ -f $PID_FILE ]; then
+        rm $PID_FILE
+    fi
+}
+
+ACTION="$1"
+case "$ACTION" in
+    start)
+        echo -n "Starting $DESC: $NAME"
+        d_start
+        echo "."
+        ;;
+
+    stop)
+        echo -n "Stopping $DESC: $NAME"
+        d_stop
+        echo "."
+        ;;
+
+    restart|force-reload)
+        echo -n "Restarting $DESC: $NAME"
+        d_stop
+        sleep 1
+        d_start
+        echo "."
+        ;;
+    *)
+        echo "Usage: $NAME {start|stop|restart|force-reload}" >&2
+        exit 3
+        ;;
+esac
+
+exit 0

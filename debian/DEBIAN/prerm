@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+ 
+# stop the server
+invoke-rc.d meteor-desktop stop
