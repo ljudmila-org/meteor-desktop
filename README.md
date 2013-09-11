@@ -7,7 +7,7 @@ A HTML5 desktop written in meteor.
 
 An example of the current (unstable) API for applications:
 
-    <script src = 'lib/Messenger.js'> <!-- or wherever you put it --></script>
+    <script src = 'lib/DesktopApp.js'> <!-- or wherever you put it --></script>
     
     <script>
       DesktopApp.create({         // tell the desktop that this window contains an application
@@ -24,7 +24,7 @@ An example of the current (unstable) API for applications:
             }
           },
           'text/plain': {         // we can also process text/plain
-            catch: 'text/*'       // ... and we'll treat  any text file as text/plain
+            catch: 'text/*',      // ... and we'll treat any text file as text/plain
             new: function(cb) {   
               cb(null,'');         
             },
