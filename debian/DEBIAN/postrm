@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+if [ "$1" = "purge" -a -e /usr/share/debconf/confmodule ]; then
+    # Source debconf library.
+    . /usr/share/debconf/confmodule
+    # Remove my changes to the db.
+    db_purge
+fi
+
+if [ "$1" = "remove" ]; then
+# Source debconf library.
+. /usr/share/debconf/confmodule
+ 
+# remove the start script
+update-rc.d -f meteor-desktop remove
+
+# Remove my changes to the db.
+db_purge
+fi

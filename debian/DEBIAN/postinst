@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+db_get meteor-desktop/username
+username="$RET"
+
+# do what you want with this username
+
+# register meteor-desktop
+update-rc.d meteor-desktop defaults 90 >/dev/null
+# start meteor-desktop
+invoke-rc.d meteor-desktop start
+db_stop
