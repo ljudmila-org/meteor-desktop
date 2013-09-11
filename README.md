@@ -18,6 +18,7 @@ An example of the current (unstable) API for applications:
             },
             open: function(content,cb) {      // open a document
               $('#editor').html(content);
+              cb(null,'OK');
             },
             save: function(cb) {              // save a document
               cb(null, $('#editor').html());
@@ -30,6 +31,7 @@ An example of the current (unstable) API for applications:
             },
             open: function(content,cb) {        // open a document
               $('#editor').text(content);
+              cb(null,'OK');
             },
             save: function(cb) {                // save a document
               cb(null, $('#editor').text());
