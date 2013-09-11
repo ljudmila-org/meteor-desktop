@@ -18,7 +18,7 @@ Meteor.startup(function() {
         return;
       }
       doc.title = p.shift(), doc._id = doc.type = doc.accept = doc.serve = p.shift(), doc.ext = p.shift(), doc.enc = p.shift();
-      doc.parts = parts(doc.type);
+      doc.parts = mime.parts(doc.type);
       MimeTypes.insert(doc);
     });
   }

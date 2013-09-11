@@ -198,7 +198,7 @@ Actions({
     local:true,
     args: { wid: windowID },
     action: function(args,userId) {
-      UserWindows.set(args.wid,{docs_enabled:true, 'doclist.types':args.types,'doclist.type':'supported'});
+      UserWindows.set(args.wid,{docs_enabled:true, 'doclist.types':args.types,'doclist.type':'supported','doclist.catches':args.catches});
       if (Meteor.isServer) return;
       var doc = UserWindows.get(args.wid,'doc');
       if (doc) {
@@ -425,11 +425,29 @@ Actions({
       doc: Object,
     },
     action: function(args,userId) {
+      function glob(p,s) {
+        return !!s.match(new RegExp('^' + p.replace(/[^\w\s]/g,'\\$&').replace(/\\\*/g,'[^/]*?')+'$'));
+      }
+      var opt = UserWindows.get(args.wid,'doclist');
+      var doc = args.doc;
+      if (opt.types.open.indexOf(doc.type)<0) {
+        var found;
+        doc.type = mime(doc.type).type;
+        for (var t in opt.catches) {
+          console.log(opt.catches[t],t);
+          if (glob(opt.catches[t],doc.type)) { found = t; break; }
+        }
+        if (!found) return alert(args.wid,'This application cannot open type '+doc.type,opt.types.open);
+        doc.type = found;
+      }
+      var m = mime(doc.type);
+      //if (typeof doc.content == 'string' && m.enc == 'json') doc.content = JSON.parse(doc.content);
       UserWindows.set(args.wid,'doc',args.doc);
-      console.log('docset',args);
       AppServer.send(args.wid,'doc_open',{content:args.doc.content,type:args.doc.type},function(err,res) {
         if (err) return Actions.window_console_alert({wid:args.wid,message:err});
       });
     }
   },
 })
+
+

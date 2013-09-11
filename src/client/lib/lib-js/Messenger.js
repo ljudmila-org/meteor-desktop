@@ -13,7 +13,6 @@ Messenger = (function createMessenger() {
 */
   
   var window_send = function(w,domain,data,cb) {
-    if (data.token=='con') console.log('con cb',cb);
     var data = clone(data);
     if (cb) pending_add(domain,data,cb);
     data.wid = self.name;
@@ -34,7 +33,7 @@ Messenger = (function createMessenger() {
     try {
       e.respond = response(e);
       if (e.data.wid === undefined) return;
-      //console.log(self.name,'received',e.domain,e.data);
+      console.log(self.name,'received',e.domain,e.data);
       
       var w = e.data.wid ? self[e.data.wid] : top;
       //assert (w == self[e.data.wid],'bad window id '+e.data.wid);
@@ -233,7 +232,7 @@ Messenger = (function createMessenger() {
 
 
 
-var DesktopApp = {
+DesktopApp = {
   register: function(opt) {
     var commands = {};
     if (opt.docs) {
@@ -257,5 +256,38 @@ var DesktopApp = {
         }});
       }
     });
+  },
+  create: function(opt) {
+    var commands = {};
+    if (opt.docs) {
+      var types = {create:[],open:[],save:[]};
+      var catches = {};
+      
+      for (var type in opt.docs) {
+        var data = opt.docs[type];
+        if (data.new)  types.create.push(type);
+        if (data.open) types.open.push(type);
+        if (data.save) types.save.push(type);
+        if (data.catch) catches[type]=data.catch;
+      }
+      commands = {
+        doc_new: function(args,cb) {
+          opt.docs[args.type].new.call(DesktopApp,cb);
+        },
+        doc_open: function(args,cb) {
+          opt.docs[args.type].open.call(DesktopApp,args.content,cb);
+        },
+        doc_save: function(args,cb) {
+          opt.docs[args.type].save.call(DesktopApp,cb);
+        }
+      };
+      Messenger.createClient('desktop', {
+        commands: commands,
+        onConnect: function() {
+          if (opt.docs) this.send('docs_enable',{types:types,catches:catches});
+        }
+      });
+    }
   }
 }
+

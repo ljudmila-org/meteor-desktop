@@ -1,12 +1,4 @@
 
-AppServer = Messenger.createServer('desktop', {
-  commands: {
-    'docs_enable': function(args,cb,e) {
-      Actions.window_docs_enable({wid:e.data.wid,types:args.types||[]});
-    },
-  },
-});
-
 iframeLoaded = function(el) {
   var domain = el.src.replace(/^([^/]+\/\/[^/]+)(.*)$/,'$1');
   AppServer.connect(el.name,domain,function(err,res) {

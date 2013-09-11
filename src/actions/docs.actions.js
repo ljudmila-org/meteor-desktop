@@ -1,3 +1,21 @@
+if (Meteor.isServer) {
+  Root.add('/userdocs/#',{
+    name: 'User documents',
+    routes: {
+      '/:user/' : function(user) {
+        var uid = Meteor.users.findOne({username:user})._id;
+        if (!uid) throw new Meteor.Error(404);
+        return {owner:uid};
+      },
+      '/:user/:title' : function(user,title) {
+        var uid = Meteor.users.findOne({username:user})._id;
+        if (!uid) throw new Meteor.Error(404);
+        return {owner:uid,title:title};
+      },
+    },
+    delegate: UserDocs
+  })
+}
 function docID (docid,userId) {
   var d = UserDocs.Store.findOne(docid);
   return !!d;
@@ -76,7 +94,7 @@ Actions({
     },
     action: function(args,userId) {
       var doc = UserDocs.Store.findOne(args.docid);
-      return UserDocs.move(userId,[doc.owner,doc.title],[doc.owner,args.title]);
+      return UserDocs.set(userId,[doc.owner,doc.title],[doc.owner,args.title]);
     }
   },
   doc_open: {
@@ -103,7 +121,6 @@ Actions({
     }
   },
 })
-
 
 if (Meteor.isServer) {
 

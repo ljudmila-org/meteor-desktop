@@ -40,8 +40,8 @@ function options(opt) {
     create: first(opt.create, opt.write),
     remove: first(opt.remove, opt.create, opt.write),
     change: first(opt.change, opt.write),
-    move: first(opt.move, opt.change, opt.write),
-    stat: first(opt.stat, opt.read),
+    set: first(opt.set, opt.change, opt.write),
+    get: first(opt.get, opt.read),
   }
   
   return opt;
@@ -118,16 +118,21 @@ DocStore = {
       publish: function(name,filter) {
         name = name || collectionName;
         return Meteor.publish(name,function() {
-          var f = userFilter(this.userId,'stat');
+          var f = userFilter(this.userId,'get');
           f = {$and:[f,filter||{}]};
           return Store.find(f, {fields:{address:0}});
         })
+      },
+      list: function(userId,filter) {
+        var f = userFilter(Meteor.userId(),'get');
+        f = {$and:[f,filter||{}]};
+        return Store.find(f, {fields:{address:0}}).fetch();
       },
       write: function(userId,af,of,content) {
         return docupdate(userId,af,of,content) || docinsert(userId,af,of,content);
       },
       read: function (userId,af) {
-        var doc = this.stat(userId,af);
+        var doc = this.get(userId,af);
         userMust(userId,'read',doc);
         doc.content = ContentStore.read(content_id(doc._id)).content;
         console.log('read content',doc.content);
@@ -136,39 +141,43 @@ DocStore = {
       stat: function(userId,af) {
         var a = address(af);
         var doc = Store.findOne({address:a});
-        console.log('stat found:',af,!!doc);
         if (!doc) return false;
-        userMust(userId,'stat',doc);
+        userMust(userId,'get',doc);
         return doc;
       },
-      move: function(userId,af,afc) {
+      get: function(userId,af) {
+        var doc = this.stat(userId,af);
+        if (!doc) throw new Meteor.Error(404);
+        return doc;
+      },
+      set: function(userId,af,afc) {
         var oldaf = afields(af);
-        console.log('move old',oldaf);
+        console.log('set old',oldaf);
 
         //find the doc and check permissions
-        var olddoc = this.stat(userId,oldaf);
+        var olddoc = this.get(userId,oldaf);
         if (!olddoc) throw ('bad address');
-        userMust(userId,'move',olddoc);
+        userMust(userId,'set',olddoc);
 
         // create the new address and check that it's not taken
         var newaf = _.extend({},oldaf,afields(afc));
-        console.log('move new',newaf);
+        console.log('set new',newaf);
 
         if (this.stat(userId,newaf)) throw ('duplicate address');
 
         //create the new doc and check permissions;
         var newdoc = _.extend({},olddoc,newaf);
-        console.log('move new doc',newdoc);
+        console.log('set new doc',newdoc);
         userMust(userId,'create',newdoc);
         
         //store and return
         var changes = _.extend({},newaf,{address:address(newaf)});
-        console.log('move changes',changes);
+        console.log('set changes',changes);
         Store.update({address:olddoc.address},{$set:changes})
         return newdoc;
       },
       remove: function(userId,af) {
-        var olddoc = this.stat(userId,af);
+        var olddoc = this.get(userId,af);
         userMust(userId,'remove',olddoc);
         Store.remove({address:olddoc.address});
         ContentStore.remove(content_id(olddoc._id));
@@ -235,3 +244,5 @@ DocStore = {
     }
   }
 }
+
+

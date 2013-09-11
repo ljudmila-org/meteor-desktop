@@ -4,7 +4,8 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-  api.imply('contentstore-hashfile');
+  api.use('desktop-contentstore');
+  
   api.export('DocStore');
   api.export('mime');
 

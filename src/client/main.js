@@ -1,3 +1,11 @@
+AppServer = Messenger.createServer('desktop', {
+  commands: {
+    'docs_enable': function(args,cb,e) {
+      Actions.window_docs_enable({wid:e.data.wid,types:args.types||[],catches:args.catches||[]});
+    },
+  },
+});
+
 Meteor.startup(function() {
   document.addEventListener('contextmenu',function(e){
     if(e.target.tagName=='INPUT' || e.target.tagName=='TEXTAREA') return;

@@ -95,28 +95,9 @@ Template.upload_file.events({
     var data = {file:file};
       
     var accept = _.unique(el.accept.trim().split(/\s*,\s*/));
-    console.log('*** UPLOADED',file.type,accept);
     
-    
-    if (file.type) {
-      if (accept.indexOf(file.type)<0) {
-        data.error = 'bad type';
-        $(wg).fire('upload-error',{originalEvent:e,upload:data});
-        $(wg).fire('upload-end',{originalEvent:e,upload:data});
-        return;
-      }
-      var type = file.type;
-    } else {
-      if (accept.length>1) {
-        data.error = 'ambiguous type';
-        $(wg).fire('upload-error',{originalEvent:e,upload:data});
-        $(wg).fire('upload-end',{originalEvent:e,upload:data});
-        return;
-      }
-      var type = accept[0];
-    }
-    
-    data.mime = mime(type);
+    if (file.type) data.mime = mime(file.type);
+    else data.mime = mime.fromname(file.name);
     console.log(data.mime,data.mime.enc);
     
     var fr = new FileReader();
