@@ -1,32 +1,65 @@
+<template name="pane_open">
+  <div class="pane-open doc-dialog" name="{{name}}">
+    {{>documents}}
+    <div class="commands">
+      {{call 'button' icon='folder-open' name='cmd_ok' text="Open"}}
+      {{include 'upload_file' name='cmd_upload' icon='upload' text='Upload' accept=uploadtypes}}
+      {{call 'button' icon='caret-left' name='cmd_cancel' text="Cancel"}}
+    </div>
+  </div>
+</template>
+
+<template name="pane_save">
+  <div class="pane-save doc-dialog" name="{{name}}">
+    {{>documents}}
+    <div class="commands">
+      {{call 'button' icon='save' name='cmd_ok' text="Save"}}
+      {{call 'button' name='cmd_download' icon='download' text='Download'}}
+      {{call 'button' icon='caret-left' name='cmd_cancel' text="Cancel"}}
+    </div>
+  </div>
+</template>
+
+<template name="pane_export">
+  <div class="pane-export doc-dialog" name="{{name}}">
+    {{>documents}}
+    <div class="commands">
+      {{call 'button' icon='externallink-alt' name='cmd_ok' text="Publish"}}
+      {{call 'button' icon='caret-left' name='cmd_cancel' text="Cancel"}}
+    </div>
+  </div>
+</template>
+
+
 <template name="documents">
-  <div class="documents" name="{{name}}">
+  <div class="documents">
     <div class="toolbar">
       <div class="heading">open document</div>
-      {{call 'dropdown' name='type' value=type choices=typelist}}
+      {{call 'dropdown' name='type' value=state.type choices=typelist}}
+      {{call 'input' name='title' choices=typelist}}
+      <div class="parents">
+        <div class="inner">
+          {{#each parents}}<a data-path="{{fullpath}}">{{title}}<span class="sep">/</span></a>{{/each}}
+        </div>
+      </div>
     </div>
     <div class="list">
       {{#each docs}}
-        <div class="document {{#if eq _id ../selected}}selected{{/if}}" data-docid="{{_id}}" >
+        <div class="document {{#if eq path ../state.selected}}selected{{/if}} {{#if isdir}}dir{{/if}}" data-docid="{{_id}}" data-path="{{path}}">
           <div class="info">
-            <div class="buttons">
-              {{include 'document_button' icon='remove-sign red' action='doc_remove'}}
-            </div>
-            <span class="title">{{title}}</span>
-            <span class="type">{{type}}</span>
+            {{#if isdir}}
+              <i class="icon icon-folder-close"></i>
+            {{else}}
+              <i class="icon icon-file"></i>
+            {{/if}}
+              <span class="title">{{title}}</span>
+              <span class="type">{{type}}</span>
           </div>
-          {{>document_details}}
+          {{#unless isdir}}
+            {{>document_details}}
+          {{/unless}}
         </div>
       {{/each}}
-    </div>
-    <div class="commands">
-      {{#if eq dialog 'open'}}
-        {{call 'button' icon='folder-open' name='open' text="Open"}}
-        {{include 'upload_file' name='upload' icon='upload' text='Upload' accept=uploadtypes}}
-        {{call 'button' icon='caret-left' name='cancel' text="Cancel"}}
-      {{/if}}
-      {{#if eq dialog 'save'}}
-        <button>save</button>
-      {{/if}}
     </div>
   </div>
 </template>

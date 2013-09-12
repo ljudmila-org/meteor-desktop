@@ -10,17 +10,14 @@ Template.window.helpers({
   active: function() {
     return this.z == Meteor.user().state.z;
   },
-  doclist_set: function() {
-    var wid = this._id;
-    return function(a,b) {
-      if (_.isObject(a)) _.each(function(n,i) {
-        UserWindows.set(wid,'doclist.'+i,n);
-      });
-      else UserWindows.set(wid,'doclist.'+a,b);
-    }
+  lid_save: function() {
+    return 'window-save-'+this._id;
   },
-  doclist_get: function() {
-    return UserWindows.get(this._id,'doclist') || {};
+  lid_open: function() {
+    return 'window-open-'+this._id;
+  },
+  lid_publish: function() {
+    return 'window-publish-'+this._id;
   }
 })
 
@@ -47,7 +44,7 @@ Template.window.events({
     else Actions.window_docinfo_show({wid:this._id})
   },
   'change .docinfo-title': function(e,t) {
-    Actions.window_doc_rename({wid:t.data._id,docid:t.data.doc._id,title:e.target.value});
+    Actions.window_doc_rename({wid:t.data._id,title:e.target.value});
   },
   'dblclick .window.normal .window-titlebar': function(e,t) {
     console.log('hey');
@@ -56,28 +53,29 @@ Template.window.events({
   'dblclick .window.maximized .window-titlebar': function(e,t) {
     Actions.window_normalize({wid:t.data._id});
   },
-  'click [name=open]': function(e,t) {
-    Actions.window_docs_show({wid:t.data._id});
+  'mousedown [name=open]': function(e,t) {
+    Actions.window_pane_show_open({wid:t.data._id});
   },
-  'open [name=doclist]': function(e,t) {
-    Actions.window_doc_open({wid:t.data._id,docid:e.docid});
+  'ok [name=pane_open]': function(e,t) {
+    console.log('wtf');
+    Actions.window_doc_open({wid:t.data._id,path:e.path});
   },
-  'cancel [name=doclist]': function(e,t) {
-    Actions.window_docinfo_show({wid:t.data._id});
+  'cancel [name=pane_save],[name=pane_open]': function(e,t) {
+    Actions.window_pane_hide({wid:t.data._id});
   },
   'click [name=save]': function(e,t) {
     Actions.window_doc_save({wid:t.data._id});
   },
-  'select [name=save-as]': function(e,t) {
-    Actions.window_doc_save_as({wid:t.data._id,type:e.value});
+  'click [name=save-as]': function(e,t) {
+    Actions.window_pane_show_save({wid:t.data._id});
   },
-  'select [name=publish-as]': function(e,t) {
+  'click [name=publish]': function(e,t) {
     Actions.window_doc_publish_as({wid:t.data._id,type:e.value});
   },
   'select [name=new]': function(e,t) {
     Actions.window_doc_new({wid:t.data._id,type:e.value});
   },
-  'upload-done [name=doclist]': function(e,t) {
+  'upload-done [name=pane_open]': function(e,t) {
     var wid = t.data._id;
     var u = e.upload;
     Actions.window_doc_set({wid:wid,doc:{
@@ -87,7 +85,7 @@ Template.window.events({
       title: u.file.name
     }});
   },
-  'upload-error [name=doclist]': function(e,t) {
+  'upload-error [name=pane_open]': function(e,t) {
     var wid = t.data._id;
     Actions.window_console_alert({wid:wid,status:401,message:e.upload.error});
   },

@@ -5,6 +5,7 @@ var fs = Npm.require('fs');
 Meteor.startup(function() {
   if (!MimeTypes.findOne()) {
     console.log('Initializing MimeTypes');
+    console.time('MimeTypes init');
     var etc = Assets.getText('mimetypes.txt').toString();
     etc
     .trim()
@@ -21,6 +22,7 @@ Meteor.startup(function() {
       doc.parts = mime.parts(doc.type);
       MimeTypes.insert(doc);
     });
+    console.timeEnd('MimeTypes init');
   }
 })
 

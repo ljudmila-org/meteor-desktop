@@ -33,7 +33,7 @@ Messenger = (function createMessenger() {
     try {
       e.respond = response(e);
       if (e.data.wid === undefined) return;
-      console.log(self.name,'received',e.domain,e.data);
+      //console.log(self.name,'received',e.domain,e.data);
       
       var w = e.data.wid ? self[e.data.wid] : top;
       //assert (w == self[e.data.wid],'bad window id '+e.data.wid);

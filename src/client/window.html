@@ -27,14 +27,18 @@
           {{#if eq pane 'docinfo'}}
             {{include 'app_button' icon='reorder active' action='window_pane_hide'}}
           {{else}}
-            {{include 'app_button' icon='reorder' action='window_docinfo_show'}}
+            {{include 'app_button' icon='reorder' action='window_pane_show_docinfo'}}
           {{/if}}        
-          {{#if eq pane 'documents'}}
+          {{#if eq pane 'open'}}
             {{include 'app_button' icon='folder-open active' action='window_pane_hide'}}
           {{else}}
-            {{include 'app_button' icon='folder-open' action='window_docs_show'}}
+            {{include 'app_button' icon='folder-open' action='window_pane_show_open'}}
           {{/if}}        
-          {{include 'app_button' icon='save' action='window_doc_save'}}
+          {{#if eq pane 'save'}}
+            {{include 'app_button' icon='save active' }}
+          {{else}}
+            {{include 'app_button' icon='save' action='window_doc_save'}}
+          {{/if}}
         {{/if}}
       </div>
       <span class="window-title">
@@ -49,16 +53,21 @@
           {{/if}}        
         </span>
         {{#if doc}}
-          <span class="doc">&nbsp;{{doc.title}}</span>
+          {{#if docpath}}
+            <span class="doc">&nbsp;{{docpath}}</span>
+          {{else}}
+            <span class="doc">&nbsp;Unsaved</span>
+          {{/if}}
         {{/if}}</span>
     </div>
     {{/isolate}}
     <div class="window-body pane-{{first pane 'none'}}">
       <div class="window-panes">
-        <div class="window-pane window-pane-documents preserve">
-          {{#if eq pane 'documents'}}
-            {{apply 'documents' doclist_get set=doclist_set get=doclist_get dialog='open' name='doclist'}}
-          {{/if}}
+        <div class="window-pane window-pane-open preserve">
+          {{call 'pane_open' name="pane_open" lid=lid_open types=doclist.types.open}}
+        </div>
+        <div class="window-pane window-pane-save preserve">
+          {{call 'pane_save' name="pane_save" lid=lid_save types=doclist.types.save}}
         </div>
         <div class="window-pane window-pane-docinfo preserve">
           {{#if eq pane 'docinfo'}}
@@ -115,10 +124,10 @@
     <b>Not saved yet!</b>
   {{/if}}
   {{#if cansave}}
-    {{include 'button' name='save' icon='save' text='Save' action='window_docs_save'}}
+    {{include 'button' name='save' icon='save' text='Save'}}
   {{/if}}
-  {{call 'button_dropdown' name="save-as" text='Save As' icon='copy' choices=doclist.types.save}}
-  {{call 'button_dropdown' name="publish-as" text='Publish As' icon='external-link-sign' choices=doclist.types.save}}
+  {{include 'button' name='save-as' icon='save' text='Save as' right="caret-right"}}
+  {{include 'button' name='publish' icon='externallink-alt' text='Publish' right="caret-right"}}
   {{#each unzip pub}}
     <div  class="pub">
       <a href="{{value.url}}" target="_blank">
@@ -130,6 +139,6 @@
   <div class="heading">
     More
   </div>
-  {{include 'button' name='open' icon='folder-open' right='caret-right' text='Open' action='window_docs_show'}}
+  {{include 'button' name='open' icon='folder-open' right='caret-right' text='Open'}}
   {{call 'button_dropdown' name="new" text='New' icon='file' choices=doclist.types.create}}
 </template>

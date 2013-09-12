@@ -14,4 +14,3 @@ if(!m) die('bad root url');
 PROTOCOL = m[1];
 DOMAIN = m[2];
 
-console.log(PROTOCOL,DOMAIN);

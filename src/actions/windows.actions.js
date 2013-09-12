@@ -1,4 +1,4 @@
-
+debug = console.log.bind(console);
 if (Meteor.isClient) {
   $(self).on('beforeunload', function(){ 
   	Actions.window_doc_autosave_all();
@@ -173,25 +173,32 @@ Actions({
       $('iframe[name='+args.wid+']').attr('src',w.app.url);
     },
   },
-  window_docs_show: {
-    local:true,
-    args: { wid: windowID },
-    action: function(args,userId) {
-      UserWindows.set(args.wid,'pane','documents');
-    },
-  },
-  window_docinfo_show: {
-    local:true,
-    args: { wid: windowID },
-    action: function(args,userId) {
-      UserWindows.set(args.wid,'pane','docinfo');
-    },
-  },
   window_pane_hide: {
     local:true,
     args: { wid: windowID },
     action: function(args,userId) {
       UserWindows.set(args.wid,'pane','none');
+    },
+  },
+  window_pane_show_open: {
+    local:true,
+    args: { wid: windowID },
+    action: function(args,userId) {
+      UserWindows.set(args.wid,'pane','open');
+    },
+  },
+  window_pane_show_save: {
+    local:true,
+    args: { wid: windowID },
+    action: function(args,userId) {
+      UserWindows.set(args.wid,'pane','save');
+    },
+  },
+  window_pane_show_docinfo: {
+    local:true,
+    args: { wid: windowID },
+    action: function(args,userId) {
+      UserWindows.set(args.wid,'pane','docinfo');
     },
   },
   window_docs_enable: {
@@ -274,14 +281,14 @@ Actions({
     local:true,
     args: {
       wid: windowID,
-      docid: String,
+      path: String,
     },
     action: function(args,userId) {
-      Actions.doc_open({docid:args.docid},function(err,res) {
+      Actions.doc_open({path:args.path},function(err,res) {
         if (err) return Actions.window_console_alert({wid:args.wid,message:err});
-        console.log('opened',res);
         var types = UserWindows.get(args.wid,'doclist').types;
         if (types.open.indexOf(res.type)<0) return alert(args.wid,'Application cannot open '+res.type,':'+types.open.join(','));
+        UserWindows.set(args.wid,'docpath',args.path);
         Actions.window_doc_set({wid:args.wid,doc:res});
         Actions.window_pane_hide({wid:args.wid});
       });
@@ -358,11 +365,12 @@ Actions({
       wid: windowID,
     },
     action: function(args,userId) {
-      var doc = UserWindows.findOne(args.wid).doc;
-      if (!doc) return;
+      var path = UserWindows.get(args.wid,'docpath');
+      var doc = UserWindows.get(args.wid,'doc');
+      if (!path || !doc) return;
       AppServer.send(args.wid,'doc_save',{type:doc.type},function(err,res) {
         if (err) return alert(args.wid,"Application couldn't save",err);
-        Actions.doc_save({owner: doc.owner,title:doc.title,type:doc.type,content:res},function(err,res){
+        Actions.doc_save({path:path,type:doc.type,content:res},function(err,res){
           if (err) return console.log(err);
           UserWindows.set(args.wid,'doc',res);
         });
@@ -408,12 +416,16 @@ Actions({
     local: true,
     args: {
       wid: windowID,
-      docid: String,
+      path: String,
       title: String
     },
     action: function(args,userId) {
-      Actions.doc_rename({docid:args.docid,title:args.title},function(err,res) {
+      var path = UserWindows.get(args.wid,'docpath');
+      var doc = UserWindows.get(args.wid,'doc');
+      if (!path || !doc) return;
+      Actions.doc_rename({path:path,title:args.title},function(err,res) {
         if (err) return Actions.window_console_alert({wid:args.wid,message:err});
+        UserWindows.set(args.wid,'docpath',res.path);
         UserWindows.set(args.wid,'doc.title',res.title);
       });
     }

@@ -2,7 +2,18 @@ if (Meteor.isServer) {
   Root.add('/userdocs/#',{
     name: 'User documents',
     routes: {
+      '/' : {
+        list: function() {
+          return Meteor.users.find({},{username:1}).map(function(n){
+            return { 
+              title: n.username, 
+              type: 'dir'
+            }
+          });
+        }
+      },
       '/:user/' : function(user) {
+        console.log('user',user);
         var uid = Meteor.users.findOne({username:user})._id;
         if (!uid) throw new Meteor.Error(404);
         return {owner:uid};
@@ -13,7 +24,7 @@ if (Meteor.isServer) {
         return {owner:uid,title:title};
       },
     },
-    delegate: UserDocs
+    delegate: UserDocs,
   })
 }
 function docID (docid,userId) {
@@ -37,13 +48,12 @@ Actions({
     silent:true,
     remote: true,
     args: {
-      owner: String,
-      title: String,
+      path: String,
       type: String,
       content: 'any'
     },
     action: function(args,userId) {
-      return UserDocs.write(userId,[args.owner,args.title],[args.type],args.content);
+      return Root.write(userId,args.path,[args.type],args.content);
     }
   },
   doc_publish: {
@@ -89,22 +99,21 @@ Actions({
   doc_rename: {
     remote: true,
     args: {
-      docid: docID,
+      path: String,
       title: String
     },
     action: function(args,userId) {
-      var doc = UserDocs.Store.findOne(args.docid);
-      return UserDocs.set(userId,[doc.owner,doc.title],[doc.owner,args.title]);
+      console.log(args);
+      return Root.set(userId,args.path,{title:args.title});
     }
   },
   doc_open: {
     remote: true,
     args: {
-      docid: docID,
+      path: String,
     },
     action: function(args,userId) {
-      var doc = UserDocs.Store.findOne(args.docid);
-      return UserDocs.read(userId,[doc.owner,doc.title]);
+      return Root.read(userId,args.path);
     }
   },
   doc_remove: { 

@@ -1,21 +1,27 @@
 @import 'general.less.import';
 
-.documents {
-  position:absolute;
-  color:#ccc;
-  .full;
-  .toolbar {
-    padding:0 8px;
-    .top(6em);
-  }
+.doc-dialog {
   .commands {
     padding:0 8px;
     .bottom(10.75em);
   }
+  .documents {
+    bottom:10.75em;
+  }
+}
+.documents {
+  position:absolute;
+  width:300px;
+  color:#ccc;
+  .full;
+  .toolbar {
+    padding:0 8px;
+    .top(9.5em);
+  }
   .list {
     position:absolute;
-    top:5.25em;
-    bottom:10.75em;
+    top:9.75em;
+    bottom:0em;
     left:8px;
     right:8px;
     padding:4px;
@@ -23,7 +29,19 @@
     background:#555;
     border-radius:4px;
   }
-  
+  .parents {
+    position:relative;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    .inner {
+      white-space:nowrap;
+      float:right;
+      min-width:100%;
+    }
+    a,sep {
+      display:inline-block;
+    }
+  }
   .document {
     padding: 4px 8px;
     font-size:80%;

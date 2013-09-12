@@ -1,20 +1,19 @@
 Root = DirectoryProvider.create({
+  name: 'root',
   routes: {
     '/': true,
   },
   list: function() {
-    debug(this.routes);
     var ret = Object.keys(this.routes)
-    .filter(function(n) { 
-      return n.substr(-1)=='#';
-     })
     .map(function(n) {
       return { 
-        title: n.substring(0,n.length-1), 
-        path: n.substring(0,n.length-1), 
-        type: 'app/x-meteor-desktop-dp+dir'
+        title: n.replace(/^\/|\/[#*]$/g,''), 
+        type: 'dir'
       }
     })
+    .filter(function(n) {
+      return !!n.title;
+    });
     return ret;
   }
 });
