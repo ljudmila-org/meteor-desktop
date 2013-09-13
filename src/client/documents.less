@@ -11,7 +11,7 @@
 }
 .documents {
   position:absolute;
-  width:300px;
+  width:@window-pane-width;
   color:#ccc;
   .full;
   .toolbar {
@@ -24,9 +24,9 @@
     bottom:0em;
     left:8px;
     right:8px;
-    padding:4px;
     overflow-x:hidden;
-    background:#555;
+    background:#ccc;
+    color:#666;
     border-radius:4px;
   }
   .parents {
@@ -43,19 +43,23 @@
     }
   }
   .document {
-    padding: 4px 8px;
+    padding: 0.25em;
     font-size:80%;
-    border-radius:4px;
     position:relative;
+    min-height:3em;
     
     &:hover {
       xbackground: #666;
     }
     &.selected,&.selected:hover {
-      background:#ccc;
-      color:#333;
+      background:#334;
+      color:#999;
       .title {
-        color:black;
+        color:#fff;
+      }
+      .icon {
+        color:#ccc;
+        .small { xcolor:#334 }
       }
     }
     &:hover {
@@ -65,11 +69,27 @@
         transition:opacity 0.5s ease 0.2s;
       }
     }
-
+    .icon {
+      float:left;
+      display:inline-block;
+      vertical-align:middle;
+      font-size:14px;
+      
+      .small {
+        position: relative;
+        top: 2px;
+        left:1px;
+        xcolor: #ccc;
+        font-size: 10px;
+      }
+    }
+    .info, .details {
+      padding-left:3em;
+    }
     .title {
-      font-size:120%;
-      font-weight:bold;
-      color: white;
+      font-size:125%;
+      margin-right:0.5em;
+      color: black;
     }
     
     .buttons {

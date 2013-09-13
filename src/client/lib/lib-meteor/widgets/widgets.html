@@ -52,7 +52,7 @@
 
 
 <template name="button">
-  <button class="widget widget-button" name="{{name}}">
+  <button class="widget widget-button" name="{{name}}" {{#if disabled}}{{#unless enable}}disabled{{/unless}}{{/if}}>
     {{#if right}}<i class="icon-{{right}} right-icon"></i>{{/if}}
     {{#if icon}}<i class="icon-{{icon}} left-icon"></i> {{/if}}
     <span class="text">{{#if prefix}}{{prefix}} {{/if}}<span class="text-main">{{text}}</span>{{#if suffix}} {{suffix}}{{/if}}</span>

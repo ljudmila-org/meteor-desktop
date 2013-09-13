@@ -23,7 +23,7 @@ Meteor.methods({
     args = arr(args);
     args.unshift(Meteor.userId());
     console.log(name,args);
-    if (methods.indexOf(name)<0) throw new Meteor.Error(500);
+    if (methods.indexOf(name)<0) throw new Meteor.Error(500,'no such method in DirectoryProvider');
     return Root[name].apply(Root,args);
   }
 });

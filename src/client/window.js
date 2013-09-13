@@ -58,7 +58,10 @@ Template.window.events({
   },
   'ok [name=pane_open]': function(e,t) {
     console.log('wtf');
-    Actions.window_doc_open({wid:t.data._id,path:e.path});
+    Actions.window_doc_open({wid:t.data._id,path:e.data.path});
+  },
+  'ok [name=pane_save]': function(e,t) {
+    Actions.window_doc_save_as({wid:t.data._id,type:e.data.type,path:e.data.path});
   },
   'cancel [name=pane_save],[name=pane_open]': function(e,t) {
     Actions.window_pane_hide({wid:t.data._id});
@@ -78,11 +81,11 @@ Template.window.events({
   'upload-done [name=pane_open]': function(e,t) {
     var wid = t.data._id;
     var u = e.upload;
-    Actions.window_doc_set({wid:wid,doc:{
-      owner: Meteor.userId(),
+    Actions.window_app_open({wid:wid,doc:{
+      path:null,
+      title: u.file.name,
       type: u.mime.type,
       content: u.content,
-      title: u.file.name
     }});
   },
   'upload-error [name=pane_open]': function(e,t) {

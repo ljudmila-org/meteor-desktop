@@ -33,18 +33,7 @@ function docID (docid,userId) {
 }
 
 Actions({
-  doc_new: {
-    remote: true,
-    args: {
-      title: String,
-      type: /^[-\w]+\/[-\w+]+$/,
-      content: 'any',
-    },
-    action: function(args,userId) {
-      return UserDocs.write(userId,[userId,args.title],[args.type],args.content);
-    },
-  },
-  doc_save: {
+  doc_write: {
     silent:true,
     remote: true,
     args: {

@@ -1,6 +1,6 @@
   <head>
   <title>Desktop</title>
-  <link rel="icon" href="/img/red/desktop.png" type="image/png">
+  <link rel="icon" href="/img/favicon.png" type="image/png">
 </head>
 
 <body>
@@ -40,7 +40,7 @@
 </template>
 
 <template name="dock_window">
-  <div class="dock-icon{{#if active}} active{{/if}}{{#if closed}} closed{{/if}}" data-app="{{app._id}}">
+  <div class="dock-icon{{#if active}} active{{/if}}{{#if closed}} closed{{/if}} contextmenu" data-app="{{app._id}}">
     <div class="dock-icon-image">
       <img src="{{app.icon}}">
     </div>

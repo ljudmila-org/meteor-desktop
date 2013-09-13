@@ -28,17 +28,19 @@
             {{include 'app_button' icon='reorder active' action='window_pane_hide'}}
           {{else}}
             {{include 'app_button' icon='reorder' action='window_pane_show_docinfo'}}
-          {{/if}}        
-          {{#if eq pane 'open'}}
-            {{include 'app_button' icon='folder-open active' action='window_pane_hide'}}
-          {{else}}
-            {{include 'app_button' icon='folder-open' action='window_pane_show_open'}}
-          {{/if}}        
-          {{#if eq pane 'save'}}
-            {{include 'app_button' icon='save active' }}
-          {{else}}
-            {{include 'app_button' icon='save' action='window_doc_save'}}
           {{/if}}
+          {{#constant}}{{#if false}}
+            {{#if eq pane 'open'}}
+              {{include 'app_button' icon='folder-open active' action='window_pane_hide'}}
+            {{else}}
+              {{include 'app_button' icon='folder-open' action='window_pane_show_open'}}
+            {{/if}}        
+            {{#if eq pane 'save'}}
+              {{include 'app_button' icon='save active' }}
+            {{else}}
+              {{include 'app_button' icon='save' action='window_doc_save'}}
+            {{/if}}
+          {{/if}}{{/constant}}
         {{/if}}
       </div>
       <span class="window-title">
@@ -53,27 +55,25 @@
           {{/if}}        
         </span>
         {{#if doc}}
-          {{#if docpath}}
-            <span class="doc">&nbsp;{{docpath}}</span>
-          {{else}}
-            <span class="doc">&nbsp;Unsaved</span>
-          {{/if}}
+          <span class="doc">&nbsp;{{first docpath doc.title}}</span>
         {{/if}}</span>
     </div>
     {{/isolate}}
     <div class="window-body pane-{{first pane 'none'}}">
       <div class="window-panes">
-        <div class="window-pane window-pane-open preserve">
-          {{call 'pane_open' name="pane_open" lid=lid_open types=doclist.types.open}}
-        </div>
-        <div class="window-pane window-pane-save preserve">
-          {{call 'pane_save' name="pane_save" lid=lid_save types=doclist.types.save}}
-        </div>
-        <div class="window-pane window-pane-docinfo preserve">
-          {{#if eq pane 'docinfo'}}
-            {{apply 'docinfo' this}}
-          {{/if}}
-        </div>
+        {{#if docs_enabled}}
+          <div class="window-pane window-pane-open preserve">
+            {{call 'pane_open' name="pane_open" lid=lid_open types=doclist.types.open}}
+          </div>
+          <div class="window-pane window-pane-save preserve">
+            {{call 'pane_save' name="pane_save" lid=lid_save types=doclist.types.save}}
+          </div>
+          <div class="window-pane window-pane-docinfo preserve">
+            {{#if eq pane 'docinfo'}}
+              {{apply 'docinfo' this}}
+            {{/if}}
+          </div>
+        {{/if}}
       </div>
       <div class="window-main">
         {{>window_console}} 
@@ -127,7 +127,7 @@
     {{include 'button' name='save' icon='save' text='Save'}}
   {{/if}}
   {{include 'button' name='save-as' icon='save' text='Save as' right="caret-right"}}
-  {{include 'button' name='publish' icon='externallink-alt' text='Publish' right="caret-right"}}
+  {{include 'button' name='publish' icon='external-link-sign' text='Publish' right="caret-right" disabled=true}}
   {{#each unzip pub}}
     <div  class="pub">
       <a href="{{value.url}}" target="_blank">

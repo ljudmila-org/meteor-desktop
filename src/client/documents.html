@@ -1,22 +1,30 @@
 <template name="pane_open">
   <div class="pane-open doc-dialog" name="{{name}}">
-    {{>documents}}
-    <div class="commands">
-      {{call 'button' icon='folder-open' name='cmd_ok' text="Open"}}
-      {{include 'upload_file' name='cmd_upload' icon='upload' text='Upload' accept=uploadtypes}}
-      {{call 'button' icon='caret-left' name='cmd_cancel' text="Cancel"}}
-    </div>
+    {{include 'documents' heading = 'Open a document' icon='folder-open'}}
+      <div class="commands">
+        {{#if state.selectedIsDir}}
+          {{call 'button' icon='arrow-right' name='cmd_goto' text="Go to folder"}}
+        {{else}}
+          {{call 'button' icon='folder-open' name='cmd_ok' text="Open"}}
+        {{/if}}
+        {{include 'upload_file' name='cmd_upload' icon='upload' text='Upload' accept=uploadtypes}}
+        {{call 'button' icon='caret-left' name='cmd_cancel' text="Cancel"}}
+      </div>
   </div>
 </template>
 
 <template name="pane_save">
   <div class="pane-save doc-dialog" name="{{name}}">
-    {{>documents}}
-    <div class="commands">
-      {{call 'button' icon='save' name='cmd_ok' text="Save"}}
-      {{call 'button' name='cmd_download' icon='download' text='Download'}}
-      {{call 'button' icon='caret-left' name='cmd_cancel' text="Cancel"}}
-    </div>
+    {{include 'documents' heading = 'Save your document as ...' icon='save'}}
+      <div class="commands">
+        {{#if state.selectedIsDir}}
+          {{call 'button' icon='arrow-right' name='cmd_goto' text="Go to folder" }}
+        {{else}}
+          {{call 'button' icon='save' name='cmd_ok' text="Save" disabled=true enable=state.title}}
+        {{/if}}
+        {{call 'button' name='cmd_download' icon='download' text='Download' disabled=true}}
+        {{call 'button' icon='caret-left' name='cmd_cancel' text="Cancel"}}
+      </div>
   </div>
 </template>
 
@@ -34,9 +42,9 @@
 <template name="documents">
   <div class="documents">
     <div class="toolbar">
-      <div class="heading">open document</div>
+      <div class="heading"><i class="icon-{{icon}}"></i> {{heading}}</div>
       {{call 'dropdown' name='type' value=state.type choices=typelist}}
-      {{call 'input' name='title' choices=typelist}}
+      {{call 'input' name='title' value=state.title}}
       <div class="parents">
         <div class="inner">
           {{#each parents}}<a data-path="{{fullpath}}">{{title}}<span class="sep">/</span></a>{{/each}}
@@ -45,15 +53,16 @@
     </div>
     <div class="list">
       {{#each docs}}
-        <div class="document {{#if eq path ../state.selected}}selected{{/if}} {{#if isdir}}dir{{/if}}" data-docid="{{_id}}" data-path="{{path}}">
+        <div class="document {{#if eq ../state.selected path}}selected{{/if}} {{#if isdir}}dir{{/if}}" data-docid="{{_id}}" data-path="{{path}}">
+          <span class="icon">
+            <span class="icon-stack">
+              <i class="icon-{{icon_big}} icon-stack-base big"></i>
+              {{#if icon_small}}<i class="icon-{{icon_small}} small"></i>{{/if}}
+            </span>
+          </span>
           <div class="info">
-            {{#if isdir}}
-              <i class="icon icon-folder-close"></i>
-            {{else}}
-              <i class="icon icon-file"></i>
-            {{/if}}
-              <span class="title">{{title}}</span>
-              <span class="type">{{type}}</span>
+            <span class="title" title="{{typedesc}}
+  {{type}}">{{title}}</span>
           </div>
           {{#unless isdir}}
             {{>document_details}}
@@ -63,6 +72,7 @@
     </div>
   </div>
 </template>
+
 <template name="document_button">
   <i class="doc-button icon-{{icon}}"></i>
 </template>
@@ -82,7 +92,7 @@
       owned by 
       <span class="owner user">{{userName owner}}</span>
     {{/if}}
-    {{#if eq cdate mdate}}
+<!--    {{#if eq cdate mdate}}
       created
       {{#if neq owner cuser}}
         by
@@ -90,13 +100,17 @@
       {{/if}}
       <span class="cdate date">{{timec cdate}}</span>
     {{else}}
-      last changed
+      changed
       {{#if neq owner muser}}
+        by
         <span class="muser user">{{userName muser}}</span>
       {{/if}}
-      on
       <span class="mdate date">{{timec mdate}}</span>
     {{/if}}
-    <span class="size">({{size}} b, {{encoding}})</span>
+--> 
+    <span class="size" title ="{{size}} bytes
+encoding: {{encoding}}" >{{prettysize}},</span>
+    <span class="mdate date" title= "created by {{userName cuser}} {{timec cdate}}
+changed by {{userName muser}} {{timec mdate}}">{{#if eq cdate mdate}}created{{else}}changed{{/if}} {{timec mdate}}</span>
   </div>
 </template>

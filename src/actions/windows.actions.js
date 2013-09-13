@@ -16,7 +16,7 @@ function windowID (wid,userId) {
 }
 
 var alert = function(wid,message,details) {
-  Actions.window_console_alert({wid:wid,message:message,details:details||''});
+  Actions.window_console_alert({wid:wid,message:String(message),details:String(details||'')});
 }
 
 Actions({
@@ -185,6 +185,7 @@ Actions({
     args: { wid: windowID },
     action: function(args,userId) {
       UserWindows.set(args.wid,'pane','open');
+      DocList('window-open-'+args.wid).cd('.');
     },
   },
   window_pane_show_save: {
@@ -192,6 +193,7 @@ Actions({
     args: { wid: windowID },
     action: function(args,userId) {
       UserWindows.set(args.wid,'pane','save');
+      DocList('window-save-'+args.wid).cd('.');
     },
   },
   window_pane_show_docinfo: {
@@ -201,23 +203,13 @@ Actions({
       UserWindows.set(args.wid,'pane','docinfo');
     },
   },
-  window_docs_enable: {
-    local:true,
-    args: { wid: windowID },
-    action: function(args,userId) {
-      UserWindows.set(args.wid,{docs_enabled:true, 'doclist.types':args.types,'doclist.type':'supported','doclist.catches':args.catches});
-      if (Meteor.isServer) return;
-      var doc = UserWindows.get(args.wid,'doc');
-      if (doc) {
-        Actions.window_doc_set({wid:args.wid,doc:doc});
-        return;
-      } else {
-        if (!args.types.create) return;
-        var type = args.types.create[0];
-        if (type) Actions.window_doc_new({wid:args.wid,type:type});
-      }
-    },
-  },
+
+/**************************
+*
+* window_console_*
+*
+***************************/
+
   window_console_show: {
     local:true,
     args: { wid: windowID },
@@ -270,6 +262,32 @@ Actions({
       if (!l || !Object.keys(l).length) UserWindows.set(args.wid,'console.show',false);
     },
   },
+
+  
+/**************************
+*
+* window_doc_*
+*
+***************************/
+  
+  
+  window_docs_enable: {
+    local:true,
+    args: { wid: windowID },
+    action: function(args,userId) {
+      UserWindows.set(args.wid,{docs_enabled:true, 'doclist.types':args.types,'doclist.type':'supported','doclist.catches':args.catches});
+      if (Meteor.isServer) return;
+      var doc = UserWindows.get(args.wid,'doc');
+      if (doc) {
+        Actions.window_app_open({wid:args.wid,doc:doc});
+        return;
+      } else {
+        if (!args.types.create) return;
+        var type = args.types.create[0];
+        if (type) Actions.window_doc_new({wid:args.wid,type:type});
+      }
+    },
+  },
   window_docs_disable: {
     local:true,
     args: { wid: windowID },
@@ -285,12 +303,10 @@ Actions({
     },
     action: function(args,userId) {
       Actions.doc_open({path:args.path},function(err,res) {
-        if (err) return Actions.window_console_alert({wid:args.wid,message:err});
-        var types = UserWindows.get(args.wid,'doclist').types;
-        if (types.open.indexOf(res.type)<0) return alert(args.wid,'Application cannot open '+res.type,':'+types.open.join(','));
-        UserWindows.set(args.wid,'docpath',args.path);
-        Actions.window_doc_set({wid:args.wid,doc:res});
-        Actions.window_pane_hide({wid:args.wid});
+        if (err) return Actions.window_alert({wid:args.wid,message:err});
+        Actions.window_app_open({wid:args.wid,doc:res}, function() {
+          Actions.window_pane_hide({wid:args.wid});
+        });
       });
     }
   },
@@ -301,10 +317,11 @@ Actions({
       type: String
     },
     action: function(args,userId) {
-      AppServer.send(args.wid,'doc_new',{type:args.type},function(err,res) {
-        var title = res.title += ' ' + moment().format('YYYY-MM-DD hh:mm:ss');
-        if (err) return Actions.window_console_alert({wid:args.wid,message:err});
-        Actions.window_doc_set({wid:args.wid, doc:{owner:userId, title: res.title, type: args.type, content: res.content}});
+      Actions.window_app_new({wid:args.wid,type:args.type},function(res) {
+        var title = 'New ' + mime(args.type).title + ' File';
+        Actions.window_app_open({wid:args.wid, doc:{type: args.type, title: title, content: res,path:null}}, function(){
+          Actions.window_pane_hide({wid:args.wid});
+        });
       })
     }
   },
@@ -312,27 +329,28 @@ Actions({
     local:true,
     args: {
       wid: windowID,
+      path: String,
       type: String
     },
     action: function(args,userId) {
-      var doc = UserWindows.get(args.wid,'doc');
-      if (!doc) return;
-      AppServer.send(args.wid,'doc_save',{type:args.type},function(err,res) {
-        if (err) return alert(args.wid,"Application couldn't save",err);
-        var ins = {
-          content: res,
-          type: args.type,
-          title: doc.title + ' (copy) '+ moment().format('YYYY-MM-DD hh:mm:ss')
-        };
-        Actions.doc_new(ins,function(err,res) {
-          if (err) return Actions.window_console_alert({wid:args.wid,message:err});
-          UserWindows.set(args.wid,'doc',res);
-          var sel = '#window-'+args.wid +' input.docinfo-title';
-          $(sel).val(res.title);
-          $(sel).focus();
-          $(sel).select();
+      Actions.window_app_save({wid:args.wid,type:args.type},function(res) {
+        Actions.doc_write({path:args.path,type:args.type,content:res},function(err,res) {
+          Actions.window_doc_set({wid:args.wid,doc:res});
+          Actions.window_pane_hide({wid:args.wid});
         })
       })
+    }
+  },
+  window_doc_save: {
+    local: true,
+    args: {
+      wid: windowID,
+    },
+    action: function(args,userId) {
+      var doc = UserWindows.get(args.wid,'doc');
+      var path = UserWindows.get(args.wid,'docpath');
+      if (!doc || !path) return;
+      Actions.window_doc_save_as({wid:args.wid,type:doc.type,path:path})
     }
   },
   window_doc_publish_as: {
@@ -357,24 +375,6 @@ Actions({
           console.log('PUBLISHED');
         })
       })
-    }
-  },
-  window_doc_save: {
-    local: true,
-    args: {
-      wid: windowID,
-    },
-    action: function(args,userId) {
-      var path = UserWindows.get(args.wid,'docpath');
-      var doc = UserWindows.get(args.wid,'doc');
-      if (!path || !doc) return;
-      AppServer.send(args.wid,'doc_save',{type:doc.type},function(err,res) {
-        if (err) return alert(args.wid,"Application couldn't save",err);
-        Actions.doc_save({path:path,type:doc.type,content:res},function(err,res){
-          if (err) return console.log(err);
-          UserWindows.set(args.wid,'doc',res);
-        });
-      });
     }
   },
   window_doc_autosave: {
@@ -437,6 +437,49 @@ Actions({
       doc: Object,
     },
     action: function(args,userId) {
+      if (args.doc.path) {
+        var p = args.doc.path.split('/').slice(0,-1).join('/')
+        DocList('window-open-'+args.wid).cd(p);
+        DocList('window-save-'+args.wid).cd(p);
+      }
+      UserWindows.set(args.wid,'docpath',args.doc.path);
+      UserWindows.set(args.wid,'doc',args.doc);
+    },
+  },
+  window_app_new: {
+    local:true,
+    args: {
+      wid: windowID,
+      type: String
+    },
+    action: function(args,userId,cb) {
+      AppServer.send(args.wid,'doc_new',{type:args.type},function(err,res) {
+        if (err) return alert(args.wid,"Application couldn't create a new file",err);
+        cb && cb(res);
+      });
+    }
+  },
+  window_app_save: {
+    local:true,
+    args: {
+      wid: windowID,
+      type: String
+    },
+    action: function(args,userId,cb) {
+      AppServer.send(args.wid,'doc_save',{type:args.type},function(err,res) {
+        if (err) return alert(args.wid,"Application couldn't save",err);
+        cb && cb(res);
+      });
+    }
+  },
+  window_app_open: {
+    local:true,
+    args: {
+      wid: windowID,
+      doc: Object,
+    },
+    action: function(args,userId,cb) {
+      console.log('opening',args.doc);
       function glob(p,s) {
         return !!s.match(new RegExp('^' + p.replace(/[^\w\s]/g,'\\$&').replace(/\\\*/g,'[^/]*?')+'$'));
       }
@@ -454,9 +497,11 @@ Actions({
       }
       var m = mime(doc.type);
       //if (typeof doc.content == 'string' && m.enc == 'json') doc.content = JSON.parse(doc.content);
-      UserWindows.set(args.wid,'doc',args.doc);
       AppServer.send(args.wid,'doc_open',{content:args.doc.content,type:args.doc.type},function(err,res) {
-        if (err) return Actions.window_console_alert({wid:args.wid,message:err});
+        console.log('opened',err,res);
+        if (err) return alert(args.wid,"Application couldn't open document",err);
+        Actions.window_doc_set({wid:args.wid,doc:args.doc});
+        cb && cb(res);
       });
     }
   },

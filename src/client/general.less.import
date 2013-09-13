@@ -15,7 +15,7 @@
 @SMALL-dock-margin: 4px;
 @SMALL-dock-size: (@SMALL-dock-icon-size + 2 * @SMALL-dock-margin);
 
-
+@window-pane-width: 320px;
 
 
 @title-size: 28px;

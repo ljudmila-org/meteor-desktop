@@ -1,5 +1,7 @@
 @import 'general.less.import';
 
+
+
 .window {
   box-shadow: 0 0 6px rgba(0,0,0,0.3);
   cursor:default;
@@ -106,7 +108,7 @@
   }
 
   .window-main {    
-    .fillright(300px);
+    .fillright(@window-pane-width);
     background:#666;
     transition: left 0.5s ease, top 0.5s ease;
     box-shadow:0px 0 6px -1px;
@@ -166,7 +168,7 @@
 
   .window-panes {
     color: #ccc;
-    .left(300px);
+    .left(@window-pane-width);
     background:#333;
     overflow:hidden;
     transition: width 0.5s ease;
@@ -174,7 +176,7 @@
   }
 
   .window-pane {
-    .right(300px);
+    .right(@window-pane-width);
     background:#333;
     display:none;
     

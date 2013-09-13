@@ -10,7 +10,7 @@ Meteor.startup(function() {
   document.addEventListener('contextmenu',function(e){
     if(e.target.tagName=='INPUT' || e.target.tagName=='TEXTAREA') return;
     $(':focus').eq(0).blur();
-    //e.preventDefault();
+    if($(e.target).closest('.contextmenu').length) e.preventDefault();
   },true);
  
   document.addEventListener('mousedown',function(e){
