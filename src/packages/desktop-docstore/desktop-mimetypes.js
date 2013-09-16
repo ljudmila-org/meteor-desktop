@@ -1,6 +1,5 @@
 var MimeTypes = new Meteor.Collection('pkg_mimetypes_types');
 Meteor.publish('pkg_mimetypes_types',function(){return MimeTypes.find()});
-MimeTypes.remove({});
 var fs = Npm.require('fs');
 Meteor.startup(function() {
   if (!MimeTypes.findOne()) {

@@ -1,4 +1,4 @@
-@import 'lib/lib-meteor/mixins.less.import';
+@import '../lib/lib-meteor/mixins.less.import';
 
 @MID:   ~"only screen and (min-width: 800px) and (max-width: 1199px)";
 @SMALL: ~"only screen and (max-width: 799px)";

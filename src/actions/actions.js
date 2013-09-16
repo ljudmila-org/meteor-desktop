@@ -3,6 +3,8 @@ function windowID (wid,userId) {
   return w && w.owner === userId;
 }
 
+var contextMenuOptions;
+
 Actions({
   app_create: {
     remote:true,

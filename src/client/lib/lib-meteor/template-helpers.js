@@ -19,6 +19,19 @@ Handlebars.registerHelper('le', function(a, b, ctx) {
   return a <= b;
 });
 
+Handlebars.registerHelper('add', function(a, b, ctx) {
+  return a + b;
+});
+Handlebars.registerHelper('sub', function(a, b, ctx) {
+  return a - b;
+});
+Handlebars.registerHelper('mul', function(a, b, ctx) {
+  return a * b;
+});
+Handlebars.registerHelper('div', function(a, b, ctx) {
+  return a / b;
+});
+
 Handlebars.registerHelper('match', function(a, b, c, ctx) {
   if (!ctx) c = '';
   return a.match(new RegExp(b,c));

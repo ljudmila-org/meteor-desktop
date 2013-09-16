@@ -34,3 +34,9 @@ Accounts.onCreateUser(function(options,user){
 })
 
 UserDocs.publish();
+
+Meteor.users.allow({
+  update: function(userId,doc,fieldNames) {
+    return fieldNames.join('#') == 'state';
+  }
+})

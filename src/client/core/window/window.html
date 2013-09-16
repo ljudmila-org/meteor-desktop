@@ -8,11 +8,11 @@
 
 <template name="window">
   <div 
-    class="window{{#if active}} active{{/if}}{{#if hidden}} hidden{{/if}}{{#if maximized}} maximized{{else}} normal{{/if}}{{#if console.show}} console{{/if}} preserve" 
+    class="window{{#if active}} active{{/if}}{{#unless $ 'expose'}}{{#if hidden}} hidden{{/if}}{{#if maximized}} maximized{{else}} normal{{/if}}{{/unless}}{{#if console.show}} console{{/if}} preserve" 
     id="window-{{_id}}" data-wid="{{_id}}" data-aid="{{app._id}}" 
-    style="width:{{w}}px;height:{{h}}px;left:{{x}}px;top:{{y}}px;z-index:{{z}}"
+    style="left:{{x}}px;top:{{y}}px;z-index:{{z}};{{#if $ 'expose'}} width:300px; max-height:300px; overflow:hidden; display:inline-block;position:static{{/if}}"
   >
-  
+  <div class="window-inner {{#if active}} active{{/if}}" style="width:{{w}}px;height:{{h}}px;z-index:{{z}};{{#if $ 'expose'}}-webkit-transform-origin:0 0; -webkit-transform:scale({{div 300 w}}); position:static{{/if}}">  
     <div class="window-resizer preserve"></div>
     {{#isolate}}
     <div class="window-titlebar">
@@ -45,7 +45,7 @@
       </div>
       <span class="window-title">
         <span class="app">
-          {{first app.title 'unnamed'}}
+          {{first app.title 'unnamed'}} 
           <a class="window-button app-button" href="{{app.url}}" target="_blank"><i class="icon-external-link"></i></a>
           {{include 'app_button' icon='refresh' action='window_reload'}}
           {{#if console.show}}
@@ -55,7 +55,7 @@
           {{/if}}        
         </span>
         {{#if doc}}
-          <span class="doc">&nbsp;{{first docpath doc.title}}</span>
+          <span class="doc">&nbsp;{{first docpath doc.title}} {{#unless docpath}}(unsaved){{/unless}}</span>
         {{/if}}</span>
     </div>
     {{/isolate}}
@@ -83,6 +83,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 
@@ -106,7 +107,7 @@
 
 <template name="iframe">
   <iframe name="{{_id}}" src="{{app.url}}" onload="iframeLoaded(this);"></iframe>
-  {{#unless eq z currentUser.state.z}}<div class="iframe-cover"></div>{{/unless}}
+  {{#unless active}}<div class="iframe-cover"></div>{{/unless}}
 </template>
 
 <template name="pane_button">

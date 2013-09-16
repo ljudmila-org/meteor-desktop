@@ -5,6 +5,7 @@ Template.window.destroyed = function() {
 Template.window.rendered = function() {
   var me = this;
   var $window = $(this.find('.window'));
+  var $inner = $(this.find('.window-inner'));
   if(renderedWindows[me.data._id]) return;
   renderedWindows[me.data._id] = true;
   $window
@@ -67,21 +68,25 @@ Template.window.rendered = function() {
   })
   .drag(function( ev, dd ){
      var props = {};
+     var iprops = {};
      if ( dd.attr.indexOf("e") > -1 ){
-        props.width = Math.max( 32, dd.width + dd.deltaX );
+        iprops.width = Math.max( 32, dd.width + dd.deltaX );
      }
      if ( dd.attr.indexOf("s") > -1 ){
-        props.height = Math.max( 32, dd.height + dd.deltaY );
+        iprops.height = Math.max( 32, dd.height + dd.deltaY );
      }
+     
+     var props = {};
      if ( dd.attr.indexOf("w") > -1 ){
-        props.width = Math.max( 32, dd.width - dd.deltaX );
-        props.left = dd.originalX + dd.width - props.width - dd.left;
+        iprops.width = Math.max( 32, dd.width - dd.deltaX );
+        props.left = dd.originalX + dd.width - iprops.width - dd.left;
      }
      if ( dd.attr.indexOf("n") > -1 ){
-        props.height = Math.max( 32, dd.height - dd.deltaY );
-        props.top = dd.originalY + dd.height - props.height - dd.top;
+        iprops.height = Math.max( 32, dd.height - dd.deltaY );
+        props.top = dd.originalY + dd.height - iprops.height - dd.top;
      }
      $window.css( props );
+     $inner.css( iprops );
      dd.props = props;
   })
   .drag('end',function( ev, dd ){

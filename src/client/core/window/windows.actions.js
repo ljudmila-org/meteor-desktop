@@ -20,6 +20,30 @@ var alert = function(wid,message,details) {
 }
 
 Actions({
+  window_touch: {
+    local:true,
+    args: { wid: windowID },
+    action: function(args,userId) {
+      var topw = UserWindows.findOne({},{sort:{z:-1}});
+      
+      UserWindows.set(UserWindows.get({active:true},'_id'),{active:false});
+      UserWindows.set(args.wid,{active:true,z:topw._id == args.wid ? topw.z : topw.z+1});
+      Actions.menu_hide();
+      Actions.expose_hide();
+    },
+  },
+  window_to_back: {
+    local: true,
+    args: { wid: windowID },
+    action: function(args,userId) {
+      var bottomw = UserWindows.findOne({},{sort:{z:1}});
+      if (bottomw._id == args.wid) return;
+      UserWindows.set(args.wid,{z:bottomw.z -1,active:false});
+
+      var topw = UserWindows.findOne({},{sort:{z:-1}});
+      Actions.window_touch({wid:topw._id});
+    },
+  },
   window_create: {
     local: true,
     args: {
@@ -136,33 +160,6 @@ Actions({
     action: function(args,userId) {
       UserWindows.set(args.wid,{hidden:false});
       Actions.window_touch({wid:args.wid});
-    },
-  },
-  window_touch: {
-    silent:true,
-    args: { wid: windowID },
-    action: function(args,userId) {
-      var topz = Users.get(userId,'state').z;
-      var thisz = UserWindows.get(args.wid,'z');
-      if (topz == thisz) return;
-      var h = UserWindows.findOne({closed:false,hidden:false},{sort:{z:-1}});
-      if (!h) return;
-      var z = h.z;
-      var z = ( h.z | 0 ) + 1;
-      UserWindows.update(args.wid,{$set:{z:z}});
-      Users.set(userId,'state.z',z);
-    },
-  },
-  window_to_back: {
-    local: true,
-    args: { wid: windowID },
-    action: function(args,userId) {
-      var l = UserWindows.findOne({},{sort:{z:1}});
-      if (l._id == args.wid) return;
-      var z = ( l.z | 0 ) - 1;
-      UserWindows.update(args.wid,{$set:{z:z}});
-      var h = UserWindows.findOne({closed:false,hidden:false},{sort:{z:-1}});
-      Actions.window_touch({wid:h._id});
     },
   },
   window_reload: {

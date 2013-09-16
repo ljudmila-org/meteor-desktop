@@ -57,4 +57,9 @@ Template.dock_window.events({
   }
 })
 
+Template.contextmenu.helpers({
+  state: function() {
+    return Session.get('contextmenu');
+  }
+})
 

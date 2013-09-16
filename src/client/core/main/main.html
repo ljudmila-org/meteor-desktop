@@ -9,6 +9,7 @@
   {{>panel}}
   {{>menu}}
   <div id="overlay" style="display:none"></div>
+  {{>contextmenu}}
 </body>
 
 <template name="desktop">
@@ -29,6 +30,7 @@
         {{>dock_window}}
       {{/each}}
     </div>
+    {{>expose_button}}
   </div>
 </template>
 
@@ -38,6 +40,7 @@
     {{>applet_login}}
   </div>
 </template>
+
 
 <template name="dock_window">
   <div class="dock-icon{{#if active}} active{{/if}}{{#if closed}} closed{{/if}} contextmenu" data-app="{{app._id}}">

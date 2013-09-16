@@ -1,4 +1,3 @@
-
 iframeLoaded = function(el) {
   var domain = el.src.replace(/^([^/]+\/\/[^/]+)(.*)$/,'$1');
   AppServer.connect(el.name,domain,function(err,res) {
@@ -7,9 +6,6 @@ iframeLoaded = function(el) {
 }
 
 Template.window.helpers({
-  active: function() {
-    return this.z == Meteor.user().state.z;
-  },
   lid_save: function() {
     return 'window-save-'+this._id;
   },
@@ -22,7 +18,7 @@ Template.window.helpers({
 })
 
 Template.window.events({
-  'mousedown .window': function(e,t) {
+  'mousedown .window:not(.active)': function(e,t) {
     Actions.window_touch({wid:this._id});
     e.stopPropagation();
   },
@@ -86,7 +82,10 @@ Template.window.events({
       title: u.file.name,
       type: u.mime.type,
       content: u.content,
-    }});
+    }},function(){
+      Actions.window_pane_hide({wid:wid});
+    });
+
   },
   'upload-error [name=pane_open]': function(e,t) {
     var wid = t.data._id;
@@ -95,7 +94,7 @@ Template.window.events({
 });
 
 Template.iframe.preserve(['iframe']);
-Template.window.preserve(['.window','.window-resizer','.window-pane-documents','.window-pane-docinfo']);
+Template.window.preserve(['.window','.window-inner','.window-resizer','.window-pane-documents','.window-pane-docinfo']);
 Template.docinfo.preserve(['.docinfo-title']);
 
 

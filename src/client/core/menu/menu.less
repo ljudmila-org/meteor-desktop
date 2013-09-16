@@ -1,4 +1,4 @@
-@import 'general.less.import';
+@import '../general.less.import';
 
 @menu-icon-size:128px;
 @menu-icon-margin:20px;
@@ -29,6 +29,14 @@
   color:#ccc;
   text-align:center;
   xbox-shadow:3px 0 3px -3px #999 inset;
+  
+  #menu-apps {
+    position:absolute;
+    left:15%;
+    right:15%;
+    top:100px;
+    bottom:0;
+  }
   #menu-apps-search {
     margin-top:1em;
     margin-bottom:2em;
@@ -37,13 +45,21 @@
     margin-top:0.5em;
     font-size:300%;
   }
-  .menu-app-list {
-    text-align:left;
+  #menu-apps-list {
+    display:-webkit-box;
+    -webkit-box-align:center;
+    -webkit-box-pack:center;
+    text-align:center;
+    position: absolute;
+    top: 50px;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
   }
   .menu-app {
     width:(@menu-icon-margin*2+@menu-icon-size+8px);
     height:(@menu-icon-size+40px+@menu-icon-margin*2);
-    float:left;
     display:inline-block;
     overflow:hidden;
     margin:@menu-app-margin;

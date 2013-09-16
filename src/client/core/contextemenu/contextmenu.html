@@ -1,0 +1,14 @@
+<template name="contextmenu">
+  {{#if state}}
+    <div id="contextmenu-overlay"  class="contextmenu">
+      <div id="contextmenu" class="contextmenu" style="left:{{state.x}}px;top:{{state.y}}px">
+        <ul>
+          {{#each state.options}}
+            <li data-action="{{value}}">{{label}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  {{/if}}
+</template>
+

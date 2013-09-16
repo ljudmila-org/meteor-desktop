@@ -53,7 +53,7 @@
     </div>
     <div class="list">
       {{#each docs}}
-        <div class="document {{#if eq ../state.selected path}}selected{{/if}} {{#if isdir}}dir{{/if}}" data-docid="{{_id}}" data-path="{{path}}">
+        <div class="document contextmenu {{#if eq ../state.selected path}}selected{{/if}} {{#if isdir}}dir{{/if}}" data-docid="{{_id}}" data-path="{{path}}">
           <span class="icon">
             <span class="icon-stack">
               <i class="icon-{{icon_big}} icon-stack-base big"></i>
