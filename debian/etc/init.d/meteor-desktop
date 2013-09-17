@@ -5,8 +5,8 @@
 # Required-Stop:     networking
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: XOO Base
-#
+# Short-Description: Meteor Desktop Environment
+### END INIT INFO
 
 NAME=meteor-desktop
 PORT=3000
@@ -18,7 +18,7 @@ set -e
 
 NODEJS=node 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DESC="$NAME Base"
+DESC="$NAME server"
 SCRIPTNAME=/etc/init.d/$NAME
  
 #
@@ -33,6 +33,8 @@ d_start()
         echo -n " already running"
     else
        cd $APP_DIR
+       pwd
+       ls -l
        start-stop-daemon --start --quiet \
            --pidfile $PID_FILE \
            --chuid $RUN_AS --exec /usr/bin/env -- \
