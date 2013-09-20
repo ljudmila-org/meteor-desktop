@@ -19,8 +19,10 @@ Actions({
     local:true,
     args: { action: String},
     action: function(args,userId) {
-      contextMenuOptions[args.action]();
-      Actions.contextmenu_hide();
+      var a = contextMenuOptions[args.action];
+      Actions.contextmenu_hide({});
+      console.log(a);
+      a();
     },
   },
   contextmenu_hide: {

@@ -26,38 +26,48 @@ Messenger = (function createMessenger() {
     return function(err,res,cb) {
       window_send(e.source,e.origin,{token:'res',rid:rid,err:err,res:res},cb);
     };
+  }
+
+  var pending_connections = {};
+
+  var _handler = function(e) {
+    e.respond = response(e);
+    if (e.data.wid === undefined) return;
+    //console.log(self.name,'received',e.domain,e.data);
     
+    var w = e.data.wid ? self[e.data.wid] : top;
+    //assert (w == self[e.data.wid],'bad window id '+e.data.wid);
+
+    switch (e.data.token) {
+    case 'con': 
+      var c = Client.clients[e.data.kw];
+      if (!c) {
+        pending_connections[e.data.kw] = e;
+      } else {
+        assert (!c.server, 'client already connected for '+e.data.kw);
+        c.connected(e);
+      }
+      return;
+    case 'res':
+      return pending_exec(e);
+    case 'req':
+      var con = Connection.connections[e.data.cid];
+      assert (con, 'bad connection id '+e.data.cid);
+      con.on_request(e);
+    }
   }
 
   var handler = function(e) {
     try {
-      e.respond = response(e);
-      if (e.data.wid === undefined) return;
-      //console.log(self.name,'received',e.domain,e.data);
-      
-      var w = e.data.wid ? self[e.data.wid] : top;
-      //assert (w == self[e.data.wid],'bad window id '+e.data.wid);
-
-      switch (e.data.token) {
-      case 'con': 
-          var c = Client.clients[e.data.kw];
-        assert (c, 'no client for '+e.data.kw);
-        assert (!c.server, 'client already connected for '+e.data.kw);
-        c.connected(e);
-        return;
-      case 'res':
-        return pending_exec(e);
-      case 'req':
-        var con = Connection.connections[e.data.cid];
-        assert (con, 'bad connection id '+e.data.cid);
-        con.on_request(e);
-      }
+      _handler(e);
     } catch (err) {
       //throw(err);
       console.log(err);
       e.respond(err);
     }
   }
+  
+  var handler = _handler;
   self.addEventListener('message',handler);
 
 /* 
@@ -199,7 +209,15 @@ Messenger = (function createMessenger() {
   Client.clients = {};
   Client.create = function(kw,opt) {
     assert (!Client.clients[kw],'client already exists for '+kw);
-    Client.clients[kw] = new Client(kw,opt);
+    var c = Client.clients[kw] = new Client(kw,opt);
+    
+    var p = pending_connections[kw];
+    if (p) {
+      console.log('pending connection for',kw);
+      delete pending_connections[kw];
+      c.connected(p);
+    }
+    
     return Client.clients[kw];
   }
   Client.prototype = {
@@ -260,14 +278,14 @@ DesktopApp = {
   create: function(opt) {
     var commands = {};
     if (opt.docs) {
-      var types = {create:[],open:[],save:[]};
+      var types = {create:{},open:{},save:{}};
       var catches = {};
       
       for (var type in opt.docs) {
         var data = opt.docs[type];
-        if (data.new)  types.create.push(type);
-        if (data.open) types.open.push(type);
-        if (data.save) types.save.push(type);
+        if (data.new)  types.create[type] = data.encoding || 'auto';
+        if (data.open) types.open[type] = data.encoding || 'auto';
+        if (data.save) types.save[type] = data.encoding || 'auto';
         if (data.catch) catches[type]=data.catch;
       }
       commands = {
@@ -278,6 +296,7 @@ DesktopApp = {
           opt.docs[args.type].open.call(DesktopApp,args.content,cb);
         },
         doc_save: function(args,cb) {
+          console.log('app saving',args);
           opt.docs[args.type].save.call(DesktopApp,cb);
         }
       };

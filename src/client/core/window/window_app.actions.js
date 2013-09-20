@@ -32,6 +32,12 @@ Actions({
     action: function(args,userId,cb) {
       AppServer.send(args.wid,'doc_save',{type:args.type},function(err,res) {
         if (err) return alert(args.wid,"Application couldn't save",err);
+        var dd = UserWindows.get(args.wid,'doclist');
+        var enc = dd.encodings.save[args.type];
+        console.log('decoding',enc);
+        switch (enc) {
+          case 'dataurl': res = dataURLToBlob(res); break;
+        }
         cb && cb(res);
       });
     }

@@ -22,7 +22,12 @@ Actions({
     local:true,
     args: { wid: windowID },
     action: function(args,userId) {
-      UserWindows.set(args.wid,{docs_enabled:true, 'doclist.types':args.types,'doclist.type':'supported','doclist.catches':args.catches});
+      console.log(args.types);
+      UserWindows.set(args.wid,{docs_enabled:true, 'doclist.types':{
+        create: Object.keys(args.types.create),
+        open: Object.keys(args.types.open),
+        save: Object.keys(args.types.save),
+      },'doclist.type':'supported','doclist.catches':args.catches,'doclist.encodings':args.types});
       if (Meteor.isServer) return;
       var doc = UserWindows.get(args.wid,'doc');
       if (doc) {
@@ -85,6 +90,30 @@ Actions({
           Actions.window_doc_set({wid:args.wid,doc:res});
           Actions.window_pane_hide({wid:args.wid});
         })
+      })
+    }
+  },
+  window_doc_download_as: {
+    local:true,
+    args: {
+      wid: windowID,
+      title: String,
+      type: String
+    },
+    action: function(args,userId) {
+      Actions.window_app_save({wid:args.wid,type:args.type},function(res) {
+        if (!res) return alert(args.wid,'error');
+        if (res.constructor == Blob) {
+          if (res.type != args.type) return alert(args.wid,'bad type returned from app',res.type);
+        } else {
+          if (res && res.constructor == Object) {
+            res = JSON.stringify(res);
+          }
+          res = new Blob([res],{type:args.type});
+        }
+        var u = new String(URL.createObjectURL(res));
+        var $l = $('<a>').attr({href:u,download:args.title+'.'+mime(args.type).ext});
+        $l.fire('click');
       })
     }
   },

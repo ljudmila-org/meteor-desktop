@@ -9,7 +9,6 @@ AppServer = Messenger.createServer('desktop', {
 Meteor.startup(function() {
   document.addEventListener('contextmenu',function(e){
     if(e.target.tagName=='INPUT' || e.target.tagName=='TEXTAREA') return;
-    $(':focus').eq(0).blur();
     if($(e.target).closest('.contextmenu').length) e.preventDefault();
   },true);
  
@@ -30,7 +29,7 @@ Template.dock.windows = function() {
 
 Template.dock_window.helpers({
   'active': function(e,t) {
-    return !this.closed && !this.hidden && this.z == Meteor.user().state.z;
+    return !this.closed && !this.hidden && this.active;
   }
 })
 
@@ -38,7 +37,7 @@ Template.dock_window.helpers({
 Template.dock_window.events({
   'mousedown .dock-icon-image': function(e,t) {
     Actions.menu_hide();
-    if (!this.closed && !this.hidden && this.z == Meteor.user().state.z) {
+    if (!this.closed && !this.hidden && this.active) {
       Actions.window_hide({wid:this._id});
     } else {
       if (this.closed) Actions.window_open({wid:this._id});

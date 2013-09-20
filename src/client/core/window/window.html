@@ -10,9 +10,9 @@
   <div 
     class="window{{#if active}} active{{/if}}{{#unless $ 'expose'}}{{#if hidden}} hidden{{/if}}{{#if maximized}} maximized{{else}} normal{{/if}}{{/unless}}{{#if console.show}} console{{/if}} preserve" 
     id="window-{{_id}}" data-wid="{{_id}}" data-aid="{{app._id}}" 
-    style="left:{{x}}px;top:{{y}}px;z-index:{{z}};{{#if $ 'expose'}} width:300px; max-height:300px; overflow:hidden; display:inline-block;position:static{{/if}}"
+    style="{{#if $ 'expose'}} max-width:300px; max-height:200px; overflow:hidden;display:inline-block;position:relative;{{else}}left:{{x}}px;top:{{y}}px;z-index:{{z}};{{/if}}"
   >
-  <div class="window-inner {{#if active}} active{{/if}}" style="width:{{w}}px;height:{{h}}px;z-index:{{z}};{{#if $ 'expose'}}-webkit-transform-origin:0 0; -webkit-transform:scale({{div 300 w}}); position:static{{/if}}">  
+  <div class="window-inner {{#if active}} active{{/if}}" style="width:{{w}}px;height:{{h}}px;z-index:{{z}};{{#if $ 'expose'}}-webkit-transform-origin:0 0; -webkit-transform:scale({{scale}});{{/if}}">  
     <div class="window-resizer preserve"></div>
     {{#isolate}}
     <div class="window-titlebar">
@@ -29,18 +29,16 @@
           {{else}}
             {{include 'app_button' icon='reorder' action='window_pane_show_docinfo'}}
           {{/if}}
-          {{#constant}}{{#if false}}
-            {{#if eq pane 'open'}}
-              {{include 'app_button' icon='folder-open active' action='window_pane_hide'}}
-            {{else}}
-              {{include 'app_button' icon='folder-open' action='window_pane_show_open'}}
-            {{/if}}        
-            {{#if eq pane 'save'}}
-              {{include 'app_button' icon='save active' }}
-            {{else}}
-              {{include 'app_button' icon='save' action='window_doc_save'}}
-            {{/if}}
-          {{/if}}{{/constant}}
+          {{#if eq pane 'open'}}
+            {{include 'app_button' icon='folder-open active' action='window_pane_hide'}}
+          {{else}}
+            {{include 'app_button' icon='folder-open' action='window_pane_show_open'}}
+          {{/if}}        
+          {{#if eq pane 'save'}}
+            {{include 'app_button' icon='save active' }}
+          {{else}}
+            {{include 'app_button' icon='save' action='window_doc_save'}}
+          {{/if}}
         {{/if}}
       </div>
       <span class="window-title">
@@ -128,6 +126,7 @@
     {{include 'button' name='save' icon='save' text='Save'}}
   {{/if}}
   {{include 'button' name='save-as' icon='save' text='Save as' right="caret-right"}}
+  {{include 'button_dropdown' name="download" text='Download as' icon='download' choices=doclist.types.save}}
   {{include 'button' name='publish' icon='external-link-sign' text='Publish' right="caret-right" disabled=true}}
   {{#each unzip pub}}
     <div  class="pub">

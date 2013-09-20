@@ -14,6 +14,9 @@ Template.window.helpers({
   },
   lid_publish: function() {
     return 'window-publish-'+this._id;
+  },
+  scale: function() {
+    return Math.min(300/this.w,150/this.h);
   }
 })
 
@@ -59,6 +62,9 @@ Template.window.events({
   'ok [name=pane_save]': function(e,t) {
     Actions.window_doc_save_as({wid:t.data._id,type:e.data.type,path:e.data.path});
   },
+  'download [name=pane_save]': function(e,t) {
+    Actions.window_doc_download_as({wid:t.data._id,type:e.data.type,title:e.data.title});
+  },
   'cancel [name=pane_save],[name=pane_open]': function(e,t) {
     Actions.window_pane_hide({wid:t.data._id});
   },
@@ -73,6 +79,9 @@ Template.window.events({
   },
   'select [name=new]': function(e,t) {
     Actions.window_doc_new({wid:t.data._id,type:e.value});
+  },
+  'select [name=download]': function(e,t) {
+    Actions.window_doc_download_as({wid:t.data._id,type:e.value,title:t.data.doc.title});
   },
   'upload-done [name=pane_open]': function(e,t) {
     var wid = t.data._id;

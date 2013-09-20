@@ -22,7 +22,7 @@
         {{else}}
           {{call 'button' icon='save' name='cmd_ok' text="Save" disabled=true enable=state.title}}
         {{/if}}
-        {{call 'button' name='cmd_download' icon='download' text='Download' disabled=true}}
+        {{call 'button' name='cmd_download' icon='download' text='Download' disabled=true enable=state.title}}
         {{call 'button' icon='caret-left' name='cmd_cancel' text="Cancel"}}
       </div>
   </div>

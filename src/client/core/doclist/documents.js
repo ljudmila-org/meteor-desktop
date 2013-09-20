@@ -89,6 +89,11 @@ Template.pane_save.events({
     $up(e,'.doc-dialog').fire('cancel');
     e.stopPropagation();
   },
+  'click .commands [name=cmd_download]': function(e,t) {
+    var state = DocList(t.data.lid).state;
+    $up(e,'.doc-dialog').fire('download',{data:{type:state.type,title:state.title}});
+    e.stopPropagation();
+  },
 })
 
 Template.pane_open.events({
@@ -139,16 +144,29 @@ Template.documents.events({
   'input [name=title]': function(e,t) {
     DocList(t.data.lid).selectLater(null,e.target.value);
   },
+  'blur [name=rename]': function(e,t) {
+    DocList(t.data.lid).set('renaming',null);
+  },
   'contextmenu .document': function(e,t) {
     var path = this.path;
-    DocList(t.data.lid).select(path);
+    var dl = DocList(t.data.lid)
+    dl.select(path);
+    Meteor.flush();
     Actions.contextmenu_show({
       x: e.x,
       y: e.y,
       options:{
+        Rename: function() {
+          $(t.find('[data-path="'+path+'"] .title')).edit(function(e) {
+            Root.set(path,{title:e.target.value},function(err,res) {
+              dl.cd('.');
+              dl.select(res.path);
+            });
+          })
+        },
         Remove: function() {
           Root.remove(path);
-          DocList(t.data.lid).cd('.');
+          dl.cd('.');
         }
       }
     });
@@ -156,6 +174,7 @@ Template.documents.events({
 })
 
 Template.documents.rendered = function() {
+  console.log('docs rendered');
 }
 
 Template.documents.created = function() {

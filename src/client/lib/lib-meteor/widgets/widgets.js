@@ -1,21 +1,65 @@
-$.fn.popup = function(c) {
+$.fn.popup = function(c,contsel) {
   var $this = this.eq(0);
-
-  var $focus = $('<input style="width:1px;height:1px;font-size:1px;line-height:1px;margin:0;padding:0;opacity:0;position:absolute">');
-  $focus.appendTo($this);
+  var el = $this.get(0);
+  if (!el) return;
   
-  var $input = $this.find(':input').eq(0);
+  var c = c || 'popup';
+  contsel = contsel || '.' + c;
 
-  if ($input.length) $input.focus();
-  else $focus.focus();
-
-  $this.addClass(c||'popup');
-  $this.one('focusout',function(){
-    $focus.remove();
-    $this.removeClass(c||'popup');
-  })
-    
+  $this.addClass(c);
+  el.popup_close = function(e) {
+    if ($(e.target).closest(contsel).length) return;
+    document.removeEventListener('mousedown',el.popup_close,true);
+    delete el.popup_close;
+    $this.removeClass(c);
+    e.stopPropagation();
+  }
+  document.addEventListener('mousedown',el.popup_close,true);
 }
+
+$.fn.popdown = function() {
+  var el = this.get(0);
+  if (!el) return;
+  el.popup_close && el.popup_close();
+}
+
+$.fn.poptoggle = function(c,contsel) {
+  var el = this.get(0);
+  if (!el) return;
+  el.popup_close && el.popup_close() || this.popup(c,contsel);
+}
+
+$.fn.edit = function(cb) {
+  var el = this.get(0);
+  if (!el || el.edit_close) return;
+
+  console.log('editing el',el);
+
+  var $this = this.eq(0);
+  
+  var d = $this.css('display');
+  
+  var $input = $('<input type="text" class="edit">').val($this.text());
+  
+  el.edit_close = function() {
+    $input.remove();
+    $this.css({display:d});
+    delete el.edit_close;
+  }
+  
+  $input.insertBefore($this);
+  $this.css({display:'none'});
+  $input.change(cb);
+  $input.focus();
+  $input.blur(el.edit_close);
+  console.log('editing done',el);
+}
+$.fn.unedit = function(cb) {
+  var el = this.get(0);
+  if (!el) return;
+  el.edit_close && el.edit_close();
+}
+
 
 function unzip(obj) {
   var ret = {};
@@ -48,7 +92,7 @@ var dropdownHelpers = {
 var dropdownEvents = {
   'mousedown .head': function(e,t) {
     var $dd = $(e.target).closest('.widget');
-    $dd.popup('active');
+    $dd.poptoggle('active','.body');
     e.preventDefault();
     e.stopPropagation();
   },
@@ -65,6 +109,8 @@ Template.dropdown.events({
     var val = $ch.attr('data-value');
     $input.val(val);
     $dd.fire('select',{old:old,value:val});
+    e.stopPropagation();
+    $dd.popdown();
   },
 })
 Template.dropdown.preserve(['.widget'])
@@ -78,6 +124,7 @@ Template.button_dropdown.events({
     var val = $ch.attr('data-value');
     $dd.fire('select',{value:val});
     e.stopPropagation();
+    $dd.popdown();
   },
 });
 
